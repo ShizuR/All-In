@@ -1,1 +1,40 @@
-<!doctype html>
+<!-- https://www.w3schools.com/HOWTO/howto_website.asp -->
+<!doctype html> <!-- define file as html type -->
+<html>
+    <head>
+        <noscript>Sorry, your browser does not support JavaScript!</noscript>
+        <meta charset="UTF-8"> <!-- define character set-->
+        <script src="indexCode.js"></script> <!-- import external javascript code file-->
+        <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- make web work on all devices and screens-->
+        <title>Prototype</title>
+    </head>
+    
+    <body>
+        <!-- Navigation -->
+        <nav>
+        <a href="#home">bruh</a>
+        </nav>
+        <section>
+            <header>WELCOME TO THIS WEBSITE</header>
+            <p>I hope you enjoy this mastery over html</p>
+            <!-- mini window for websites -->
+            <iframe id="replace" title="bro"></iframe>
+        </section>
+        <!-- inline javascript code -->
+        <!-- https://www.w3schools.com/jsref/met_win_prompt.asp -->
+        <button onclick="myFunction(1)">display second</button>
+        <script>
+            function myFunction(i) {
+                switch(i) {
+                    case 1:
+                        document.getElementById("demo").innerHTML = 'bro'
+                        document.getElementById("replace").src = 'second.html'
+                        break;
+                    default:
+                        document.getElementById("demo").innerHTML = 'deafult'
+                }
+            }
+        </script>
+        <section id="demo"></section>
+    </body>
+</html>

@@ -9,6 +9,8 @@ COPY siteContent/index.html /usr/share/nginx/html/index.html
 #https://oneuptime.com/blog/post/2026-02-08-how-to-use-the-expose-instruction-in-dockerfiles-and-what-it-actually-does/view
 #EXPOSE 8080 does not work as it uses the default 80
 
+# reminder link second html
+
 #commands
 ## executes command in dockerfile
 #docker build -t webserver .
