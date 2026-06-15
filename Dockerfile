@@ -1,11 +1,12 @@
 #create own image to move our html files around with the image
 # consider a reverse proxy to handle requests
+# static website
 
 #build custom image from base image
 FROM nginx:latest 
 WORKDIR /app
-#overrides default index.html in the container
-COPY siteContent/index.html /usr/share/nginx/html/index.html
+#overrides default html in the container
+COPY ./siteContent /usr/share/nginx/html
 #https://oneuptime.com/blog/post/2026-02-08-how-to-use-the-expose-instruction-in-dockerfiles-and-what-it-actually-does/view
 #EXPOSE 8080 does not work as it uses the default 80
 
@@ -25,3 +26,4 @@ COPY siteContent/index.html /usr/share/nginx/html/index.html
 #https://docs.docker.com/get-started/workshop/02_our_app/
 #https://hub.docker.com/_/nginx
 #https://www.docker.com/blog/how-to-use-the-official-nginx-docker-image/
+# https://oneuptime.com/blog/post/2026-02-08-how-to-create-a-dockerfile-for-a-static-website/view#adding-health-checks
