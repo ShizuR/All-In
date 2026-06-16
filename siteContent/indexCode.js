@@ -1,3 +1,19 @@
+let frameState = 'max'
+// https://www.telerik.com/blogs/ultimate-guide-broadcast-channel-api 
+const msg = new BroadcastChannel('frame')
+
+const frameMax = [
+    {transform: 'scale(1)'},
+    {transform: 'scale(1.5)'}
+]
+
+const frameMin = [
+    {transform: 'scale(1.5)'},
+    {transform: 'scale(1)'}
+]
+
+const frameTime = {duration: 1000, iterations: 1}
+
 function desc(type) {
     switch(type) {
         case 'second.html':
@@ -7,3 +23,24 @@ function desc(type) {
             document.getElementById('desc').innerHTML = ''
     }
 }
+
+function frameResize() {
+    if (frameState == 'max') {
+        //document.getElementById('fr').animate(frameMax, frameTime)
+        document.getElementById('fr').className = 'fullScreen'
+        frameState = 'min'
+        //document.getElementById('b').appendChild(minButt)
+    }
+    else {
+        //document.getElementById('fr').animate(frameMin, frameTime)
+        document.getElementById('fr').className = 'container'
+        frameState = 'max'
+        //document.getElementById('b').removeChild(minButt)
+    }
+}
+
+msg.onmessage = (event) => {
+  if (event.data.type === 'change') {
+    frameResize()
+  }
+};
