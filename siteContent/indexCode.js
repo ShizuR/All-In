@@ -27,13 +27,15 @@ function desc(type) {
 function frameResize() {
     if (frameState == 'max') {
         //document.getElementById('fr').animate(frameMax, frameTime)
-        document.getElementById('fr').className = 'fullScreen'
+        document.getElementById('fr').className = 'fullScreen';
+        document.getElementById('replace').style.zIndex = '100';
         frameState = 'min'
         //document.getElementById('b').appendChild(minButt)
     }
     else {
         //document.getElementById('fr').animate(frameMin, frameTime)
-        document.getElementById('fr').className = 'containFrame'
+        document.getElementById('fr').className = 'containFrame';
+        document.getElementById('replace').style.zIndex = 'auto';
         frameState = 'max'
         //document.getElementById('b').removeChild(minButt)
     }

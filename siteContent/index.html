@@ -15,8 +15,10 @@
     
     <body>
         <script src="navbar.js"></script>
-        <div class="jumbotron text-center mb-3">
-            <p class="display-1">WELCOME TO THIS WEBSITE</h1>
+        <div class="jumbotron text-center mb-5 mt-5">
+            <hr>
+            <p class="display-1">WELCOME TO THIS WEBSITE</p>
+            <hr class="mx-auto" width="50%">
             <p class="h5 lead text-muted"><em>I hope you enjoy this mastery over html. This page was made with Bootstrap and some custom CSS</em></p>
         </div>
         <div class="container">
@@ -30,7 +32,7 @@
             <!-- mini window for websites -->
             <!-- responsive aspect ratio: https://www.w3schools.com/howto/howto_css_responsive_iframes.asp-->
             <div class="containFrame mb-2" id="fr">
-                <iframe class="responsive-iframe" id="replace" title="bro" style="background-color: aliceblue;"></iframe>
+                <iframe class="responsive-iframe" id="replace" title="bro" style="background-color: aliceblue; z-index: auto;"></iframe>
             </div>
             
             <script>
@@ -39,8 +41,15 @@
                     desc(i)
                 }
             </script>
-            <h5 class="display-6">Description</h5>
+            <h5 class="display-6 mt-3">Description</h5>
             <section id="desc"></section>
         </div>
     </body>
+    <footer class="mt-5 bg-light">
+        <hr>
+        <div class="p-3 text-center">
+            <p class="h5 lead text-muted"><em>Something goes in here, maybe a good fat space!</em></p>
+        </div>
+        <hr>
+    </footer>
 </html>
