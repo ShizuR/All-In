@@ -33,7 +33,7 @@ function frameResize() {
     }
     else {
         //document.getElementById('fr').animate(frameMin, frameTime)
-        document.getElementById('fr').className = 'container'
+        document.getElementById('fr').className = 'containFrame'
         frameState = 'max'
         //document.getElementById('b').removeChild(minButt)
     }

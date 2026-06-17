@@ -1,40 +1,46 @@
 <!-- https://www.w3schools.com/HOWTO/howto_website.asp -->
+<!-- https://getbootstrap.com/docs/5.3/getting-started/introduction/ -->
+<!-- https://www.w3schools.com/bootstrap/bootstrap_grid_basic.asp -->
 <!doctype html> <!-- define file as html type -->
 <html>
     <head>
         <noscript>Sorry, your browser does not support JavaScript!</noscript>
         <meta charset="UTF-8"> <!-- define character set-->
         <link rel="stylesheet" href=./cssFiles/founderCSS.css>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
         <script src="indexCode.js"></script> <!-- import external javascript code file-->
         <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- make web work on all devices and screens-->
         <title>Prototype</title>
     </head>
     
     <body>
-        <!-- Navigation -->
-        <nav>
-        <a href="#home">bruh</a>
-        </nav>
-        <section id="frameAndButt">
-            <header>WELCOME TO THIS WEBSITE</header>
-            <p>I hope you enjoy this mastery over html</p>
+        <script src="navbar.js"></script>
+        <div class="jumbotron text-center mb-3">
+            <p class="display-1">WELCOME TO THIS WEBSITE</h1>
+            <p class="h5 lead text-muted"><em>I hope you enjoy this mastery over html. This page was made with Bootstrap and some custom CSS</em></p>
+        </div>
+        <div class="container">
+            <!-- inline javascript code -->
+            <!-- https://www.w3schools.com/jsref/met_win_prompt.asp -->
+            <div class="btn-group d-flex gap-2 mb-3" role="group">
+                <button onclick="myFunction('second.html')" type="button" class="btn btn-primary btn-sm">display second</button>
+                <button onclick="myFunction('third.html')" type="button" class="btn btn-primary btn-sm">display third</button>
+            </div>
+
             <!-- mini window for websites -->
             <!-- responsive aspect ratio: https://www.w3schools.com/howto/howto_css_responsive_iframes.asp-->
-            <div class="container" id="fr">
+            <div class="containFrame mb-2" id="fr">
                 <iframe class="responsive-iframe" id="replace" title="bro" style="background-color: aliceblue;"></iframe>
             </div>
-        </section>
-        <!-- inline javascript code -->
-        <!-- https://www.w3schools.com/jsref/met_win_prompt.asp -->
-        <button onclick="myFunction('second.html')">display second</button>
-        <button onclick="myFunction('third.html')">display third</button>
-        <script>
-            function myFunction(i) {
-                document.getElementById("replace").src = i
-                desc(i)
-            }
-        </script>
-        <header>Description</header>
-        <section id="desc"></section>
+            
+            <script>
+                function myFunction(i) {
+                    document.getElementById("replace").src = i
+                    desc(i)
+                }
+            </script>
+            <h5 class="display-6">Description</h5>
+            <section id="desc"></section>
+        </div>
     </body>
 </html>
