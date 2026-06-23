@@ -1,3 +1,6 @@
+// indexCode called inside body rather than in head so that DOM can load first
+// to allow the elements to load and become available for animation etc.
+
 let frameState = 'max'
 // https://www.telerik.com/blogs/ultimate-guide-broadcast-channel-api 
 const msg = new BroadcastChannel('frame')
@@ -12,7 +15,11 @@ const frameMin = [
     {transform: 'scale(1)'}
 ]
 
-const frameTime = {duration: 1000, iterations: 1}
+const introAnim = {
+    transform: ['translateY(100px)','translateY(0)'], opacity: [0, 1]
+}
+
+const frameTime = {duration: 5000, iterations: 1}
 
 function desc(type) {
     switch(type) {
@@ -27,14 +34,14 @@ function desc(type) {
 function frameResize() {
     if (frameState == 'max') {
         //document.getElementById('fr').animate(frameMax, frameTime)
-        document.getElementById('fr').className = 'fullScreen';
+        document.getElementById('fr').id = 'fullScreen';
         document.getElementById('replace').style.zIndex = '100';
         frameState = 'min'
         //document.getElementById('b').appendChild(minButt)
     }
     else {
         //document.getElementById('fr').animate(frameMin, frameTime)
-        document.getElementById('fr').className = 'containFrame';
+        document.getElementById('fullScreen').id = 'fr';
         document.getElementById('replace').style.zIndex = 'auto';
         frameState = 'max'
         //document.getElementById('b').removeChild(minButt)
@@ -45,4 +52,12 @@ msg.onmessage = (event) => {
   if (event.data.type === 'change') {
     frameResize()
   }
-};
+}
+
+function pageIntro() {
+    // Source - https://stackoverflow.com/a/17531533
+    document.getElementById('underNav').animate(introAnim, 500)
+}
+
+pageIntro()
+// https://stackoverflow.com/questions/17530756/disable-scrolling-when-the-animation-of-scrolling-is-taking-place
