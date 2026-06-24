@@ -19,11 +19,11 @@ function toolClick(tool) {
 
 function sendmsg() {
     msg.postMessage({type: 'change'});
-    if (document.getElementById('changeButtText').innerText == 'Enlarge') {
-        document.getElementById('changeButtText').innerText = 'Shrink';
+    if (document.getElementById('changeButtText').innerText == 'Enlarge window') {
+        document.getElementById('changeButtText').innerText = 'Shrink window'
     }
     else {
-        document.getElementById('changeButtText').innerText = 'Enlarge';
+        document.getElementById('changeButtText').innerText = 'Enlarge window'
     }
     
 };
