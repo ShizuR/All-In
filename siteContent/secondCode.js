@@ -1,24 +1,7 @@
 // import returns CORS error, so run in docker
-//import { gsap } from "gsap";
-//import Draggable from "gsap/Draggable";
+
 const msg = new BroadcastChannel('frame')
 const toolList = ['eraseBtn', 'penBtn']
-
-// drag and drop using gsap, an animation framework
-// PROBLEM HERE
-gsap.registerPlugin(Draggable)
-gsap.Draggable.create('#toolGroup')
-
-function sendmsg() {
-    msg.postMessage({type: 'change'});
-    if (document.getElementById('changeButtText').innerText == 'Enlarge') {
-        document.getElementById('changeButtText').innerText = 'Shrink';
-    }
-    else {
-        document.getElementById('changeButtText').innerText = 'Enlarge';
-    }
-    
-}
 
 function toolClick(tool) {
     // deactivate the other buttons so they don't appear active
@@ -30,7 +13,17 @@ function toolClick(tool) {
             }
         }
     }
-
     // make the pressed button appear active
     document.getElementById(tool).classList.add('active')
-}
+};
+
+function sendmsg() {
+    msg.postMessage({type: 'change'});
+    if (document.getElementById('changeButtText').innerText == 'Enlarge') {
+        document.getElementById('changeButtText').innerText = 'Shrink';
+    }
+    else {
+        document.getElementById('changeButtText').innerText = 'Enlarge';
+    }
+    
+};

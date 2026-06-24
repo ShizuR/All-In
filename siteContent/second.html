@@ -1,12 +1,16 @@
 <!DOCTYPE html> 
 <html id="canvas">
-    <meta charset="UTF-8"> <!-- define character set-->
-    <link rel="stylesheet" href=./cssFiles/secondCSS.css>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- make web work on all devices and screens-->
+    <head>
+        <meta charset="UTF-8"> <!-- define character set-->
+        <link rel="stylesheet" href=./cssFiles/secondCSS.css>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- make web work on all devices and screens-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js"></script>
+    </head>
+    
     <body class="p-5">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js">console.log(gsap)</script>
-        <script type="module" src="secondCode.js"></script> <!-- import external javascript code file-->
+        <script src="secondCode.js"></script> <!-- import external javascript code file-->
         <div>
             <header>YOOOOOOOOOOO</header>
             <button id="changeButtText" onclick="sendmsg()">Enlarge</button>
@@ -18,5 +22,11 @@
                 <button class="btn btn-outline-primary" id="penBtn" onclick="toolClick('penBtn')">pen</button>
             </div>
         </div>
+        <script>
+            // drag and drop toolkit using gsap, an animation framework
+            // script put after element declaration
+            gsap.registerPlugin(Draggable)
+            Draggable.create('#toolGroup')
+        </script>
     </body>
 </html>
