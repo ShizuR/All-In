@@ -2,6 +2,8 @@
 // to allow the elements to load and become available for animation etc.
 
 let frameState = 'max'
+let pageScroll = []
+let indexWindow = window
 // https://www.telerik.com/blogs/ultimate-guide-broadcast-channel-api 
 const msg = new BroadcastChannel('frame')
 
@@ -21,6 +23,11 @@ const introAnim = {
 
 const frameTime = {duration: 5000, iterations: 1}
 
+function checkScroll() {
+    console.log(window.scrollX)
+    console.log(window.scrollY)
+}
+
 function desc(type) {
     switch(type) {
         case 'second.html':
@@ -34,17 +41,21 @@ function desc(type) {
 function frameResize() {
     if (frameState == 'max') {
         //document.getElementById('fr').animate(frameMax, frameTime)
-        document.getElementById('fr').id = 'fullScreen';
-        document.getElementById('replace').style.zIndex = '100';
+        pageScroll = [window.scrollX, window.scrollY]
+        console.log(window.scrollX)
+        console.log(window.scrollY)
+        console.log(pageScroll)
+        document.getElementById('fr').id = 'fullScreen'
+        document.getElementById('replace').style.zIndex = '100'
         frameState = 'min'
-        //document.getElementById('b').appendChild(minButt)
     }
     else {
         //document.getElementById('fr').animate(frameMin, frameTime)
-        document.getElementById('fullScreen').id = 'fr';
-        document.getElementById('replace').style.zIndex = 'auto';
+        document.getElementById('fullScreen').id = 'fr'
+        document.getElementById('replace').style.zIndex = 'auto'
         frameState = 'max'
-        //document.getElementById('b').removeChild(minButt)
+        window.scrollTo(pageScroll[0], pageScroll[1])
+        console.log(pageScroll)
     }
 }
 

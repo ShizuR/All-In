@@ -1,4 +1,10 @@
 // import returns CORS error, so run in docker
+// look into canvas API for drawing?
+// implement pop out window?
+// do error messages when an action is not available?
+// redo undo?
+// eraser
+// save
 
 const msg = new BroadcastChannel('frame')
 const toolList = ['eraseBtn', 'penBtn']
