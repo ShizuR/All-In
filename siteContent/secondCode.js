@@ -29,15 +29,20 @@ fileRead.onload = e => {
     let code = ref.document.createElement('script')
     // used to use var for the height and width variables 
     // -> don't use as it is global, therefore doesn't instantiate when opening new windows and leads to them being set to 0
+    // additionally, since image may load at a later time than the variables (which would then be set to 0), instantiate them as 0 first
+    // then assign them the original dimensions when the function is called to ensure that the page is loaded before code runs
     code.innerHTML = `
     let img = document.getElementById('image')
-    let newWidth = img.width
-    let newHeight = img.height
-    const origWidth = img.width
-    const origHeight = img.height
+    console.log(img)
+    let newWidth = 0
+    let newHeight = 0
 
     function imgZoom(inout) {
-        
+        if (newWidth == 0) {
+            newWidth = img.naturalWidth
+            newHeight = img.naturalHeight
+        }
+
         if (inout == 'in') {
             newWidth = newWidth - (newWidth * 0.15)
             newHeight = newHeight - (newHeight * 0.15)
@@ -48,12 +53,12 @@ fileRead.onload = e => {
         }
 
         else {
-            newWidth = origWidth
-            newHeight = origHeight
+            newWidth = img.naturalWidth
+            newHeight = img.naturalHeight
         }
         img.width = String(Math.floor(newWidth))
         img.height = String(Math.floor(newHeight))
-        console.log(img.height)
+        console.log(img.Height)
         console.log(img.width)
     }
     `
