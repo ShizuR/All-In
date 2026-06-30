@@ -10,7 +10,6 @@
     </head>
     
     <body class="p-5" style="height: 100dvh; width: 100dvw;">
-        <script src="secondCode.js"></script> <!-- import external javascript code file-->
         <div>
             <header>Use the toolkit on the side to switch between eraser and pen. you can also drag the toolkit around to adjust its position!</header>
             <button id="changeButtText" onclick="sendmsg()">Enlarge window</button>
@@ -20,8 +19,12 @@
                 <button class="btn btn-info" id="dragBtn">drag</button>
                 <button class="btn btn-outline-primary btn-light" id="eraseBtn" onclick="toolClick('eraseBtn')">erase</button>
                 <button class="btn btn-outline-primary btn-light" id="penBtn" onclick="toolClick('penBtn')">pen</button>
+                <input type="file" accept="image/*" class="btn btn-outline-primary btn-light" id="refBtn" />
             </div>
+            <canvas id="drawHere" width="100%" height="100%" class="border center">
+            </canvas>
         </div>
+        <script src="secondCode.js"></script> <!-- import external javascript code file-->
         <script>
             // drag and drop toolkit using gsap, an animation framework
             // script put after element declaration

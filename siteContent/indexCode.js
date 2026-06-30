@@ -3,7 +3,6 @@
 
 let frameState = 'max'
 let pageScroll = []
-let indexWindow = window
 // https://www.telerik.com/blogs/ultimate-guide-broadcast-channel-api 
 const msg = new BroadcastChannel('frame')
 
