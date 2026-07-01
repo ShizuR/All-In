@@ -11,6 +11,12 @@ const toolList = ['eraseBtn', 'penBtn']
 const fileRead = new FileReader()
 const newRef = document.getElementById('refBtn')
 
+// ONLOAD IN GENERAL IS NOT WORKING, NEED IT FOR LOADING GSAP DRAGGABLE IN REFERENCE
+
+window.addEventListener('onload', function() {
+    console.log('hey')
+})
+
 // when a new reference photo is chosen, 
 // create a new window for that reference with adjustable dimensions 
 // and the option to zoom in
@@ -93,16 +99,29 @@ fileRead.onload = e => {
     reset.setAttribute('onclick', "imgZoom('reset')")
     reset.style = 'position: fixed; top: 60;'
 
+    let gsapImport = ref.document.createElement('script')
+    gsapImport.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js'
+    let dragImport = ref.document.createElement('script')
+    dragImport.src = 'https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js'
+
     ref.document.querySelector('div').appendChild(zoomIn)
     ref.document.querySelector('div').appendChild(zoomOut)
     ref.document.querySelector('div').appendChild(reset)
     ref.document.querySelector('body').appendChild(code)
+    ref.document.querySelector('body').appendChild(gsapImport)
+    ref.document.querySelector('body').appendChild(dragImport)
+
+    ref.window.addEventListener('onload', function() {
+        window.console.log("PageLoaded")
+        ref.gsap.registerPlugin(Draggable)
+        ref.Draggable.create('#image')
+    })
 }
 
-// does not allow choosing the same photos in succession
 newRef.addEventListener('change', e => {
     const file = e.target.files[0]
     fileRead.readAsDataURL(file) // get the url of the file
+    document.getElementById('refBtn').value = null // resets value to allow choosing same photo in succession
 })
 
 function toolClick(tool) {
