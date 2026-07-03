@@ -52,10 +52,11 @@ fileRead.onload = e => {
             newWidth = newWidth + (newWidth * 0.15)
             newHeight = newHeight + (newHeight * 0.15)
         }
-
         else {
+            // reset image to original width, height, and position using gsap
             newWidth = img.naturalWidth
             newHeight = img.naturalHeight
+            gsap.set("#image", {x: 0, y: 0})
         }
         img.width = String(Math.floor(newWidth))
         img.height = String(Math.floor(newHeight))
@@ -81,7 +82,6 @@ fileRead.onload = e => {
     // so can use document.readystate instead https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event
     // but gsap cdn imports execute after this main script
     // so ensure imports loaded first by making them both call same function checkLoadedGsap()
-
     let underDiv = ref.document.createElement('div')
     underDiv.id = 'imgUnder'
     underDiv.style = 'position: relative;'
@@ -98,7 +98,7 @@ fileRead.onload = e => {
     zoomIn.innerHTML = 'in'
     zoomIn.id = 'inBtn'
     zoomIn.setAttribute('onclick', "imgZoom('in')")
-    zoomIn.style = 'position: fixed;'
+    zoomIn.style = 'position: fixed; top: 0;'
 
     let zoomOut = ref.document.createElement('button')
     zoomOut.innerHTML = 'out'
