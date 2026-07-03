@@ -11,8 +11,6 @@ const toolList = ['eraseBtn', 'penBtn']
 const fileRead = new FileReader()
 const newRef = document.getElementById('refBtn')
 
-// GSAP IMPORTS LOADING BUT GSAP STILL NOT DEFINED??
-
 // when a new reference photo is chosen, 
 // create a new window for that reference with adjustable dimensions 
 // and the option to zoom in
@@ -76,7 +74,7 @@ fileRead.onload = e => {
     function loadGsap() {
         console.log('loading gsap draggable')
         gsap.registerPlugin(Draggable)
-        Draggable.create('#image')
+        Draggable.create('#image', {zIndexBoost:false})
     }
     `
     // the onload and DOMcontentloaded already fired before script fully loaded, so those events won't work in script
