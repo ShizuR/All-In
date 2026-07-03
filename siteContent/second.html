@@ -9,7 +9,7 @@
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js"></script>
     </head>
     
-    <body class="p-5" style="height: 100dvh; width: 100dvw;">
+    <body class="p-5" style="height: 100dvh; width: 100dvw;" onload="here()">
         <div>
             <header>Use the toolkit on the side to switch between eraser and pen. you can also drag the toolkit around to adjust its position!</header>
             <button id="changeButtText" onclick="sendmsg()">Enlarge window</button>
@@ -26,12 +26,15 @@
         </div>
         <script src="secondCode.js"></script> <!-- import external javascript code file-->
         <script>
-            // drag and drop toolkit using gsap, an animation framework
-            // script put after element declaration
-            gsap.registerPlugin(Draggable)
-            Draggable.create('#toolGroup', {
-                bounds: document.querySelector('body')
-            })
+            function here() {
+                console.log('loaded!')
+                // drag and drop toolkit using gsap, an animation framework
+                // script put after element declaration
+                gsap.registerPlugin(Draggable)
+                Draggable.create('#toolGroup', {
+                    bounds: document.querySelector('body')
+                })
+            }
         </script>
     </body>
 </html>

@@ -10,3 +10,97 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js"></script>
+
+fileRead.onload = e => {
+    let ref = window.open("", "", "width=400,height=400")
+
+    let boot = ref.document.createElement('link')
+    boot.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    boot.rel = 'stylesheet'
+    boot.integrity = "sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+    boot.crossOrigin = 'anonymous'
+    ref.document.querySelector('head').appendChild(boot)
+    
+    let code = ref.document.createElement('script')
+    // used to use var for the height and width variables 
+    // -> don't use as it is global, therefore doesn't instantiate when opening new windows and leads to them being set to 0
+    // additionally, since image may load at a later time than the variables (which would then be set to 0), instantiate them as 0 first
+    // then assign them the original dimensions when the function is called to ensure that the page is loaded before code runs
+    code.innerHTML = `
+    let img = document.getElementById('image')
+    console.log(img)
+    let newWidth = 0
+    let newHeight = 0
+
+    function imgZoom(inout) {
+        if (newWidth == 0) {
+            newWidth = img.naturalWidth
+            newHeight = img.naturalHeight
+        }
+
+        if (inout == 'in') {
+            newWidth = newWidth - (newWidth * 0.15)
+            newHeight = newHeight - (newHeight * 0.15)
+        }
+        else if (inout == 'out') {
+            newWidth = newWidth + (newWidth * 0.15)
+            newHeight = newHeight + (newHeight * 0.15)
+        }
+
+        else {
+            newWidth = img.naturalWidth
+            newHeight = img.naturalHeight
+        }
+        img.width = String(Math.floor(newWidth))
+        img.height = String(Math.floor(newHeight))
+        console.log(img.Height)
+        console.log(img.width)
+    }
+
+    console.log('hello')
+    gsap.registerPlugin(Draggable)
+    Draggable.create('#image')
+    `
+
+    let underDiv = ref.document.createElement('div')
+    underDiv.id = 'imgUnder'
+    underDiv.style = 'position: relative;'
+    ref.document.querySelector('body').appendChild(underDiv)
+    
+    let reference = ref.document.createElement('IMG')
+    reference.setAttribute('src', e.target.result) 
+    reference.setAttribute('id', 'image')
+    reference.style = 'position: absolute;'
+    ref.document.getElementById('imgUnder').appendChild(reference)
+    
+    // onclick not created yet, so use setAtribute to automatically create
+    let zoomIn = ref.document.createElement('button')
+    zoomIn.innerHTML = 'in'
+    zoomIn.id = 'inBtn'
+    zoomIn.setAttribute('onclick', "imgZoom('in')")
+    zoomIn.style = 'position: fixed;'
+
+    let zoomOut = ref.document.createElement('button')
+    zoomOut.innerHTML = 'out'
+    zoomOut.id = 'outBtn'
+    zoomOut.setAttribute('onclick', "imgZoom('out')")
+    zoomOut.style = 'position: fixed; top: 30;'
+
+    let reset = ref.document.createElement('button')
+    reset.innerHTML = 'reset'
+    reset.id = 'resBtn'
+    reset.setAttribute('onclick', "imgZoom('reset')")
+    reset.style = 'position: fixed; top: 60;'
+
+    let gsapImport = ref.document.createElement('script')
+    gsapImport.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js'
+    let dragImport = ref.document.createElement('script')
+    dragImport.src = 'https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js'
+
+    ref.document.querySelector('div').appendChild(zoomIn)
+    ref.document.querySelector('div').appendChild(zoomOut)
+    ref.document.querySelector('div').appendChild(reset)
+    ref.document.querySelector('head').appendChild(gsapImport)
+    ref.document.querySelector('head').appendChild(dragImport)
+    ref.document.querySelector('body').appendChild(code)
+}

@@ -11,11 +11,7 @@ const toolList = ['eraseBtn', 'penBtn']
 const fileRead = new FileReader()
 const newRef = document.getElementById('refBtn')
 
-// ONLOAD IN GENERAL IS NOT WORKING, NEED IT FOR LOADING GSAP DRAGGABLE IN REFERENCE
-
-window.addEventListener('onload', function() {
-    console.log('hey')
-})
+// GSAP IMPORTS LOADING BUT GSAP STILL NOT DEFINED??
 
 // when a new reference photo is chosen, 
 // create a new window for that reference with adjustable dimensions 
@@ -42,6 +38,7 @@ fileRead.onload = e => {
     console.log(img)
     let newWidth = 0
     let newHeight = 0
+    let loadedScripts = 0
 
     function imgZoom(inout) {
         if (newWidth == 0) {
@@ -64,10 +61,28 @@ fileRead.onload = e => {
         }
         img.width = String(Math.floor(newWidth))
         img.height = String(Math.floor(newHeight))
-        console.log(img.Height)
+        console.log(img.height)
         console.log(img.width)
     }
+
+    function checkLoadedGsap(text) {
+        loadedScripts = loadedScripts + 1
+        console.log(text)
+        if (loadedScripts == 2) {
+            loadGsap()
+        }
+    }
+
+    function loadGsap() {
+        console.log('loading gsap draggable')
+        gsap.registerPlugin(Draggable)
+        Draggable.create('#image')
+    }
     `
+    // the onload and DOMcontentloaded already fired before script fully loaded, so those events won't work in script
+    // so can use document.readystate instead https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event
+    // but gsap cdn imports execute after this main script
+    // so ensure imports loaded first by making them both call same function checkLoadedGsap()
 
     let underDiv = ref.document.createElement('div')
     underDiv.id = 'imgUnder'
@@ -99,23 +114,21 @@ fileRead.onload = e => {
     reset.setAttribute('onclick', "imgZoom('reset')")
     reset.style = 'position: fixed; top: 60;'
 
+    // gsap cdn imports load after the embedded script in the html
+    // only execute loadgsap after these scripts load
     let gsapImport = ref.document.createElement('script')
     gsapImport.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js'
+    gsapImport.setAttribute('onload', 'checkLoadedGsap("gsap import")')
     let dragImport = ref.document.createElement('script')
     dragImport.src = 'https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js'
+    dragImport.setAttribute('onload', 'checkLoadedGsap("drag import")')
 
     ref.document.querySelector('div').appendChild(zoomIn)
     ref.document.querySelector('div').appendChild(zoomOut)
     ref.document.querySelector('div').appendChild(reset)
-    ref.document.querySelector('body').appendChild(code)
     ref.document.querySelector('body').appendChild(gsapImport)
     ref.document.querySelector('body').appendChild(dragImport)
-
-    ref.window.addEventListener('onload', function() {
-        window.console.log("PageLoaded")
-        ref.gsap.registerPlugin(Draggable)
-        ref.Draggable.create('#image')
-    })
+    ref.document.querySelector('body').appendChild(code)
 }
 
 newRef.addEventListener('change', e => {
