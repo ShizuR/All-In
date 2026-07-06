@@ -5,11 +5,21 @@
 // eraser
 // save
 // tutorial when press a button on tool kit
+// layers?
 
 const msg = new BroadcastChannel('frame')
 const toolList = ['eraseBtn', 'penBtn']
 const fileRead = new FileReader()
 const newRef = document.getElementById('refBtn')
+
+// variables for drawing on canvas
+const ctx = document.getElementById('drawHere').getContext("2d") // for drawing
+const canvas = document.getElementById('drawHere').getBoundingClientRect() // to calculate mouse's actual position inside canvas get position and size of canvas relative to viewport
+let drawingPaths = [] // collection of all strokes
+let currentPath = null // current stroke
+let currentDraw = [] // current path2D instance
+let pointerCurrentlyDown = false // to alert when to start creating paths
+let pointerMoving = true // to get position of strokes
 
 // when a new reference photo is chosen, 
 // create a new window for that reference with adjustable dimensions 
@@ -159,3 +169,61 @@ function sendmsg() {
     }
     
 };
+
+// allow the user to draw using canvas API path2D //
+// get current mouse position to mark the start of drawing https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageX
+// path2D to connect points https://developer.mozilla.org/en-US/docs/Web/API/Path2D/Path2D
+
+// TO DO: 
+// -> when mouse moves outside canvas
+// -> exact mouse position
+
+function createPath(x, y) {
+    ctx.beginPath()
+    currentPath = new Path2D()
+    currentPath.moveTo(x, y)
+}
+
+// to calculate actual mouse pos https://www.geeksforgeeks.org/javascript/how-to-get-the-coordinates-of-a-mouse-click-on-a-canvas-element/ 
+function mousePos(e) {
+    let x = e.clientX - canvas.left;
+    let y = e.clientY - canvas.top;
+    return x, y
+}
+
+// use pointer down instead of mouse down to allow other devices such as pens to interact with canvas
+document.getElementById('drawHere').addEventListener('pointerdown', e => {
+    // if this is the start of pointer down, create new draw path
+    if (pointerCurrentlyDown != true) {
+        let x, y = mousePos(e)
+        createPath(e.pageX, e.pageY)
+        pointerCurrentlyDown = true
+        console.log('draw start')
+    }
+})
+
+// while dragging, draw line along path
+document.getElementById('drawHere').addEventListener('pointermove', e => {
+    if (pointerCurrentlyDown == true) {
+        // draw movement of line from previous starting position to current position
+        currentPath.lineTo(e.pageX, e.pageY)
+        currentPath.closePath()
+        ctx.stroke(currentPath)
+        currentPath = null
+        currentDraw.push(currentPath)
+        // create new path at current position
+        createPath(e.pageX, e.pageY)
+        console.log('drawing')
+    }
+})
+
+// close ctx when pointer not on hold
+document.getElementById('drawHere').addEventListener('pointerup', e => {
+    drawingPaths.push(currentDraw)
+    console.log('draw end')
+    console.log(drawingPaths)
+    // reset variables
+    currentDraw = []
+    currentPath = null
+    pointerCurrentlyDown = false
+})
