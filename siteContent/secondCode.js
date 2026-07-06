@@ -175,8 +175,7 @@ function sendmsg() {
 // path2D to connect points https://developer.mozilla.org/en-US/docs/Web/API/Path2D/Path2D
 
 // TO DO: 
-// -> when mouse moves outside canvas
-// -> exact mouse position
+// 
 
 function createPath(x, y) {
     ctx.beginPath()
@@ -189,6 +188,28 @@ function mousePos(e) {
     let x = e.pageX - canvas.left
     let y = e.pageY - canvas.top
     return [x, y]
+}
+
+function endDrawing() {
+    // if the pointer was still holding when released and was drawing on the canvas
+    if (currentPath != null & currentDraw.length > 0) {
+        drawingPaths.push(currentDraw)
+        console.log('draw end')
+        // reset variables
+        currentDraw = []
+        currentPath = null
+        console.log('endDrawing called')
+    }
+    // these below statements prevent clogging drawingPath with empty strokes
+    // this one occurs when you simply click the canvas
+    else if (currentDraw.length == 0) {
+        console.log('empty path -> nothing appended to drawingPaths')
+    }
+    else {
+        console.log('pointer released but was not drawing -> nothing appended to drawingPaths')
+    }
+    console.log(drawingPaths)
+    pointerCurrentlyDown = false
 }
 
 // use pointer down instead of mouse down to allow other devices such as pens to interact with canvas
@@ -207,7 +228,6 @@ document.getElementById('drawHere').addEventListener('pointermove', e => {
     if (pointerCurrentlyDown == true) {
         // draw movement of line from previous starting position to current position
         let [x, y] = mousePos(e)
-        console.log(x)
         currentPath.lineTo(x, y)
         currentPath.closePath()
         ctx.stroke(currentPath)
@@ -219,13 +239,16 @@ document.getElementById('drawHere').addEventListener('pointermove', e => {
     }
 })
 
-// close ctx when pointer not on hold
+// end current line drawing when pointer leaves canvas bounds
+document.getElementById('drawHere').addEventListener('pointerleave', e => {
+    console.log('pointer left')
+    if (pointerCurrentlyDown == true) {
+        endDrawing()
+    }
+})
+
+// end current line drawing when pointer not on hold
 document.getElementById('drawHere').addEventListener('pointerup', e => {
-    drawingPaths.push(currentDraw)
-    console.log('draw end')
-    console.log(drawingPaths)
-    // reset variables
-    currentDraw = []
-    currentPath = null
-    pointerCurrentlyDown = false
+    console.log('pointer stopped')
+    endDrawing()
 })
