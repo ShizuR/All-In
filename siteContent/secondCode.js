@@ -184,19 +184,19 @@ function createPath(x, y) {
     currentPath.moveTo(x, y)
 }
 
-// to calculate actual mouse pos https://www.geeksforgeeks.org/javascript/how-to-get-the-coordinates-of-a-mouse-click-on-a-canvas-element/ 
+// to calculate actual mouse pos on canvas https://www.geeksforgeeks.org/javascript/how-to-get-the-coordinates-of-a-mouse-click-on-a-canvas-element/ 
 function mousePos(e) {
-    let x = e.clientX - canvas.left;
-    let y = e.clientY - canvas.top;
-    return x, y
+    let x = e.pageX - canvas.left
+    let y = e.pageY - canvas.top
+    return [x, y]
 }
 
 // use pointer down instead of mouse down to allow other devices such as pens to interact with canvas
 document.getElementById('drawHere').addEventListener('pointerdown', e => {
     // if this is the start of pointer down, create new draw path
     if (pointerCurrentlyDown != true) {
-        let x, y = mousePos(e)
-        createPath(e.pageX, e.pageY)
+        let [x, y] = mousePos(e)
+        createPath(x, y)
         pointerCurrentlyDown = true
         console.log('draw start')
     }
@@ -206,13 +206,15 @@ document.getElementById('drawHere').addEventListener('pointerdown', e => {
 document.getElementById('drawHere').addEventListener('pointermove', e => {
     if (pointerCurrentlyDown == true) {
         // draw movement of line from previous starting position to current position
-        currentPath.lineTo(e.pageX, e.pageY)
+        let [x, y] = mousePos(e)
+        console.log(x)
+        currentPath.lineTo(x, y)
         currentPath.closePath()
         ctx.stroke(currentPath)
         currentPath = null
         currentDraw.push(currentPath)
         // create new path at current position
-        createPath(e.pageX, e.pageY)
+        createPath(x, y)
         console.log('drawing')
     }
 })
