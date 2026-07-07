@@ -15,14 +15,14 @@
             <button id="changeButtText" onclick="sendmsg()">Enlarge window</button>
         </div>
         <div class="wrapper mt-3" style="position: relative;">
-            <div style="margin-right: auto; margin-left: auto; width: 500px; height: 500px; z-index: 1;">
+            <div class="mb-3" style="margin-right: auto; margin-left: auto; width: 500px; height: 500px; z-index: 1;">
                 <canvas id="drawHere" width="500" height="500" class="border" style="position: absolute;">
                 </canvas>
             </div>
             <div class="btn-group-horizontal btn-group-sm" role="group">
-                <button class="btn btn-outline-primary btn-light">undo</button>
-                <button class="btn btn-outline-primary btn-light">redo</button>
-                <button class="btn btn-outline-primary btn-light">clear canvas</button>
+                <button class="btn btn-outline-primary btn-light disabled" id="undo" onclick="adjustDrawingPath()">undo</button>
+                <button class="btn btn-outline-primary btn-light disabled" id="redo" onclick="adjustRedoPath()">redo</button>
+                <button class="btn btn-outline-primary btn-light disabled" id="clear">clear canvas</button>
             </div>
             <div class="btn-group-vertical btn-group-sm" role="group" aria-label="Vertical button group" style="z-index: 2;" id="toolGroup">
                 <button class="btn btn-info" id="dragBtn">drag</button>

@@ -17,7 +17,7 @@ let currentTool = null
 const ctx = document.getElementById('drawHere').getContext("2d") // for drawing
 const canvas = document.getElementById('drawHere').getBoundingClientRect() // to calculate mouse's actual position inside canvas get position and size of canvas relative to viewport
 let drawingPaths = [] // collection of all strokes
-let redo = [] // collection of strokes hidden by the undo button
+let redoPath = [] // collection of strokes hidden by the undo button
 let currentPath = null // current stroke
 let currentDraw = [] // current path2D instance
 let pointerCurrentlyDown = false // to alert when to start creating paths
@@ -181,6 +181,42 @@ function sendmsg() {
 // redo undo button
 // clear canvas
 
+// to listen for changes in the variables drawingPath and redoPaths, make getter ans setter functions
+function adjustDrawingPath(path) {
+    // path being null indicates adding a stroke to the list
+    if (path != null) {
+        drawingPaths.push(path)
+        if (document.getElementById('undo').classList.contains('disabled')) {
+            document.getElementById('undo').classList.remove('disabled')
+        }
+    }
+    // a null path indicates an undo action, so add the most recent stroke to redoPath
+    else {
+        redoPath.push(drawingPaths.pop())
+        console.log('undo chosen. redoPath:')
+        console.log(redoPath)
+        if (document.getElementById('redo').classList.contains('disabled')) {
+            document.getElementById('redo').classList.remove('disabled')
+        }
+        if (drawingPaths.length < 1) {
+            document.getElementById('undo').classList.add('disabled')
+        }
+    }
+}
+
+// when the redo button is pressed, pop the most recent discarded stroke into drawingPaths
+function adjustRedoPath() {
+    drawingPaths.push(redoPath.pop())
+    console.log('redo chosen. drawingPaths:')
+    console.log(drawingPaths)
+    if (document.getElementById('undo').classList.contains('disabled')) {
+        document.getElementById('undo').classList.remove('disabled')
+    }
+    if (redoPath.length < 1) {
+        document.getElementById('redo').classList.add('disabled')
+    }
+}
+
 function createPath(x, y) {
     ctx.beginPath()
     currentPath = new Path2D()
@@ -197,7 +233,7 @@ function mousePos(e) {
 function endDrawing() {
     // if the pointer was still holding when released and was drawing on the canvas
     if (currentPath != null & currentDraw.length > 0) {
-        drawingPaths.push(currentDraw)
+        adjustDrawingPath(currentDraw)
         console.log('draw end')
         // reset variables
         currentDraw = []
