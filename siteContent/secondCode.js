@@ -176,18 +176,18 @@ function sendmsg() {
 
 // allow the user to draw using canvas API path2D //
 // get current mouse position to mark the start of drawing https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageX
-// path2D to connect points https://developer.mozilla.org/en-US/docs/Web/API/Path2D/Path2D
+// path2D to connect points as it retains paths https://developer.mozilla.org/en-US/docs/Web/API/Path2D/Path2D
 // for saving canvas try https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/restore
 
 // TO DO: 
-// redo undo button
-// clear canvas
+// reset redo when another stroke added inbetween
 
 // for changes in the variables drawingPath and redoPaths, make separate functions when buttons are clicked
 // since unable to clear specific path2D strokes, clear and redraw canvas everytime
 function adjustDrawingPath(path) {
     // path being null indicates adding a stroke to the list
     if (path != null) {
+        console.log(path)
         drawingPaths.push(path)
         if (document.getElementById('undo').classList.contains('disabled')) {
             document.getElementById('undo').classList.remove('disabled')
@@ -207,6 +207,14 @@ function adjustDrawingPath(path) {
             document.getElementById('clear').classList.add('disabled')
         }
         ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
+        drawingPaths.forEach(reDraw)
+    }
+}
+
+function reDraw(stroke) {
+    for (let i = 0; i < stroke.length; i++) {
+        console.log(stroke[i])
+        ctx.stroke(stroke[i])
     }
 }
 
@@ -218,9 +226,14 @@ function adjustRedoPath() {
     if (document.getElementById('undo').classList.contains('disabled')) {
         document.getElementById('undo').classList.remove('disabled')
     }
+    if (document.getElementById('clear').classList.contains('disabled')) {
+        document.getElementById('clear').classList.remove('disabled')
+    }
     if (redoPath.length < 1) {
         document.getElementById('redo').classList.add('disabled')
     }
+    ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
+    drawingPaths.forEach(reDraw)
 }
 
 function clearCanvas() {
@@ -237,7 +250,7 @@ function clearCanvas() {
 }
 
 function createPath(x, y) {
-    ctx.beginPath()
+    //ctx.beginPath()
     currentPath = new Path2D()
     currentPath.moveTo(x, y)
 }
@@ -253,6 +266,7 @@ function endDrawing() {
     // if the pointer was still holding when released and was drawing on the canvas
     if (currentPath != null & currentDraw.length > 0) {
         adjustDrawingPath(currentDraw)
+        console.log(currentPath)
         console.log('draw end')
         // reset variables
         currentDraw = []
@@ -290,8 +304,8 @@ document.getElementById('drawHere').addEventListener('pointermove', e => {
         currentPath.lineTo(x, y)
         currentPath.closePath()
         ctx.stroke(currentPath)
-        currentPath = null
         currentDraw.push(currentPath)
+        currentPath = null
         // create new path at current position
         createPath(x, y)
         console.log('drawing')
