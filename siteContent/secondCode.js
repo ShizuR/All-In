@@ -180,7 +180,6 @@ function sendmsg() {
 // for saving canvas try https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/restore
 
 // TO DO: 
-// reset redo when another stroke added inbetween
 
 // for changes in the variables drawingPath and redoPaths, make separate functions when buttons are clicked
 // since unable to clear specific path2D strokes, clear and redraw canvas everytime
@@ -253,6 +252,10 @@ function createPath(x, y) {
     //ctx.beginPath()
     currentPath = new Path2D()
     currentPath.moveTo(x, y)
+    redoPath = []
+    if (document.getElementById('redo').classList.contains('disabled') == false) {
+        document.getElementById('redo').classList.add('disabled')
+    }
 }
 
 // to calculate actual mouse pos on canvas https://www.geeksforgeeks.org/javascript/how-to-get-the-coordinates-of-a-mouse-click-on-a-canvas-element/ 
