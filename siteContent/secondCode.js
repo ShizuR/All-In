@@ -230,6 +230,10 @@ function clearCanvas() {
             canvasEditList[i].classList.add('disabled')
         }
     }
+    drawingPaths = []
+    redoPath = []
+    currentPath = null
+    currentDraw = []
 }
 
 function createPath(x, y) {
