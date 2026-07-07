@@ -22,6 +22,7 @@ let currentPath = null // current stroke
 let currentDraw = [] // current path2D instance
 let pointerCurrentlyDown = false // to alert when to start creating paths
 let pointerMoving = true // to get position of strokes
+const canvasEditList = [document.getElementById('undo'), document.getElementById('redo'), document.getElementById('clear')]
 
 // when a new reference photo is chosen, 
 // create a new window for that reference with adjustable dimensions 
@@ -176,18 +177,21 @@ function sendmsg() {
 // allow the user to draw using canvas API path2D //
 // get current mouse position to mark the start of drawing https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageX
 // path2D to connect points https://developer.mozilla.org/en-US/docs/Web/API/Path2D/Path2D
+// for saving canvas try https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/restore
 
 // TO DO: 
 // redo undo button
 // clear canvas
 
-// to listen for changes in the variables drawingPath and redoPaths, make getter ans setter functions
+// for changes in the variables drawingPath and redoPaths, make separate functions when buttons are clicked
+// since unable to clear specific path2D strokes, clear and redraw canvas everytime
 function adjustDrawingPath(path) {
     // path being null indicates adding a stroke to the list
     if (path != null) {
         drawingPaths.push(path)
         if (document.getElementById('undo').classList.contains('disabled')) {
             document.getElementById('undo').classList.remove('disabled')
+            document.getElementById('clear').classList.remove('disabled')
         }
     }
     // a null path indicates an undo action, so add the most recent stroke to redoPath
@@ -200,7 +204,9 @@ function adjustDrawingPath(path) {
         }
         if (drawingPaths.length < 1) {
             document.getElementById('undo').classList.add('disabled')
+            document.getElementById('clear').classList.add('disabled')
         }
+        ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
     }
 }
 
@@ -214,6 +220,15 @@ function adjustRedoPath() {
     }
     if (redoPath.length < 1) {
         document.getElementById('redo').classList.add('disabled')
+    }
+}
+
+function clearCanvas() {
+    ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
+    for (let i = 0; i < canvasEditList.length; i++) {
+        if (canvasEditList[i].classList.contains('disabled') == false) {
+            canvasEditList[i].classList.add('disabled')
+        }
     }
 }
 
