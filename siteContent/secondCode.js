@@ -11,11 +11,13 @@ const msg = new BroadcastChannel('frame')
 const toolList = ['eraseBtn', 'penBtn']
 const fileRead = new FileReader()
 const newRef = document.getElementById('refBtn')
+let currentTool = null
 
 // variables for drawing on canvas
 const ctx = document.getElementById('drawHere').getContext("2d") // for drawing
 const canvas = document.getElementById('drawHere').getBoundingClientRect() // to calculate mouse's actual position inside canvas get position and size of canvas relative to viewport
 let drawingPaths = [] // collection of all strokes
+let redo = [] // collection of strokes hidden by the undo button
 let currentPath = null // current stroke
 let currentDraw = [] // current path2D instance
 let pointerCurrentlyDown = false // to alert when to start creating paths
@@ -155,6 +157,7 @@ function toolClick(tool) {
             }
         }
     }
+    currentTool = tool
     // make the pressed button appear active
     document.getElementById(tool).classList.add('active')
 };
@@ -175,7 +178,8 @@ function sendmsg() {
 // path2D to connect points https://developer.mozilla.org/en-US/docs/Web/API/Path2D/Path2D
 
 // TO DO: 
-// 
+// redo undo button
+// clear canvas
 
 function createPath(x, y) {
     ctx.beginPath()
@@ -215,7 +219,7 @@ function endDrawing() {
 // use pointer down instead of mouse down to allow other devices such as pens to interact with canvas
 document.getElementById('drawHere').addEventListener('pointerdown', e => {
     // if this is the start of pointer down, create new draw path
-    if (pointerCurrentlyDown != true) {
+    if (pointerCurrentlyDown != true & currentTool == 'penBtn') {
         let [x, y] = mousePos(e)
         createPath(x, y)
         pointerCurrentlyDown = true
@@ -225,7 +229,7 @@ document.getElementById('drawHere').addEventListener('pointerdown', e => {
 
 // while dragging, draw line along path
 document.getElementById('drawHere').addEventListener('pointermove', e => {
-    if (pointerCurrentlyDown == true) {
+    if (pointerCurrentlyDown == true & currentTool == 'penBtn') {
         // draw movement of line from previous starting position to current position
         let [x, y] = mousePos(e)
         currentPath.lineTo(x, y)
@@ -242,7 +246,7 @@ document.getElementById('drawHere').addEventListener('pointermove', e => {
 // end current line drawing when pointer leaves canvas bounds
 document.getElementById('drawHere').addEventListener('pointerleave', e => {
     console.log('pointer left')
-    if (pointerCurrentlyDown == true) {
+    if (pointerCurrentlyDown == true & currentTool == 'penBtn') {
         endDrawing()
     }
 })
@@ -250,5 +254,7 @@ document.getElementById('drawHere').addEventListener('pointerleave', e => {
 // end current line drawing when pointer not on hold
 document.getElementById('drawHere').addEventListener('pointerup', e => {
     console.log('pointer stopped')
-    endDrawing()
+    if (currentTool == 'penBtn') {
+        endDrawing()
+    }
 })
