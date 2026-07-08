@@ -16,7 +16,7 @@ let currentTool = null
 // variables for drawing on canvas
 const ctx = document.getElementById('drawHere').getContext("2d") // for drawing
 const canvas = document.getElementById('drawHere').getBoundingClientRect() // to calculate mouse's actual position inside canvas get position and size of canvas relative to viewport
-let drawingPaths = [] // collection of all strokes
+let drawingPaths = [] // collection of arrays of strokes in one pointer down movement. this is to undo and redo whole strokes when pressing those respective buttons. for erasing need to access individual strokes
 let redoPath = [] // collection of strokes hidden by the undo button
 let currentPath = null // current stroke
 let currentDraw = [] // current path2D instance
@@ -206,12 +206,12 @@ function adjustDrawingPath(path) {
             document.getElementById('undo').classList.add('disabled')
             document.getElementById('clear').classList.add('disabled')
         }
-        ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
         drawingPaths.forEach(reDraw)
     }
 }
 
 function reDraw(stroke) {
+    ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
     for (let i = 0; i < stroke.length; i++) {
         console.log(stroke[i])
         ctx.stroke(stroke[i])
@@ -232,7 +232,6 @@ function adjustRedoPath() {
     if (redoPath.length < 1) {
         document.getElementById('redo').classList.add('disabled')
     }
-    ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
     drawingPaths.forEach(reDraw)
 }
 
@@ -292,27 +291,58 @@ function endDrawing() {
 // use pointer down instead of mouse down to allow other devices such as pens to interact with canvas
 document.getElementById('drawHere').addEventListener('pointerdown', e => {
     // if this is the start of pointer down, create new draw path
-    if (pointerCurrentlyDown != true & currentTool == 'penBtn') {
-        let [x, y] = mousePos(e)
-        createPath(x, y)
+    if (pointerCurrentlyDown != true) {
         pointerCurrentlyDown = true
-        console.log('draw start')
+
+        if (currentTool == 'penBtn') {
+            let [x, y] = mousePos(e)
+            createPath(x, y)
+            console.log('draw start')
+        }
     }
 })
 
 // while dragging, draw line along path
+// the same principle applies for both erasing and drawing
 document.getElementById('drawHere').addEventListener('pointermove', e => {
-    if (pointerCurrentlyDown == true & currentTool == 'penBtn') {
-        // draw movement of line from previous starting position to current position
+    // conditions only apply when the user is holding down 
+    if (pointerCurrentlyDown == true) {
         let [x, y] = mousePos(e)
-        currentPath.lineTo(x, y)
-        currentPath.closePath()
-        ctx.stroke(currentPath)
-        currentDraw.push(currentPath)
-        currentPath = null
-        // create new path at current position
-        createPath(x, y)
-        console.log('drawing')
+
+        if (currentTool == 'penBtn') {
+            // draw movement of line from previous starting position to current position
+            currentPath.lineTo(x, y)
+            currentPath.closePath()
+            ctx.stroke(currentPath)
+            currentDraw.push(currentPath)
+            currentPath = null
+            // create new path at current position
+            createPath(x, y)
+            console.log('drawing')
+        }
+
+        // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/isPointInStroke
+        else if (currentTool == 'eraseBtn' & drawingPaths.length > 0) {
+            // detect whether the pointer is above any visible strokes
+            // convert x and y coordinates of pointer to whole number as required format
+            let erased = false
+            drawingPaths.forEach(e => {
+                e.forEach(path => {
+                    const isPointInPath = ctx.isPointInStroke(path, x, y)
+                    if (isPointInPath == true) {
+                        // remove that specific path2D object
+                        e.splice(e.indexOf(path), 1)
+                        drawingPaths.forEach(reDraw)
+                        console.log('removed!')
+                        erased = true
+                    }
+                })
+            })
+
+            if (erased == true) {
+                
+            }
+        }
     }
 })
 
@@ -322,6 +352,9 @@ document.getElementById('drawHere').addEventListener('pointerleave', e => {
     if (pointerCurrentlyDown == true & currentTool == 'penBtn') {
         endDrawing()
     }
+    else if (pointerCurrentlyDown == true){
+        pointerCurrentlyDown = false
+    }
 })
 
 // end current line drawing when pointer not on hold
@@ -329,5 +362,8 @@ document.getElementById('drawHere').addEventListener('pointerup', e => {
     console.log('pointer stopped')
     if (currentTool == 'penBtn') {
         endDrawing()
+    }
+    else if (currentTool == 'eraseBtn') {
+        pointerCurrentlyDown = false
     }
 })
