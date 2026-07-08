@@ -206,12 +206,12 @@ function adjustDrawingPath(path) {
             document.getElementById('undo').classList.add('disabled')
             document.getElementById('clear').classList.add('disabled')
         }
+        ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
         drawingPaths.forEach(reDraw)
     }
 }
 
 function reDraw(stroke) {
-    ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
     for (let i = 0; i < stroke.length; i++) {
         console.log(stroke[i])
         ctx.stroke(stroke[i])
@@ -232,6 +232,7 @@ function adjustRedoPath() {
     if (redoPath.length < 1) {
         document.getElementById('redo').classList.add('disabled')
     }
+    ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
     drawingPaths.forEach(reDraw)
 }
 
@@ -325,22 +326,22 @@ document.getElementById('drawHere').addEventListener('pointermove', e => {
         else if (currentTool == 'eraseBtn' & drawingPaths.length > 0) {
             // detect whether the pointer is above any visible strokes
             // convert x and y coordinates of pointer to whole number as required format
-            let erased = false
+            let listOfErased = []
             drawingPaths.forEach(e => {
                 e.forEach(path => {
                     const isPointInPath = ctx.isPointInStroke(path, x, y)
                     if (isPointInPath == true) {
-                        // remove that specific path2D object
-                        e.splice(e.indexOf(path), 1)
+                        // remove that specific path2D object into a list for the undo redo buttons
+                        listOfErased.push(e.splice(e.indexOf(path), 1))
+                        ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
                         drawingPaths.forEach(reDraw)
                         console.log('removed!')
-                        erased = true
                     }
                 })
             })
-
-            if (erased == true) {
-                
+            if (listOfErased.length > 0) {
+                redoPath.push(listOfErased)
+                console.log(redoPath)
             }
         }
     }
