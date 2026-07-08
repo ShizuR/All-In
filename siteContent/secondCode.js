@@ -180,6 +180,7 @@ function sendmsg() {
 // for saving canvas try https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/restore
 
 // TO DO: 
+// erase btn
 
 // for changes in the variables drawingPath and redoPaths, make separate functions when buttons are clicked
 // since unable to clear specific path2D strokes, clear and redraw canvas everytime

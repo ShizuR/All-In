@@ -28,7 +28,12 @@
                 <button class="btn btn-info" id="dragBtn">drag</button>
                 <button class="btn btn-outline-primary btn-light" id="eraseBtn" onclick="toolClick('eraseBtn')">erase</button>
                 <button class="btn btn-outline-primary btn-light" id="penBtn" onclick="toolClick('penBtn')">pen</button>
-                <input type="file" accept="image/*" class="btn btn-outline-primary btn-light" id="refBtn" />
+                <div class="btn btn-outline-primary btn-light">
+                    <label for="refBtn">reference</label>
+                    <!-- hide the file input default format with d-none to hide on all devices -->
+                    <input type="file" accept="image/*" id="refBtn" name="refBtn" class="d-none"/>
+                </div>
+                
             </div>
         </div>
         <script src="secondCode.js"></script> <!-- import external javascript code file-->
