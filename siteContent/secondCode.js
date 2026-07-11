@@ -195,10 +195,28 @@ function adjustDrawingPath(path) {
         }
     }
     // a null path indicates an undo action, so add the most recent stroke to redoPath
+    // problem: undo keeps blinking the erased parts. not in order?
+    // the error -> the undo was popped onto redo before the redraw all was called, and since redraw all only focuses on the undo list, that stroke was not rendered
+    // therefore: pop stroke out afterwards if the stroke was undoed first
+    // bug now when redoing the rubbed out part remains before stroke, therefore when undoing an erased, go to the original path instance and restroke
+    // first in the eraser, replace that path instance with the erased string while pushing the new tuple on top of the stack
     else {
+        let lastPath = drawingPaths[drawingPaths.length - 1]
+        console.log(lastPath)
+        if (lastPath[0] == 'erased') {
+            console.log('last path detected erased!')
+            drawingPaths[lastPath[2]].push(lastPath[1])
+        }
+        console.log('undo chosen. drawingPath:')
+        console.log(drawingPaths)
         redoPath.push(drawingPaths.pop())
-        console.log('undo chosen. redoPath:')
+        console.log('redoPath:')
         console.log(redoPath)
+        ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
+        drawingPaths.forEach(reDrawRefresh)
+        //console.log(redoPath[redoPath.length - 1][0])
+        console.log('drawingPath now:')
+        console.log(drawingPaths)
         if (document.getElementById('redo').classList.contains('disabled')) {
             document.getElementById('redo').classList.remove('disabled')
         }
@@ -206,15 +224,24 @@ function adjustDrawingPath(path) {
             document.getElementById('undo').classList.add('disabled')
             document.getElementById('clear').classList.add('disabled')
         }
-        ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
-        drawingPaths.forEach(reDraw)
     }
 }
 
-function reDraw(stroke) {
+// use when refreshing the page after a stroke. misses out the parts that are erased
+function reDrawRefresh(stroke) {
+    console.log('refresh stroke: ' + stroke)
     for (let i = 0; i < stroke.length; i++) {
-        console.log(stroke[i])
-        ctx.stroke(stroke[i])
+        if (stroke[i] == 'erased') {
+            return;
+        }
+        else {
+            try {
+                ctx.stroke(stroke[i])
+            }
+            catch {
+                console.log('failed stroke: ' + stroke[i])
+            }
+        }
     }
 }
 
@@ -223,6 +250,8 @@ function adjustRedoPath() {
     drawingPaths.push(redoPath.pop())
     console.log('redo chosen. drawingPaths:')
     console.log(drawingPaths)
+    console.log('redoPaths:')
+    console.log(redoPath)
     if (document.getElementById('undo').classList.contains('disabled')) {
         document.getElementById('undo').classList.remove('disabled')
     }
@@ -233,7 +262,7 @@ function adjustRedoPath() {
         document.getElementById('redo').classList.add('disabled')
     }
     ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
-    drawingPaths.forEach(reDraw)
+    drawingPaths.forEach(reDrawAll)
 }
 
 function clearCanvas() {
@@ -326,23 +355,38 @@ document.getElementById('drawHere').addEventListener('pointermove', e => {
         else if (currentTool == 'eraseBtn' & drawingPaths.length > 0) {
             // detect whether the pointer is above any visible strokes
             // convert x and y coordinates of pointer to whole number as required format
-            let listOfErased = []
-            drawingPaths.forEach(e => {
-                e.forEach(path => {
-                    const isPointInPath = ctx.isPointInStroke(path, x, y)
-                    if (isPointInPath == true) {
-                        // remove that specific path2D object into a list for the undo redo buttons
-                        listOfErased.push(e.splice(e.indexOf(path), 1))
-                        ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
-                        drawingPaths.forEach(reDraw)
-                        console.log('removed!')
+            // pushing inside the for loop -> infinite loop, so do it outside
+            let erased = []
+            for (let i = 0; i < drawingPaths.length; i++) {
+                for (let j = 0; j < drawingPaths[i].length; j++) {
+                    //console.log(drawingPaths[i])
+                    //console.log(drawingPaths[i][j])
+                    if (drawingPaths[i][j] == 'erased') {
+                        break;
                     }
-                })
-            })
-            if (listOfErased.length > 0) {
-                redoPath.push(listOfErased)
-                console.log(redoPath)
+                    else {
+                        const isPointInPath = ctx.isPointInStroke(drawingPaths[i][j], x, y)
+                        if (isPointInPath == true) {
+                            // put that path into a tuple to show that it's erased
+                            // put i as the index for drawingPaths
+                            erased = ['erased', drawingPaths[i][j], i]
+                            //console.log(erased)
+                            drawingPaths[i].splice(drawingPaths[i].indexOf(drawingPaths[i][j]), 1)
+                            // push the tuple at the end of the whole list to capture the moment that the stroke was erased
+                            ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
+                            drawingPaths.forEach(reDrawRefresh)
+                            //console.log(drawingPaths[drawingPaths.length - 1])
+                            console.log('removed!')
+                        }
+                    }
+                    
+                }
             }
+            if (erased.length > 0) {
+                drawingPaths.push(erased)
+                console.log(drawingPaths)
+            }
+            
         }
     }
 })
