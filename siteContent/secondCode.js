@@ -205,7 +205,7 @@ function adjustDrawingPath(path) {
         console.log(lastPath)
         if (lastPath[0] == 'erased') {
             console.log('last path detected erased!')
-            drawingPaths[lastPath[2]].push(lastPath[1])
+            drawingPaths[lastPath[2]].push(['revived', lastPath[1]])
         }
         console.log('undo chosen. drawingPath:')
         console.log(drawingPaths)
@@ -230,9 +230,17 @@ function adjustDrawingPath(path) {
 // use when refreshing the page after a stroke. misses out the parts that are erased
 function reDrawRefresh(stroke) {
     console.log('refresh stroke: ' + stroke)
+    if (stroke[0] == 'erased') {
+        return
+    }
     for (let i = 0; i < stroke.length; i++) {
-        if (stroke[i] == 'erased') {
-            return;
+        if (stroke[i][0] == 'revived') {
+            try {
+                ctx.stroke(stroke[i][1])
+            }
+            catch {
+                console.log('failed stroke: ' + stroke[i][1])
+            }
         }
         else {
             try {
@@ -247,7 +255,17 @@ function reDrawRefresh(stroke) {
 
 // when the redo button is pressed, pop the most recent discarded stroke into drawingPaths
 function adjustRedoPath() {
-    drawingPaths.push(redoPath.pop())
+    let r = redoPath.pop()
+    if (r[0] == 'erased') {
+        console.log('redo detected erased stroke!')
+        // can't undo strokes like a stake to ensure linearity, so use forloop to get the first instance 
+        for (let i = 0; i < drawingPaths[r[2]].length; i++) {
+            if (drawingPaths[r[2]][i][0] == 'revived') {
+                drawingPaths[r[2]].splice(drawingPaths[r[2]].indexOf(drawingPaths[r[2]][i]), 1)
+            }
+        }
+    }
+    drawingPaths.push(r)
     console.log('redo chosen. drawingPaths:')
     console.log(drawingPaths)
     console.log('redoPaths:')
@@ -262,7 +280,7 @@ function adjustRedoPath() {
         document.getElementById('redo').classList.add('disabled')
     }
     ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
-    drawingPaths.forEach(reDrawAll)
+    drawingPaths.forEach(reDrawRefresh)
 }
 
 function clearCanvas() {
