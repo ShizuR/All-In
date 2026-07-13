@@ -9,11 +9,7 @@
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js"></script>
     </head>
     
-    <body class="p-5" style="height: 100dvh; width: 100dvw;" onload="here()">
-        <div>
-            <!-- <header>Use the toolkit on the side to switch between eraser and pen. you can also drag the toolkit around to adjust its position!</header> -->
-            <button id="changeButtText" onclick="sendmsg()">Enlarge window</button>
-        </div>
+    <body class="p-3" style="height: 100dvh; width: 100dvw;" onload="here()">
         <div class="wrapper mt-3" style="position: relative;">
             <div class="btn-group-vertical btn-group-sm" role="group" aria-label="Vertical button group" style="z-index: 2; position: absolute;" id="toolGroup">
                 <button class="btn btn-info" id="dragBtn">drag</button>
@@ -29,10 +25,15 @@
                 <canvas id="drawHere" width="500" height="500" class="border" style="position: absolute;">
                 </canvas>
             </div>
-            <div class="btn-group-horizontal btn-group"" role="group" style="position: absolute;">
-                <button class="btn btn-outline-primary btn-light disabled" id="undo" onclick="adjustDrawingPath()">undo</button>
-                <button class="btn btn-outline-primary btn-light disabled" id="redo" onclick="adjustRedoPath()">redo</button>
-                <button class="btn btn-outline-primary btn-light disabled" id="clear" onclick="clearCanvas()">clear canvas</button>
+            <!-- text-center needs to be own div to center button groups since btn-group is in-line block, meaning the buttons inside would be centered relative to that div instead of the screen -->
+            <!-- https://stackoverflow.com/questions/21392834/centering-bootstrap-button-group-in-an-element-->
+            <div class="wrapper text-center">
+                <div class="btn-group-horizontal btn-group" role="group">
+                    <button class="btn btn-outline-primary btn-light disabled" id="undo" onclick="adjustDrawingPath()">undo</button>
+                    <button class="btn btn-outline-primary btn-light disabled" id="redo" onclick="adjustRedoPath()">redo</button>
+                    <button class="btn btn-outline-primary btn-light disabled" id="clear" onclick="clearCanvas()">clear canvas</button>
+                    <button id="changeButtText" onclick="sendmsg()">Enlarge window</button>
+                </div>
             </div>
             
         </div>
