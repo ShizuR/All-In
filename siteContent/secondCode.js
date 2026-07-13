@@ -15,7 +15,7 @@ let currentTool = null
 
 // variables for drawing on canvas
 const ctx = document.getElementById('drawHere').getContext("2d") // for drawing
-const canvas = document.getElementById('drawHere').getBoundingClientRect() // to calculate mouse's actual position inside canvas get position and size of canvas relative to viewport
+let canvas = document.getElementById('drawHere').getBoundingClientRect() // to calculate mouse's actual position inside canvas get position and size of canvas relative to viewport
 let drawingPaths = [] // collection of arrays of strokes in one pointer down movement. this is to undo and redo whole strokes when pressing those respective buttons. for erasing need to access individual strokes
 let redoPath = [] // collection of strokes hidden by the undo button
 let currentPath = null // current stroke
@@ -171,7 +171,6 @@ function sendmsg() {
     else {
         document.getElementById('changeButtText').innerText = 'Enlarge window'
     }
-    
 };
 
 // allow the user to draw using canvas API path2D //
@@ -304,8 +303,10 @@ function createPath(x, y) {
 
 // to calculate actual mouse pos on canvas https://www.geeksforgeeks.org/javascript/how-to-get-the-coordinates-of-a-mouse-click-on-a-canvas-element/ 
 function mousePos(e) {
-    let x = e.pageX - canvas.left
-    let y = e.pageY - canvas.top
+    // bounding rect changes when window is resized, so call whenever it changes
+    canvas = document.getElementById('drawHere').getBoundingClientRect()
+    let x = e.clientX - canvas.left
+    let y = e.clientY - canvas.top
     return [x, y]
 }
 
@@ -339,7 +340,7 @@ document.getElementById('drawHere').addEventListener('pointerdown', e => {
         pointerCurrentlyDown = true
 
         if (currentTool == 'penBtn') {
-            let [x, y] = mousePos(e)
+            [x, y] = mousePos(e)
             createPath(x, y)
             console.log('draw start')
         }
@@ -351,7 +352,7 @@ document.getElementById('drawHere').addEventListener('pointerdown', e => {
 document.getElementById('drawHere').addEventListener('pointermove', e => {
     // conditions only apply when the user is holding down 
     if (pointerCurrentlyDown == true) {
-        let [x, y] = mousePos(e)
+        [x, y] = mousePos(e)
 
         if (currentTool == 'penBtn') {
             // draw movement of line from previous starting position to current position
