@@ -71,8 +71,12 @@ html, body {
   animation-name: slideIn;
   animation-duration: 1s;
   transition-timing-function: ease-in;
-  padding: 10em;
+  padding: 1% 3% 1% 3%;
   background-color: aliceblue;
+  margin: 10em;
+  border-radius: 5%;
+  box-shadow: 1em 1em 0em rgb(50, 120, 136), 2em 2em 0em rgb(105, 158, 170);
+  border: 2px solid rgb(50, 120, 136);
 }
 
 #navigation {
