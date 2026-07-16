@@ -13,12 +13,11 @@
         <title>Prototype</title>
     </head>
     
-    <body>
+    <body class="summer" id="bgAnimate">
         <script src="navbar.js"></script>
-        <section id="underNav" style="overscroll-behavior: contain">
+        <div class="underNav">
             <script src="indexCode.js"></script>
             <div class="jumbotron text-center mb-5 mt-5">
-                <hr>
                 <p class="display-1">WELCOME TO THIS WEBSITE</p>
                 <hr class="mx-auto" width="50%">
                 <p class="h5 lead text-muted"><em>I hope you enjoy this mastery over html. This page was made with Bootstrap and some custom CSS</em></p>
@@ -31,6 +30,7 @@
                 <div class="btn-group d-flex gap-2 mb-3" role="group">
                     <button onclick="myFunction('second.html')" type="button" class="btn btn-primary btn-sm">display second</button>
                     <button onclick="myFunction('third.html')" type="button" class="btn btn-primary btn-sm">display third</button>
+                    <button onclick="changeWeather()" type="button" class="btn btn-primary btn-sm">change weather</button>
                 </div>
 
                 <!-- mini window for websites -->
@@ -51,7 +51,7 @@
                 <h5 class="display-6 mt-3">Description</h5>
                 <section id="desc"></section>
             </div>
-        </section>
+        </div>
     </body>
     <footer class="mt-5 bg-light">
         <hr>

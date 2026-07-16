@@ -3,6 +3,8 @@
 
 let frameState = 'max'
 let pageScroll = []
+const weather = ['Summer', 'Autumn']
+let currentWeather = 0
 // https://www.telerik.com/blogs/ultimate-guide-broadcast-channel-api 
 const msg = new BroadcastChannel('frame')
 
@@ -16,8 +18,10 @@ const frameMin = [
     {transform: 'scale(1)'}
 ]
 
+// wrote javascript to animate slide in on page
+// used the css implementation instead for more practice
 const introAnim = {
-    transform: ['translateY(100px)','translateY(0)'], opacity: [0, 1]
+    transform: ['translateY(100px)','none'], opacity: [0, 1]
 }
 
 const frameTime = {duration: 5000, iterations: 1}
@@ -64,6 +68,17 @@ msg.onmessage = (event) => {
   }
 }
 
+function changeWeather() {
+    currentWeather = currentWeather + 1
+    if (currentWeather > weather.length - 1) {
+        currentWeather = 0
+    }
+    console.log(currentWeather)
+    document.getElementById('weatherHandle').innerHTML = weather[currentWeather]
+    document.querySelector('body').className = weather[currentWeather].toLowerCase()
+}
+
+/*
 function pageIntro() {
     // Source - https://stackoverflow.com/a/17531533
     document.getElementById('underNav').animate(introAnim, 500)
@@ -71,3 +86,4 @@ function pageIntro() {
 
 pageIntro()
 // https://stackoverflow.com/questions/17530756/disable-scrolling-when-the-animation-of-scrolling-is-taking-place
+*/
