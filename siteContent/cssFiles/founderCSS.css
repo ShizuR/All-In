@@ -1,12 +1,13 @@
-.containFrame {
+#fr {
   position: relative;
   overflow: hidden;
   width: 80%;
   padding-top: 45%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625), resize so that window doesn't take up all space: width percentage of 56.25 = 45% */
-  margin: auto /* center */
+  margin: auto; /* center */
+  border-radius: 10px; /* rounded edges */
 }
 
-.fullscreen {
+#fullscreen {
   z-index: 1;
   width: 100%;
   height: 100%
