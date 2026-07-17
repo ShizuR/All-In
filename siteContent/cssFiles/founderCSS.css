@@ -84,14 +84,6 @@ html, body {
   position: relative;
 }
 
-#sun {
-  height: 50px;
-  width: 50px;
-  background-color: #ffe065;
-  border-radius: 50%;
-  position: absolute;
-}
-
 #navigation {
   animation-name: slideIn;
   animation-duration: 1.3s;

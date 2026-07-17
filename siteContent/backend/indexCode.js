@@ -51,6 +51,7 @@ function frameResize() {
         document.getElementById('fr').id = 'fullScreen'
         document.getElementById('replace').style.zIndex = '100'
         frameState = 'min'
+        window.scrollTo(0, 0)
     }
     else {
         //document.getElementById('fr').animate(frameMin, frameTime)
@@ -87,3 +88,6 @@ function pageIntro() {
 pageIntro()
 // https://stackoverflow.com/questions/17530756/disable-scrolling-when-the-animation-of-scrolling-is-taking-place
 */
+
+/* stops page from automatically scrolling due to css animations of seasons */
+window.history.scrollRestoration = "manual"

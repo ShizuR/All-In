@@ -1,0 +1,32 @@
+/* summer */
+
+@keyframes infRotate {
+    0% {
+        rotate: none;
+    }
+    100% {
+        rotate: 360deg;
+    }
+}
+
+@keyframes sunIn {
+    0% {
+        transform: translate(-50%, -50%);
+    }
+    100% {
+        transform: none;
+    }
+}
+
+.bgSeason {
+  position: absolute;
+}
+
+#sun {
+  height: 500px;
+  width: 500px;
+  border-radius: 50%;
+  left: -10%;
+  top: -10%;
+  animation: sunIn 1s ease-out forwards normal, infRotate 20s linear 0s infinite normal forwards
+}
