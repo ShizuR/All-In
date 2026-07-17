@@ -3,8 +3,8 @@
 
 let frameState = 'max'
 let pageScroll = []
-const weather = ['Summer', 'Autumn']
-let currentWeather = 0
+const season = ['Summer', 'Autumn']
+let currentSeason = 0
 // https://www.telerik.com/blogs/ultimate-guide-broadcast-channel-api 
 const msg = new BroadcastChannel('frame')
 
@@ -68,14 +68,14 @@ msg.onmessage = (event) => {
   }
 }
 
-function changeWeather() {
-    currentWeather = currentWeather + 1
-    if (currentWeather > weather.length - 1) {
-        currentWeather = 0
+function changeSeason() {
+    currentSeason = currentSeason + 1
+    if (currentSeason > season.length - 1) {
+        currentSeason = 0
     }
-    console.log(currentWeather)
-    document.getElementById('weatherHandle').innerHTML = weather[currentWeather]
-    document.querySelector('body').className = weather[currentWeather].toLowerCase()
+    console.log(currentSeason)
+    document.getElementById('seasonHandle').innerHTML = season[currentSeason]
+    document.querySelector('body').className = season[currentSeason].toLowerCase()
 }
 
 /*

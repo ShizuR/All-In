@@ -22,7 +22,7 @@ html, body {
 }
 
 .summer {
-  background: linear-gradient(-45deg, #53cb73, #eaf9f9, #3fb657, #eaf9f9);
+  background-color: rgb(184, 231, 247);
 }
 
 .autumn {
@@ -74,10 +74,22 @@ html, body {
   transition-timing-function: ease-in;
   padding: 0.5% 3% 5% 3%;
   background-color: aliceblue;
-  margin: 10em;
+  margin: 10%;
   border-radius: 5%;
   box-shadow: 1em 1em 0em rgba(50, 120, 136, 0.699), 2em 2em 0em rgba(105, 158, 170, 0.521);
   border: 2px solid rgb(50, 120, 136);
+}
+
+.footer {
+  position: relative;
+}
+
+#sun {
+  height: 50px;
+  width: 50px;
+  background-color: #ffe065;
+  border-radius: 50%;
+  position: absolute;
 }
 
 #navigation {

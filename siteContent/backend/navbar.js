@@ -9,7 +9,7 @@ const navbarImport = `
     <!-- https://icons.getbootstrap.com/icons/house/ -->
     <!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
     <div class="container-fluid"> <!-- built in padding, ensures navbar always full length of screen -->
-        <span class="navbar-brand" href="#" id="weatherHandle">Summer</span>
+        <span class="navbar-brand" href="#" id="seasonHandle">Summer</span>
         <div class="collapse navbar-collapse justify-content-center">
             <div class="navbar-nav">
                 <a href="second.html" class="nav-item nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
