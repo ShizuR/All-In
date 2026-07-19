@@ -1,12 +1,16 @@
 // indexCode called inside body rather than in head so that DOM can load first
 // to allow the elements to load and become available for animation etc.
 
+// TODO:
+// make Description an Accordian
+
 let frameState = 'max'
 let pageScroll = []
 const season = ['Summer', 'Autumn']
-let currentSeason = 0
+let currentSeasonInt = 0
 // https://www.telerik.com/blogs/ultimate-guide-broadcast-channel-api 
 const msg = new BroadcastChannel('frame')
+const seasonChange = new BroadcastChannel('season')
 
 const frameMax = [
     {transform: 'scale(1)'},
@@ -48,14 +52,17 @@ function frameResize() {
         console.log(window.scrollX)
         console.log(window.scrollY)
         console.log(pageScroll)
-        document.getElementById('fr').id = 'fullScreen'
+        document.getElementById('forTrans').classList.remove('containFrame')
+        document.getElementById('forTrans').classList.add('scaleUp')
+        //document.getElementById('forTrans').classList.add('fullScreen')
         document.getElementById('replace').style.zIndex = '100'
         frameState = 'min'
         window.scrollTo(0, 0)
     }
     else {
         //document.getElementById('fr').animate(frameMin, frameTime)
-        document.getElementById('fullScreen').id = 'fr'
+        document.getElementById('forTrans').classList.remove('fullscreen')
+        document.getElementById('forTrans').classList.add('containFrame')
         document.getElementById('replace').style.zIndex = 'auto'
         frameState = 'max'
         window.scrollTo(pageScroll[0], pageScroll[1])
@@ -63,6 +70,7 @@ function frameResize() {
     }
 }
 
+// receive message to the drawingApplication code (second.js)
 msg.onmessage = (event) => {
   if (event.data.type === 'change') {
     frameResize()
@@ -70,13 +78,14 @@ msg.onmessage = (event) => {
 }
 
 function changeSeason() {
-    currentSeason = currentSeason + 1
-    if (currentSeason > season.length - 1) {
-        currentSeason = 0
+    currentSeasonInt = currentSeasonInt + 1
+    if (currentSeasonInt > season.length - 1) {
+        currentSeasonInt = 0
     }
-    console.log(currentSeason)
-    document.getElementById('seasonHandle').innerHTML = season[currentSeason]
-    document.querySelector('body').className = season[currentSeason].toLowerCase()
+    console.log(currentSeasonInt)
+    document.getElementById('seasonHandle').innerHTML = season[currentSeasonInt]
+    document.querySelector('body').className = season[currentSeasonInt].toLowerCase()
+    seasonChange.postMessage({type: season[currentSeasonInt].toLowerCase()}) // send message to seasons.js to carry out animation transitions and changes excluding bg colour
 }
 
 /*

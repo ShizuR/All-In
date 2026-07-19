@@ -4,7 +4,12 @@ services:
     ports: 
       - '8080:80'
     volumes:
-      - ./siteContent:/usr/share/nginx/html:ro
+      - ./siteContent/pages:/usr/share/nginx/html:ro
+      - ./siteContent/artRes:usr/share/nginx/html
+      - ./siteContent/backend:usr/share/nginx/html
+      - ./siteContent/cssFiles:usr/share/nginx/html
+
+# ONLY WORKED WHEN ALL FILES IN ONE FOLDER, NEED TO FIND SOLUTION
 
 # Start the development server in the background
 #docker compose up -d
