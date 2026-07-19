@@ -3,6 +3,9 @@
 
 // TODO:
 // make Description an Accordian
+// write description in general
+// finish seasons
+// add music
 
 let frameState = 'max'
 let pageScroll = []
