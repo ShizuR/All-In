@@ -47,11 +47,11 @@ img {
 }
 
 .corner-In {
-    animation: cornerIn 1s ease-out normal forwards
+    animation: cornerIn 1.5s ease-out normal forwards
 }
 
 .corner-Out {
-    animation: cornerOut 1s ease-in normal forwards
+    animation: cornerOut 1.5s ease-in normal forwards
 }
 
 .rotateInf {
