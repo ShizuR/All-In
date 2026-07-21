@@ -101,10 +101,6 @@ html, body {
   transition: height 1s ease;
 }
 
-.setHeight {
-  height: 1047px;
-}
-
 /* also hide the description itself to ensure that it can't be seen even when window size varies*/
 #desc {
   overflow: hidden;
