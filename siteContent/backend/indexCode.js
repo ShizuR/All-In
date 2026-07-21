@@ -14,6 +14,9 @@ let currentSeasonInt = 0
 // https://www.telerik.com/blogs/ultimate-guide-broadcast-channel-api 
 const msg = new BroadcastChannel('frame')
 const seasonChange = new BroadcastChannel('season')
+let descReveal = true
+let underNavHeight = 0
+let newUnderNavHeight = 0
 
 const frameMax = [
     {transform: 'scale(1)'},
@@ -25,12 +28,6 @@ const frameMin = [
     {transform: 'scale(1)'}
 ]
 
-// wrote javascript to animate slide in on page
-// used the css implementation instead for more practice
-const introAnim = {
-    transform: ['translateY(100px)','none'], opacity: [0, 1]
-}
-
 const frameTime = {duration: 5000, iterations: 1}
 
 function checkScroll() {
@@ -41,9 +38,12 @@ function checkScroll() {
 function desc(type) {
     switch(type) {
         case 'second.html':
-            document.getElementById('desc').innerHTML = 'An online art application for vector based drawings. users are able to: change colour, erase vectors, and change brush size.'
+            document.getElementById('underNav').style.height = '1200px'
+            newUnderNavHeight = '1200px'
+            document.getElementById('desc').innerHTML = 'An online art application for vector based drawings. users are able to: change colour, erase vectors, and change brush size.\nbruh\nbruh\nruh\nbruh'
             break;
         default:
+            newUnderNavHeight = underNavHeight
             document.getElementById('desc').innerHTML = ''
     }
 }
@@ -91,6 +91,22 @@ function changeSeason() {
     seasonChange.postMessage({type: season[currentSeasonInt].toLowerCase()}) // send message to seasons.js to carry out animation transitions and changes excluding bg colour
 }
 
+// use js instead of css to adjust height when toggling desc to provide flexibility for the different descrition lengths
+function descToggle() {
+    // https://stackoverflow.com/questions/68728623/how-can-i-check-whether-innerhtml-is-empty
+    if (descReveal == true && document.getElementById('desc').innerHTML.trim() != '') {
+        descReveal = false
+        document.getElementById('underNav').style.height = '' + underNavHeight + 'px'
+        document.getElementById('desc').classList.add('hideDesc')
+    }
+    else {
+        descReveal = true
+        document.getElementById('underNav').style.height = newUnderNavHeight
+        document.getElementById('desc').classList.remove('hideDesc')
+    }
+    console.log('descReveal: ', descReveal)
+}
+
 /*
 function pageIntro() {
     // Source - https://stackoverflow.com/a/17531533
@@ -103,3 +119,14 @@ pageIntro()
 
 /* stops page from automatically scrolling due to css animations of seasons */
 window.history.scrollRestoration = "manual"
+
+/* get the height of the underNav div upon load
+only call after underNav loaded*/
+function measureUnderNavHeight() {
+    // https://johnkavanagh.co.uk/articles/element-dimensions-in-javascript-width-and-height/
+    // client to measure element, inner/outer to measure window
+    underNavHeight = document.getElementById('underNav').clientHeight
+    newUnderNavHeight = underNavHeight
+    document.getElementById('underNav').style.height = ''+ underNavHeight + 'px'
+    console.log('initial height: ' + String(underNavHeight))
+}

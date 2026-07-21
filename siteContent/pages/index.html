@@ -13,13 +13,12 @@
         <title>Prototype</title>
     </head>
     
-    <body class="summer">
+    <body class="summer" onload="measureUnderNavHeight()">
         <script src="../backend/navbar.js"></script>
         <div style="position: relative;">
             <script src="../backend/seasons.js"></script>
             <div class="container" style="display:flex; flex-direction: column; min-height: 100%;">
-                <div class="underNav">
-                    <script src="../backend/indexCode.js"></script>
+                <div id="underNav">
                     <div class="jumbotron text-center mb-5 mt-5">
                         <p class="display-1">WELCOME TO THIS WEBSITE</p>
                         <hr class="mx-auto" width="50%">
@@ -49,8 +48,14 @@
                                 desc(i)
                             }
                         </script>
-                        <h5 class="display-6 mt-3">Description</h5>
-                        <section id="desc"></section>
+                        <!-- justify content between spaces them out https://getbootstrap.com/docs/4.0/utilities/flex/ -->
+                        <div class="d-flex flex-row justify-content-between">
+                            <h5 class="display-6 mt-3">Description</h5>
+                            <!-- padding: inner space, margin: outer space-->
+                            <span><button onclick="descToggle()" class="mt-4 pt-1">collapse</button></span>
+                        </div>
+                        
+                        <section id="desc" class="mt-4"></section>
                     </div>
                 </div>
                 <footer>
@@ -62,6 +67,6 @@
                 </footer>
             </div>
         </div>
-        
+        <script src="../backend/indexCode.js"></script>
     </body>
 </html>

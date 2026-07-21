@@ -24,6 +24,7 @@ const navbarImport = `
     
 </nav>
 ` //remember to use backticks for multi line strings
+// span is used instead of p because of visual difference. since span is inline it does not add padding and margin. p does, which skews the lining with the middle text
 
 // thank you legend https://community.adobe.com/questions-621/including-one-html-file-in-another-643698
 

@@ -41,9 +41,11 @@ html, body {
   }
 }
 
+/*
 #forTrans {
   transition: all 2s ease-in;
 }
+*/
 
 .containFrame {
   position: relative;
@@ -84,17 +86,33 @@ html, body {
   }
 }
 
-.underNav {
+#underNav {
   animation-name: slideIn;
   animation-duration: 1s;
   transition-timing-function: ease-in;
-  padding: 0.5% 3% 5% 3%;
+  padding: 0.5% 3% 1% 3%;
   background-color: aliceblue;
   margin: 10%;
   border-radius: 5%;
   box-shadow: 1em 1em 0em rgba(50, 120, 136, 0.699), 2em 2em 0em rgba(105, 158, 170, 0.521);
   border: 2px solid rgb(50, 120, 136);
-  transition: all 2s;
+  /* for desc toggle*/
+  overflow: hidden;
+  transition: height 1s ease;
+}
+
+.setHeight {
+  height: 1047px;
+}
+
+/* also hide the description itself to ensure that it can't be seen even when window size varies*/
+#desc {
+  overflow: hidden;
+  transition: height 1s ease;
+}
+
+.hideDesc {
+  height: 0px;
 }
 
 .footer {
