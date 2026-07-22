@@ -16,18 +16,26 @@ const seasonChange = new BroadcastChannel('season')
 let descReveal = true
 let underNavHeight = 0
 let newUnderNavHeight = 0
-const pics = ['../artRes/cat.png', '../artRes/alien.png', '../artRes/shark.png']
 
-function switchPhotos(endId, beforeId) {
+const pics = ['../artRes/cat.png', '../artRes/alien.png', '../artRes/shark.png']
+const artPicDesc = ['simple drawing of a cat playing', 'excellent drawing of aliens cruising through an asteroid belt', 'quick drawing of a shark visiting the dentist']
+
+function switchPhotos(endId, beforeId, descList, picList, artDesc) {
     let eSrc = document.getElementById(endId).src
+    let eClass = document.getElementById(endId).classList[0]
+    // to change description, get the index of the description from the image class
+    if (descList != null) {
+        document.getElementById(artDesc).innerHTML = artPicDesc[document.getElementById(beforeId).classList[0]]
+    }
+    // swap image source and classlist
     document.getElementById(endId).src = document.getElementById(beforeId).src
     document.getElementById(beforeId).src = eSrc
-    console.log('executed')
+    document.getElementById(endId).classList = document.getElementById(beforeId).classList
+    document.getElementById(beforeId).classList = eClass
 }
 
 function artDesc() {
     const d = document.getElementById('desc')
-
     // header
     const header = document.createElement('p')
     header.innerHTML = 'Art examples'
@@ -41,6 +49,9 @@ function artDesc() {
     di.classList = 'gridPhoto'
     d.appendChild(di)
 
+    // photos to display
+    // wrap in div to correctly size and position them according to grid using div classes
+    // use image classes to store index of art description
     // center image
     const dc = document.createElement('div')
     dc.classList = 'photo'
@@ -48,6 +59,7 @@ function artDesc() {
     const img1 = document.createElement('img')
     img1.src = pics[0]
     img1.setAttribute('id', 'center')
+    img1.classList = '0 figure'
     document.getElementById('imageSlide').appendChild(dc)
     document.getElementById('cImg').appendChild(img1)
 
@@ -58,11 +70,9 @@ function artDesc() {
     const img3 = document.createElement('img')
     img3.src = pics[2]
     img3.setAttribute('id', 'bott')
+    img3.classList = '2'
     document.getElementById('imageSlide').appendChild(dbr)
     document.getElementById('bImg').appendChild(img3)
-    // declare onclick after append to ensure all elements exist first
-    // don't directly pass sources, elements etc.., let javascript find them to avoid hardcoding
-    document.getElementById('bott').setAttribute('onclick', 'switchPhotos("center", "bott",)')
     
     // top right image
     const dt = document.createElement('div')
@@ -71,22 +81,38 @@ function artDesc() {
     const img2 = document.createElement('img')
     img2.src = pics[1]
     img2.setAttribute('id', 'top')
+    img2.classList = '1'
     document.getElementById('imageSlide').appendChild(dt)
     document.getElementById('tImg').appendChild(img2)
-    document.getElementById('top').setAttribute('onclick', 'switchPhotos("center", "top",)')
+
+    const artDesc = document.createElement('p')
+    artDesc.innerHTML = artPicDesc[0]
+    artDesc.setAttribute('id', 'artDesc')
+    artDesc.classList = 'figure-caption text-center'
+    d.appendChild(artDesc)
+
+    // declare onclick after append to ensure all elements exist first
+    // don't directly pass sources, elements etc.., let javascript find them to avoid hardcoding
+    document.getElementById('bott').setAttribute('onclick', 'switchPhotos("center", "bott", artPicDesc, pics, "artDesc")')
+    document.getElementById('top').setAttribute('onclick', 'switchPhotos("center", "top", artPicDesc, pics, "artDesc")')
 }
 
 function desc(type) {
+    // automatically reveal description when project selected
+    if (descReveal == false) {
+        descToggle()
+    }
+    // reset description html to prevent duplication or appending to existing desc
+    document.getElementById('desc').innerHTML = ''
     switch(type) {
         case 'second.html':
-            document.getElementById('underNav').style.height = '5000px'
-            newUnderNavHeight = '5000px'
+            newUnderNavHeight = 5000
             artDesc()
             break;
         default:
             newUnderNavHeight = underNavHeight
-            document.getElementById('desc').innerHTML = ''
     }
+    document.getElementById('underNav').style.height = '' + newUnderNavHeight + 'px'
 }
 
 function frameResize() {
