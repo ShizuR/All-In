@@ -121,4 +121,49 @@ html, body {
   transition-timing-function: ease-in;
 }
 
-/* appearances */
+/* grid style */
+
+.gridPhoto {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
+  grid-template-rows: minmax(0,1fr) minmax(0,1fr);
+  grid-template-areas: 
+  'photo photo t-photo'
+  'photo photo b-photo';
+  gap: 3px;
+  background-color: dodgerblue;
+  padding: 5px;
+  overflow: hidden;
+  border-radius: 2%;
+}
+
+.gridPhoto .t-photo {
+  grid-area: t-photo;
+}
+
+.gridPhoto .photo {
+  grid-area: photo;
+}
+
+.gridPhoto .b-photo {
+  grid-area: b-photo;
+}
+
+.b-photo, .t-photo {
+  transition: all 0.5s;
+  object-position: center;
+}
+
+.b-photo:hover, .t-photo:hover{
+  transform: scale(0.95); /* scale allows objects to shrink relative to their center point, but width and height shrink to the side*/
+}
+
+.gridPhoto img {
+  display: block;
+  width:  100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  border-radius: 5%;
+  object-position: center;
+}

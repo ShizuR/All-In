@@ -2,7 +2,6 @@
 // to allow the elements to load and become available for animation etc.
 
 // TODO:
-// make Description an Accordian
 // write description in general
 // finish seasons
 // add music
@@ -17,30 +16,72 @@ const seasonChange = new BroadcastChannel('season')
 let descReveal = true
 let underNavHeight = 0
 let newUnderNavHeight = 0
+const pics = ['../artRes/cat.png', '../artRes/alien.png', '../artRes/shark.png']
 
-const frameMax = [
-    {transform: 'scale(1)'},
-    {transform: 'scale(1.5)'}
-]
+function switchPhotos(endId, beforeId) {
+    let eSrc = document.getElementById(endId).src
+    document.getElementById(endId).src = document.getElementById(beforeId).src
+    document.getElementById(beforeId).src = eSrc
+    console.log('executed')
+}
 
-const frameMin = [
-    {transform: 'scale(1.5)'},
-    {transform: 'scale(1)'}
-]
+function artDesc() {
+    const d = document.getElementById('desc')
 
-const frameTime = {duration: 5000, iterations: 1}
+    // header
+    const header = document.createElement('p')
+    header.innerHTML = 'Art examples'
+    header.classList = 'header'
+    d.appendChild(header)
 
-function checkScroll() {
-    console.log(window.scrollX)
-    console.log(window.scrollY)
+    // display photos using grid layout
+    // adapted from https://www.reddit.com/r/css/comments/18esjnz/adding_an_image_inside_a_grid/
+    const di = document.createElement('div')
+    di.id = 'imageSlide'
+    di.classList = 'gridPhoto'
+    d.appendChild(di)
+
+    // center image
+    const dc = document.createElement('div')
+    dc.classList = 'photo'
+    dc.id = 'cImg'
+    const img1 = document.createElement('img')
+    img1.src = pics[0]
+    img1.setAttribute('id', 'center')
+    document.getElementById('imageSlide').appendChild(dc)
+    document.getElementById('cImg').appendChild(img1)
+
+    // bottom right image
+    const dbr = document.createElement('div')
+    dbr.classList = 'b-photo'
+    dbr.id = 'bImg'
+    const img3 = document.createElement('img')
+    img3.src = pics[2]
+    img3.setAttribute('id', 'bott')
+    document.getElementById('imageSlide').appendChild(dbr)
+    document.getElementById('bImg').appendChild(img3)
+    // declare onclick after append to ensure all elements exist first
+    // don't directly pass sources, elements etc.., let javascript find them to avoid hardcoding
+    document.getElementById('bott').setAttribute('onclick', 'switchPhotos("center", "bott",)')
+    
+    // top right image
+    const dt = document.createElement('div')
+    dt.classList = 't-photo'
+    dt.id = 'tImg'
+    const img2 = document.createElement('img')
+    img2.src = pics[1]
+    img2.setAttribute('id', 'top')
+    document.getElementById('imageSlide').appendChild(dt)
+    document.getElementById('tImg').appendChild(img2)
+    document.getElementById('top').setAttribute('onclick', 'switchPhotos("center", "top",)')
 }
 
 function desc(type) {
     switch(type) {
         case 'second.html':
-            document.getElementById('underNav').style.height = '1200px'
-            newUnderNavHeight = '1200px'
-            document.getElementById('desc').innerHTML = 'An online art application for vector based drawings. users are able to: change colour, erase vectors, and change brush size.\nbruh\nbruh\nruh\nbruh'
+            document.getElementById('underNav').style.height = '5000px'
+            newUnderNavHeight = '5000px'
+            artDesc()
             break;
         default:
             newUnderNavHeight = underNavHeight
@@ -122,6 +163,7 @@ window.history.scrollRestoration = "manual"
 
 /* get the height of the underNav div upon load
 only call after underNav loaded*/
+// for the desc height to be transitioned when clicking the button, need to instantiate underNav height since html cannot work from auto
 function measureUnderNavHeight() {
     // https://johnkavanagh.co.uk/articles/element-dimensions-in-javascript-width-and-height/
     // client to measure element, inner/outer to measure window
