@@ -121,7 +121,7 @@ html, body {
   transition-timing-function: ease-in;
 }
 
-/* grid style */
+/* grid for photos */
 
 .gridPhoto {
   display: grid;
@@ -158,7 +158,41 @@ html, body {
   transform: scale(0.95); /* scale allows objects to shrink relative to their center point, but width and height shrink to the side*/
 }
 
-.gridPhoto img {
+/* grid for text */
+.gridText {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
+  grid-template-rows: minmax(0,1fr) minmax(0,1fr);
+  gap: 5%;
+  background-color: dodgerblue;
+  padding: 5px;
+  overflow: hidden;
+  border-radius: 2%;
+}
+
+.gridText .left {
+  grid-column: 1 / span 2;  /* start at grid 1 and span 2 columns */
+}
+
+.gridText .right {
+  grid-column: 2 / span 2;
+}
+
+.gridText .para {
+  grid-row: 1/span 2;
+}
+
+.gridText .l-photo {
+  grid-column: 1/span 1;
+  grid-row: 1/span 2;
+}
+
+.gridText .r-photo {
+  grid-column: 3/span 1;
+  grid-row: 1/ span 2;
+}
+
+.gridPhoto img, .gridText img {
   display: block;
   width:  100%;
   height: 100%;

@@ -36,8 +36,9 @@ function switchPhotos(endId, beforeId, descList, picList, artDesc) {
 
 function artDesc() {
     const d = document.getElementById('desc')
+    // photo display ///
     // header
-    const header = document.createElement('p')
+    let header = document.createElement('p')
     header.innerHTML = 'Art examples'
     header.classList = 'header'
     d.appendChild(header)
@@ -95,6 +96,55 @@ function artDesc() {
     // don't directly pass sources, elements etc.., let javascript find them to avoid hardcoding
     document.getElementById('bott').setAttribute('onclick', 'switchPhotos("center", "bott", artPicDesc, pics, "artDesc")')
     document.getElementById('top').setAttribute('onclick', 'switchPhotos("center", "top", artPicDesc, pics, "artDesc")')
+
+    // app description: toolkit ///
+    // make each gris section a 'carasoul', where the user clicks a button to move to the next desc of that group
+    // todo: insert button to go to next photo
+    // dictionary Map to store info. lists of lists -> [description, image for that description]
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections
+    const descList = new Map([
+        ['Toolkit', [['first desc', pics[0]], ['second desc', pics[1]]]],
+        ['Bottom Toolkit', [['here', pics[2]], ['there', pics[0]]]], 
+        ['extra to test alternate', [['extra', pics[1]], ['wow', pics[2]]]]
+    ])
+
+    console.log(descList)
+    const alternate = ['left para', 'right para']
+    const alternateP = ['r-photo', 'l-photo']
+    let i = 0
+    
+    // loop through to automatically create the info grids
+    for (const [key, value] of descList) {
+        if (i > 1) {
+            i = 0
+        }
+        const appdiv = document.createElement('div')
+        appdiv.id = key
+        appdiv.classList = 'gridText'
+
+        let heading = document.createElement('p')
+        heading.innerHTML = key
+        heading.classList = 'mt-5'
+
+        let appDesc = document.createElement('p')
+        appDesc.innerHTML = value[0][0]
+        appDesc.classList = alternate[i]
+
+        let picDiv = document.createElement('div')
+        picDiv.classList = alternateP[i]
+        picDiv.id = key + 'PhotoDiv'
+
+        let imgGrid = document.createElement('img')
+        imgGrid.src = value[0][1]
+        imgGrid.id = key + 'Photo'
+        d.appendChild(heading)
+        d.appendChild(appdiv)
+        document.getElementById(key).appendChild(appDesc)
+        document.getElementById(key).appendChild(picDiv)
+        document.getElementById(key + 'PhotoDiv').appendChild(imgGrid)
+        i = i + 1
+    }
+    // make a button to go to the next functionality of the toolkit
 }
 
 function desc(type) {
