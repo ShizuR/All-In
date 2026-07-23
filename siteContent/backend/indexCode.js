@@ -99,7 +99,7 @@ function artDesc() {
 
     // app description: toolkit ///
     // make each gris section a 'carasoul', where the user clicks a button to move to the next desc of that group
-    // todo: insert button to go to next photo
+    // todo: insert button to go to next photo, when maximizing the iframe for the art application, make it lock to the top of the screen and prevent scrolling
     // dictionary Map to store info. lists of lists -> [description, image for that description]
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections
     const descList = new Map([
@@ -178,6 +178,7 @@ function frameResize() {
         document.getElementById('replace').style.zIndex = '100'
         frameState = 'min'
         window.scrollTo(0, 0)
+        document.body.classList.add("disableScroll")
     }
     else {
         //document.getElementById('fr').animate(frameMin, frameTime)
@@ -186,7 +187,7 @@ function frameResize() {
         document.getElementById('replace').style.zIndex = 'auto'
         frameState = 'max'
         window.scrollTo(pageScroll[0], pageScroll[1])
-        console.log(pageScroll)
+        document.body.classList.remove("disableScroll")
     }
 }
 
