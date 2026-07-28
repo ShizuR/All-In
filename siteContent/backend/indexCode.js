@@ -128,7 +128,7 @@ function artDesc() {
         appdiv.classList = 'gridText'
         // heading for this grid
         let heading = document.createElement('p')
-        heading.innerHTML = newKey
+        heading.innerHTML = key
         heading.classList = 'mt-5'
         // div to hold the current description and the button to navigate descriptions
         let paraBtn = document.createElement('div')
