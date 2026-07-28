@@ -104,8 +104,7 @@ function artDesc() {
     document.getElementById('top').setAttribute('onclick', 'switchPhotos("center", "top", artPicDesc, pics, "artDesc")')
 
     // app description: toolkit ///
-    // make each gris section a 'carasoul', where the user clicks a button to move to the next desc of that group
-    // TODO: insert button to go to next photo
+    // TODO: make shape of photo div absolute to prevent changing shape of grid when photos don't have the same dimension
     // dictionary Map to store info. lists of lists -> [description, image for that description]
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections
 
@@ -177,7 +176,6 @@ function artDesc() {
         i = i + 1
         indexKey = indexKey + 1
     })
-    // make a button to go to the next functionality of the toolkit
 }
 
 function nextPhoto(key, img, para, list) {
