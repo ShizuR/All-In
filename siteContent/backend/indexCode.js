@@ -34,6 +34,10 @@ function switchPhotos(endId, beforeId, descList, picList, artDesc) {
     document.getElementById(beforeId).classList = eClass
 }
 
+function nextPhoto() {
+    
+}
+
 function artDesc() {
     const d = document.getElementById('desc')
     // photo display ///
@@ -99,7 +103,7 @@ function artDesc() {
 
     // app description: toolkit ///
     // make each gris section a 'carasoul', where the user clicks a button to move to the next desc of that group
-    // todo: insert button to go to next photo, when maximizing the iframe for the art application, make it lock to the top of the screen and prevent scrolling
+    // TODO: insert button to go to next photo
     // dictionary Map to store info. lists of lists -> [description, image for that description]
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections
     const descList = new Map([
@@ -148,10 +152,6 @@ function artDesc() {
 }
 
 function desc(type) {
-    // automatically reveal description when project selected
-    if (descReveal == false) {
-        descToggle()
-    }
     // reset description html to prevent duplication or appending to existing desc
     document.getElementById('desc').innerHTML = ''
     switch(type) {
@@ -163,6 +163,10 @@ function desc(type) {
             newUnderNavHeight = underNavHeight
     }
     document.getElementById('underNav').style.height = '' + newUnderNavHeight + 'px'
+    // automatically reveal description when project selected
+    if (descReveal == false) {
+        descToggle()
+    }
 }
 
 function frameResize() {
@@ -219,10 +223,12 @@ function descToggle() {
     }
     else {
         descReveal = true
-        document.getElementById('underNav').style.height = newUnderNavHeight
+        document.getElementById('underNav').style.height = '' + newUnderNavHeight + 'px'
         document.getElementById('desc').classList.remove('hideDesc')
+        console.log(newUnderNavHeight)
     }
     console.log('descReveal: ', descReveal)
+    console.log(document.getElementById('desc').innerHTML)
 }
 
 /*
