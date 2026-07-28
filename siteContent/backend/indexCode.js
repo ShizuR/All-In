@@ -17,8 +17,14 @@ let descReveal = true
 let underNavHeight = 0
 let newUnderNavHeight = 0
 
+// resources for art app
 const pics = ['../artRes/cat.png', '../artRes/alien.png', '../artRes/shark.png']
 const artPicDesc = ['simple drawing of a cat playing', 'excellent drawing of aliens cruising through an asteroid belt', 'quick drawing of a shark visiting the dentist']
+const descList = new Map([
+        ['Toolkit', [['first desc', pics[0]], ['second desc', pics[1]]]],
+        ['Bottom Toolkit', [['here', pics[2]], ['there', pics[0]]]], 
+        ['extra to test alternate', [['extra', pics[1]], ['wow', pics[2]]]]
+    ])
 
 function switchPhotos(endId, beforeId, descList, picList, artDesc) {
     let eSrc = document.getElementById(endId).src
@@ -32,10 +38,6 @@ function switchPhotos(endId, beforeId, descList, picList, artDesc) {
     document.getElementById(beforeId).src = eSrc
     document.getElementById(endId).classList = document.getElementById(beforeId).classList
     document.getElementById(beforeId).classList = eClass
-}
-
-function nextPhoto() {
-
 }
 
 function artDesc() {
@@ -106,66 +108,94 @@ function artDesc() {
     // TODO: insert button to go to next photo
     // dictionary Map to store info. lists of lists -> [description, image for that description]
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections
-    const descList = new Map([
-        ['Toolkit', [['first desc', pics[0]], ['second desc', pics[1]]]],
-        ['Bottom Toolkit', [['here', pics[2]], ['there', pics[0]]]], 
-        ['extra to test alternate', [['extra', pics[1]], ['wow', pics[2]]]]
-    ])
 
-    console.log(descList)
     const alternate = ['left para', 'right para']
     const alternateP = ['r-photo', 'l-photo']
     let i = 0
+    // index of the key e.g Toolkit is 0
+    let indexKey = 0
     
     // loop through to automatically create the info grids
-    for (const [key, value] of descList) {
+    // for a list that is not initialized as map https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+    // since already a map, use foreach https://www.w3schools.com/jsref/jsref_map_foreach.asp
+    descList.forEach(function(value, key) {
         if (i > 1) {
             i = 0
         }
-
+        newKey = key.replaceAll(' ', '') // remove whitespaces to ensure that the onclick function later works
         // this div encapsulates elements within into the grid
         const appdiv = document.createElement('div')
-        appdiv.id = key
+        appdiv.id = newKey + 'Grid'
         appdiv.classList = 'gridText'
         // heading for this grid
         let heading = document.createElement('p')
-        heading.innerHTML = key
+        heading.innerHTML = newKey
         heading.classList = 'mt-5'
         // div to hold the current description and the button to navigate descriptions
         let paraBtn = document.createElement('div')
         // https://getbootstrap.com/docs/4.0/utilities/flex/ use flex to make div fill whole grid space, and to space out the para from the button
         // to ensure para starts at top and button always anchored to bottom of the GRID using align-items-start
-        paraBtn.classList = alternate[i] + ' d-flex align-items-start flex-column m-3'
-        paraBtn.id = key + 'Div'
+        paraBtn.classList = alternate[i] + ' d-flex align-items-start flex-column m-3 gap-2'
+        paraBtn.id = newKey + 'Div'
         // description
         let appDesc = document.createElement('p')
         appDesc.innerHTML = value[0][0]
-        appDesc.classList = 'mb-auto'
+        appDesc.classList = 'mb-auto' // mb-auto helps ensure button stays at bottom of grid
+        appDesc.id = newKey + 'Desc'
         // next button
         let nextButton = document.createElement('button')
         nextButton.innerHTML = 'next'
+        nextButton.id = newKey+'Btn'
         //nextButton.classList = 'btn btn-secondary btn-lg'
         nextButton.setAttribute('type', 'button')
-        nextButton.setAttribute('onclick', 'nextPhoto(' +key+', '+value+', '+descList+')')
         // div that holds and resizes the photo to fit the grid
         let picDiv = document.createElement('div')
         picDiv.classList = alternateP[i] + ' m-2'
-        picDiv.id = key + 'PhotoDiv'
+        picDiv.id = newKey + 'PhotoDiv'
         // current photo
         let imgGrid = document.createElement('img')
         imgGrid.src = value[0][1]
-        imgGrid.id = key + 'Photo'
+        imgGrid.id = newKey + 'Photo'
+        // again, use classList to store info about current desc
+        // use integer to indicate the index of current value for the key
+        imgGrid.classList = '0'
 
         d.appendChild(heading)
         d.appendChild(appdiv)
-        document.getElementById(key).appendChild(paraBtn)
-        document.getElementById(key + 'Div').appendChild(appDesc)
-        document.getElementById(key + 'Div').appendChild(nextButton)
-        document.getElementById(key).appendChild(picDiv)
-        document.getElementById(key + 'PhotoDiv').appendChild(imgGrid)
+        document.getElementById(newKey + 'Grid').appendChild(paraBtn)
+        document.getElementById(newKey + 'Div').appendChild(appDesc)
+        document.getElementById(newKey + 'Div').appendChild(nextButton)
+        document.getElementById(newKey + 'Grid').appendChild(picDiv)
+        document.getElementById(newKey + 'PhotoDiv').appendChild(imgGrid)
+        // passing parameters is tricky. no spaces allowed, so make lists non local instead, and use image id to keep track of current desc
+        // despite being a variable, pass descList as a string since it is non local and can be accessed by any function
+        // if an item's id is the key, that element is passed instead of the key variable, so important to distinguish name
+        console.log(newKey)
+        document.getElementById(newKey+'Btn').setAttribute(
+            'onclick', 'nextPhoto(' + indexKey +', '+ newKey + 'Photo, '+ newKey +'Desc, descList' +')'
+        )
         i = i + 1
-    }
+        indexKey = indexKey + 1
+    })
     // make a button to go to the next functionality of the toolkit
+}
+
+function nextPhoto(key, img, para, list) {
+    // since you cannot get the index of a value in a Map through function, loop through instead
+    // convert map to array list and only get the row for the key using the key index
+    let k = Array.from(list)[key][1]
+    console.log(k)
+    // imgId is the actual element, so no need to fetch
+    console.log(img)
+    let currentSlide = parseInt(img.classList[0]) // convert string index to integer
+    let newSlide = currentSlide + 1
+    if (newSlide > k.length-1) {
+        newSlide = 0
+    }
+    // change image and text! also change classlist to keep track of current slide of information
+    img.src = k[newSlide][1]
+    para.innerHTML = k[newSlide][0]
+    img.classList = newSlide
 }
 
 function desc(type) {
