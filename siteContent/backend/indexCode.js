@@ -35,7 +35,7 @@ function switchPhotos(endId, beforeId, descList, picList, artDesc) {
 }
 
 function nextPhoto() {
-    
+
 }
 
 function artDesc() {
@@ -122,28 +122,45 @@ function artDesc() {
         if (i > 1) {
             i = 0
         }
+
+        // this div encapsulates elements within into the grid
         const appdiv = document.createElement('div')
         appdiv.id = key
         appdiv.classList = 'gridText'
-
+        // heading for this grid
         let heading = document.createElement('p')
         heading.innerHTML = key
         heading.classList = 'mt-5'
-
+        // div to hold the current description and the button to navigate descriptions
+        let paraBtn = document.createElement('div')
+        // https://getbootstrap.com/docs/4.0/utilities/flex/ use flex to make div fill whole grid space, and to space out the para from the button
+        // to ensure para starts at top and button always anchored to bottom of the GRID using align-items-start
+        paraBtn.classList = alternate[i] + ' d-flex align-items-start flex-column m-3'
+        paraBtn.id = key + 'Div'
+        // description
         let appDesc = document.createElement('p')
         appDesc.innerHTML = value[0][0]
-        appDesc.classList = alternate[i]
-
+        appDesc.classList = 'mb-auto'
+        // next button
+        let nextButton = document.createElement('button')
+        nextButton.innerHTML = 'next'
+        //nextButton.classList = 'btn btn-secondary btn-lg'
+        nextButton.setAttribute('type', 'button')
+        nextButton.setAttribute('onclick', 'nextPhoto(' +key+', '+value+', '+descList+')')
+        // div that holds and resizes the photo to fit the grid
         let picDiv = document.createElement('div')
-        picDiv.classList = alternateP[i]
+        picDiv.classList = alternateP[i] + ' m-2'
         picDiv.id = key + 'PhotoDiv'
-
+        // current photo
         let imgGrid = document.createElement('img')
         imgGrid.src = value[0][1]
         imgGrid.id = key + 'Photo'
+
         d.appendChild(heading)
         d.appendChild(appdiv)
-        document.getElementById(key).appendChild(appDesc)
+        document.getElementById(key).appendChild(paraBtn)
+        document.getElementById(key + 'Div').appendChild(appDesc)
+        document.getElementById(key + 'Div').appendChild(nextButton)
         document.getElementById(key).appendChild(picDiv)
         document.getElementById(key + 'PhotoDiv').appendChild(imgGrid)
         i = i + 1
