@@ -32,7 +32,9 @@ const descList = new Map([
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When the user undoes and pops this list off drawingPaths, it's pushed onto the redo stack and the line is reinserted into its original drawing path as a separate list (to indicate a once erased path). 
             Redo operates similarly; the instance is popped off into drawingPaths and the first erased line found in the indicated drawing path is removed.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This structure results in a linear timeline, ensuring that when whole strokes are removed, their individual lines are also cleared.`, pics[1]],
-        [`Reference<br><br>This triggers a prompt for the user to choose an image. That image is displayed in a separate pop up window `, pics[0]]
+        [`Reference<br><br>This triggers a prompt for the user to choose an image. That image is displayed in a separate pop up window with three buttons: shrink, zoom, and reset.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shrink zooms out of the image while zoom enlarges it, both by 15% each time. Reset returns the image to its original size and position using GSAP. This was convenient as Gsap was again used to make the image draggable to allow easier navigation over just sliders.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multiple references can be used at a time as variables are isolated, ensuring that adjustments in one window doesn't impact others.`, pics[0]]
     ]],
     ['Bottom Toolkit', [
         ['here', pics[2]], 
@@ -155,10 +157,11 @@ function artDesc() {
         appDesc.id = newKey + 'Desc'
         // next button
         let nextButton = document.createElement('button')
-        nextButton.innerHTML = 'next'
+        nextButton.innerHTML = '>'
         nextButton.id = newKey+'Btn'
         //nextButton.classList = 'btn btn-secondary btn-lg'
         nextButton.setAttribute('type', 'button')
+        nextButton.classList = 'btn'
         // div that holds and resizes the photo to fit the grid
         let picDiv = document.createElement('div')
         picDiv.classList = alternateP[i] + ' m-2'
