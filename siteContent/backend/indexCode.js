@@ -21,11 +21,25 @@ const pics = ['../artRes/cat.png', '../artRes/alien.png', '../artRes/shark.png']
 const artPicDesc = ['simple drawing of a cat playing', 'excellent drawing of aliens cruising through an asteroid belt', 'quick drawing of a shark visiting the dentist']
 // dictionary Map to store info. lists of lists -> [description, image for that description]
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections
+// &nbsp; was used to avoid splicing texts into multiple <p> elements to ensure simplicity when looping through descriptions, although it's originally meant to prevent word wrapping 
 const descList = new Map([
-        ['Toolkit', [['first desc', pics[0]], ['second desc', pics[1]]]],
-        ['Bottom Toolkit', [['here', pics[2]], ['there', pics[0]]]], 
-        ['extra to test alternate', [['extra', pics[1]], ['wow', pics[2]]]]
-    ])
+    ['Toolkit', [
+        ["Drag<br><br>An inactive button that gives the user a 'ledge' to more easily drag the Toolkit around. GSAP, an external CDN plugin for animations, was used to make this possible.", pics[0]], 
+        [`Pen<br><br>Path2D was used to continually create new lines from the last and current position whenever the left mouse button was held down and moving. When released, a list of Path2Ds (a drawing path) is created to represent a single stroke and is appended to the drawingPaths stack.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Limits were placed to reduce bugs when drawing, such as: the current stroke ending when the mouse leaves the canvas, empty drawing paths (where the user was holding down but not moving) being discarded instead of added to drawingPaths, and .<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As an EventListener was used to continually monitor the mouse's state, lines vary in length depending on the mouse's movement speed.`, pics[2]],
+        [`Erase<br><br>Allows the user to 'remove' individual, small lines. It packs the erased line into a list containing an indicator pointing to which drawing path it was part of originally. The list is appended to the drawingPaths stack and its original instance is removed.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When the user undoes and pops this list off drawingPaths, it's pushed onto the redo stack and the line is reinserted into its original drawing path as a separate list (to indicate a once erased path). 
+            Redo operates similarly; the instance is popped off into drawingPaths and the first erased line found in the indicated drawing path is removed.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This structure results in a linear timeline, ensuring that when whole strokes are removed, their individual lines are also cleared.`, pics[1]],
+        [`Reference<br><br>This triggers a prompt for the user to choose an image. That image is displayed in a separate pop up window `, pics[0]]
+    ]],
+    ['Bottom Toolkit', [
+        ['here', pics[2]], 
+        ['there', pics[0]]
+    ]], 
+    ['extra to test alternate', [['extra', pics[1]], ['wow', pics[2]]]]
+])
 
 function switchPhotos(endId, beforeId, descList, picList, artDesc) {
     let eSrc = document.getElementById(endId).src

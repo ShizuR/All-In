@@ -25,8 +25,8 @@ let pointerMoving = true // to get position of strokes
 const canvasEditList = [document.getElementById('undo'), document.getElementById('redo'), document.getElementById('clear')]
 
 // when a new reference photo is chosen, 
-// create a new window for that reference with adjustable dimensions 
-// and the option to zoom in
+// create a new window for that reference
+// with the option to zoom in and out
 // inspiration from
 // https://medium.com/@KeithAlpichi/vanilla-js-building-an-image-selector-and-image-previewer-151cddc939e
 fileRead.onload = e => {
@@ -49,6 +49,7 @@ fileRead.onload = e => {
     console.log(img)
     let newWidth = 0
     let newHeight = 0
+    //let scaleImg = 1
     let loadedScripts = 0
 
     function imgZoom(inout) {
@@ -76,6 +77,23 @@ fileRead.onload = e => {
         console.log(img.height)
         console.log(img.width)
     }
+
+    /* attempted to use scale so that the image shrunk/zoomed inwards rather than towards a corner, but drag movement was sluggish when shrunken, so stuck with above function
+    function imgZoom(inout) {
+        if (inout == 'in') {
+            scaleImg = scaleImg - (scaleImg * 0.15)
+        }
+        else if (inout == 'out') {
+            scaleImg = scaleImg + (scaleImg * 0.15)
+        }
+        else {
+            // reset image to original width, height, and position using gsap
+            scaleImg = 1
+            gsap.set("#image", {x: 0, y: 0})
+        }
+        img.style.scale = scaleImg
+    }
+    */
 
     function checkLoadedGsap(text) {
         loadedScripts = loadedScripts + 1
@@ -108,13 +126,13 @@ fileRead.onload = e => {
     
     // onclick not created yet, so use setAtribute to automatically create
     let zoomIn = ref.document.createElement('button')
-    zoomIn.innerHTML = 'in'
+    zoomIn.innerHTML = 'shrink'
     zoomIn.id = 'inBtn'
     zoomIn.setAttribute('onclick', "imgZoom('in')")
     zoomIn.style = 'position: fixed; top: 0;'
 
     let zoomOut = ref.document.createElement('button')
-    zoomOut.innerHTML = 'out'
+    zoomOut.innerHTML = 'zoom'
     zoomOut.id = 'outBtn'
     zoomOut.setAttribute('onclick', "imgZoom('out')")
     zoomOut.style = 'position: fixed; top: 30;'
@@ -398,12 +416,12 @@ document.getElementById('drawHere').addEventListener('pointermove', e => {
                     else {
                         const isPointInPath = ctx.isPointInStroke(drawingPaths[i][j], x, y)
                         if (isPointInPath == true) {
-                            // put that path into a tuple to show that it's erased
+                            // put that path into a list to show that it's erased
                             // put i as the index for drawingPaths
                             erased = ['erased', drawingPaths[i][j], i]
                             //console.log(erased)
                             drawingPaths[i].splice(drawingPaths[i].indexOf(drawingPaths[i][j]), 1)
-                            // push the tuple at the end of the whole list to capture the moment that the stroke was erased
+                            // push the list at the end of the whole list to capture the moment that the stroke was erased
                             ctx.clearRect(0, 0, document.getElementById('drawHere').width, document.getElementById('drawHere').height)
                             drawingPaths.forEach(reDrawRefresh)
                             //console.log(drawingPaths[drawingPaths.length - 1])
