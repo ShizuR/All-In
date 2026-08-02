@@ -14,12 +14,13 @@ let currentSeasonInt = 0
 const msg = new BroadcastChannel('frame')
 const seasonChange = new BroadcastChannel('season')
 let descReveal = true
-let underNavHeight = 0
-let newUnderNavHeight = 0
+let underNavHeight = 0 // original div height before description expansion
 
 // resources for art app
 const pics = ['../artRes/cat.png', '../artRes/alien.png', '../artRes/shark.png']
 const artPicDesc = ['simple drawing of a cat playing', 'excellent drawing of aliens cruising through an asteroid belt', 'quick drawing of a shark visiting the dentist']
+// dictionary Map to store info. lists of lists -> [description, image for that description]
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections
 const descList = new Map([
         ['Toolkit', [['first desc', pics[0]], ['second desc', pics[1]]]],
         ['Bottom Toolkit', [['here', pics[2]], ['there', pics[0]]]], 
@@ -95,7 +96,7 @@ function artDesc() {
     const artDesc = document.createElement('p')
     artDesc.innerHTML = artPicDesc[0]
     artDesc.setAttribute('id', 'artDesc')
-    artDesc.classList = 'figure-caption text-center'
+    artDesc.classList = 'figure-caption text-center mb-5'
     d.appendChild(artDesc)
 
     // declare onclick after append to ensure all elements exist first
@@ -104,9 +105,7 @@ function artDesc() {
     document.getElementById('top').setAttribute('onclick', 'switchPhotos("center", "top", artPicDesc, pics, "artDesc")')
 
     // app description: toolkit ///
-    // TODO: make shape of photo div absolute to prevent changing shape of grid when photos don't have the same dimension
-    // dictionary Map to store info. lists of lists -> [description, image for that description]
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections
+    // TODO:
 
     const alternate = ['left para', 'right para']
     const alternateP = ['r-photo', 'l-photo']
@@ -125,11 +124,10 @@ function artDesc() {
         // this div encapsulates elements within into the grid
         const appdiv = document.createElement('div')
         appdiv.id = newKey + 'Grid'
-        appdiv.classList = 'gridText'
+        appdiv.classList = 'gridText mb-5'
         // heading for this grid
         let heading = document.createElement('p')
         heading.innerHTML = key
-        heading.classList = 'mt-5'
         // div to hold the current description and the button to navigate descriptions
         let paraBtn = document.createElement('div')
         // https://getbootstrap.com/docs/4.0/utilities/flex/ use flex to make div fill whole grid space, and to space out the para from the button
@@ -201,13 +199,13 @@ function desc(type) {
     document.getElementById('desc').innerHTML = ''
     switch(type) {
         case 'second.html':
-            newUnderNavHeight = 5000
             artDesc()
+            //document.getElementById('underNav').style.borderRadius = '5% / ' + underNavHeight + ''
             break;
         default:
-            newUnderNavHeight = underNavHeight
+            console.log('unreachable code as other project button unavailable')
     }
-    document.getElementById('underNav').style.height = '' + newUnderNavHeight + 'px'
+    document.getElementById('underNav').style.height = 'auto'
     // automatically reveal description when project selected
     if (descReveal == false) {
         descToggle()
@@ -268,12 +266,11 @@ function descToggle() {
     }
     else {
         descReveal = true
-        document.getElementById('underNav').style.height = '' + newUnderNavHeight + 'px'
-        document.getElementById('desc').classList.remove('hideDesc')
-        console.log(newUnderNavHeight)
+        document.getElementById('desc').classList.remove('hideDesc') // show description first so that height auto can work
+        document.getElementById('underNav').style.height = 'auto'
     }
     console.log('descReveal: ', descReveal)
-    console.log(document.getElementById('desc').innerHTML)
+    //console.log(document.getElementById('desc').innerHTML)
 }
 
 /*
@@ -296,7 +293,6 @@ function measureUnderNavHeight() {
     // https://johnkavanagh.co.uk/articles/element-dimensions-in-javascript-width-and-height/
     // client to measure element, inner/outer to measure window
     underNavHeight = document.getElementById('underNav').clientHeight
-    newUnderNavHeight = underNavHeight
     document.getElementById('underNav').style.height = ''+ underNavHeight + 'px'
     console.log('initial height: ' + String(underNavHeight))
 }
