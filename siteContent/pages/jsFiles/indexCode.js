@@ -173,6 +173,8 @@ function artDesc() {
         let picDiv = document.createElement('div')
         picDiv.classList = alternateP[i] + ' m-2'
         picDiv.id = newKey + 'PhotoDiv'
+        picDiv.style.overflow = 'hidden'
+        picDiv.style.borderRadius = '2vh'
         // current photo
         let imgGrid = document.createElement('img')
         imgGrid.src = value[0][1]
@@ -205,6 +207,7 @@ function artDesc() {
 
 // listen to get mouse pos
 document.addEventListener('mousemove', function(event) {
+    // unlike the canvas, pageX > clientX because pageX measures whole scrollable web vs viewport only
     mX = event.pageX
     mY = event.pageY
 });
@@ -214,11 +217,7 @@ document.addEventListener('mousemove', function(event) {
 function playDemo(id) {
     let div = document.createElement('div')
     div.id = 'vidDiv'
-    div.style.overflow = 'hidden'
-    div.style.borderRadius = '5vh'
-    div.style.border = '2px solid rgb(50, 120, 136)'
-    div.style.height = '200px'
-    div.style.position = 'absolute' // to overlay on elements without interfering
+    div.style = 'overflow: hidden; border-radius: 5vh; border: 2px solid rgb(50, 120, 136); height: 200px; position: absolute;'
     div.style.left = '' + mX + 'px'
     div.style.top = '' + mY + 'px'
 
@@ -244,15 +243,15 @@ function playDemo(id) {
 
     // fade out the original image to see demo clearly
     id.style.opacity = '0.5'
+    id.style.scale = '1.1'
 }
 
 function stopDemo(id) {
     console.log('out')
     document.getElementById('vidDiv').remove()
     id.style.opacity = '1'
+    id.style.scale = '1'
 }
-
-// when the images in artdesc are being hovered, play respective video
 
 function nextPhoto(key, img, para, list) {
     // since you cannot get the index of a value in a Map through function, loop through instead
