@@ -1,3 +1,5 @@
+# NOT FUNCTIONAL YET
+
 #create own image to move our html files around with the image
 # consider a reverse proxy to handle requests
 # static website
@@ -5,8 +7,16 @@
 #build custom image from base image
 FROM nginx:latest 
 WORKDIR /app
+
+# Source - https://stackoverflow.com/a/53060756
+# Posted by Adiii, modified by community. See post 'Timeline' for change history
+# Retrieved 2026-08-03, License - CC BY-SA 4.0
+
+RUN chown nginx:nginx /usr/share/nginx/html/*
+
 #overrides default html in the container
 COPY ./siteContent /usr/share/nginx/html
+
 #https://oneuptime.com/blog/post/2026-02-08-how-to-use-the-expose-instruction-in-dockerfiles-and-what-it-actually-does/view
 #EXPOSE 8080 does not work as it uses the default 80
 
