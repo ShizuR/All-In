@@ -214,6 +214,14 @@ document.addEventListener('mousemove', function(event) {
 function playDemo(id) {
     let div = document.createElement('div')
     div.id = 'vidDiv'
+    div.style.overflow = 'hidden'
+    div.style.borderRadius = '5vh'
+    div.style.border = '2px solid rgb(50, 120, 136)'
+    div.style.height = '200px'
+    div.style.position = 'absolute' // to overlay on elements without interfering
+    div.style.left = '' + mX + 'px'
+    div.style.top = '' + mY + 'px'
+
     let vid = document.createElement('video')
     // get the name of the image from the src
     console.log(id)
@@ -230,10 +238,7 @@ function playDemo(id) {
     vid.innerHTML = '<source src="artRes/artAppShowcase/'+png+'.mp4" type="video/mp4">'
     vid.setAttribute('loop', 'true')
     vid.setAttribute('autoplay', 'true')
-    vid.setAttribute('height', '200px')
-    vid.style.position = 'absolute' // to overlay on elements without interfering
-    vid.style.left = '' + mX + 'px'
-    vid.style.top = '' + mY + 'px'
+    vid.style = 'width: 100%; height: 100%; object-fit: cover;' // make it fit into the div
     document.querySelector('body').append(div)
     document.getElementById('vidDiv').append(vid)
 
