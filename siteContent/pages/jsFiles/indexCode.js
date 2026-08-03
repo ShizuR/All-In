@@ -10,6 +10,8 @@ let frameState = 'max'
 let pageScroll = []
 const season = ['Summer', 'Autumn']
 let currentSeasonInt = 0
+let mX = 0
+let mY = 0
 // https://www.telerik.com/blogs/ultimate-guide-broadcast-channel-api 
 const msg = new BroadcastChannel('frame')
 const seasonChange = new BroadcastChannel('season')
@@ -17,7 +19,8 @@ let descReveal = true
 let underNavHeight = 0 // original div height before description expansion
 
 // resources for art app
-const pics = ['artRes/cat.png', 'artRes/alien.png', 'artRes/shark.png']
+const pics = ['artRes/artAppShowcase/dragging.png', 'artRes/artAppShowcase/drawing.png', 'artRes/artAppShowcase/erasing.png', 'artRes/artAppShowcase/referencing.png', 'artRes/artAppShowcase/undoredoing.png','artRes/artAppShowcase/clearing.png']
+const bigPics = ['artRes/cat.png', 'artRes/alien.png', 'artRes/shark.png']
 const artPicDesc = ['simple drawing of a cat playing', 'excellent drawing of aliens cruising through an asteroid belt', 'quick drawing of a shark visiting the dentist']
 // dictionary Map to store info. lists of lists -> [description, image for that description]
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Keyed_collections
@@ -27,19 +30,19 @@ const descList = new Map([
         ["<em>Drag</em><br><br>An inactive button that gives the user a 'ledge' to more easily drag the Toolkit around. GSAP, an external CDN plugin for animations, was used to make this possible.", pics[0]], 
         [`<em>Pen</em><br><br>Path2D was used to continually create new lines from the last and current position whenever the left mouse button was held down and moving. When released, a list of Path2Ds (a drawing path) is created to represent a single stroke and is appended to the drawingPaths stack.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Limits were placed to reduce bugs when drawing, such as: the current stroke ending when the mouse leaves the canvas, empty drawing paths (where the user was holding down but not moving) being discarded instead of added to drawingPaths, and .<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As an EventListener was used to continually monitor the mouse's state, lines vary in length depending on the mouse's movement speed.`, pics[2]],
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As an EventListener was used to continually monitor the mouse's state, lines vary in length depending on the mouse's movement speed.`, pics[1]],
         [`<em>Erase</em><br><br>Allows the user to 'remove' individual, small lines. It packs the erased line into a list containing an indicator pointing to which drawing path it was part of originally. The list is appended to the drawingPaths stack and its original instance is removed.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When the user undoes and pops this list off drawingPaths, it's pushed onto the redo stack and the line is reinserted into its original drawing path as a separate list (to indicate a once erased path). 
             Redo operates similarly; the instance is popped off into drawingPaths and the first erased line found in the indicated drawing path is removed.<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This structure results in a linear timeline, ensuring that when whole strokes are removed, their individual lines are also cleared.`, pics[1]],
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This structure results in a linear timeline, ensuring that when whole strokes are removed, their individual lines are also cleared.`, pics[2]],
         [`<em>Reference</em><br><br>This triggers a prompt for the user to choose an image. That image is displayed in a separate pop up window with three buttons: shrink, zoom, and reset.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shrink zooms out of the image while zoom enlarges it, both by 15% each time. Reset returns the image to its original size and position using GSAP. This was convenient as Gsap was again used to make the image draggable to allow easier navigation over just sliders.<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multiple references can be used at a time as variables are isolated, ensuring that adjustments in one window doesn't impact others.`, pics[0]]
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multiple references can be used at a time as variables are isolated, ensuring that adjustments in one window doesn't impact others.`, pics[3]]
     ]],
     ['Bottom Toolkit', [
-        [`<em>Undo and Redo</em><br><br>Undo removes the last action (drawing, erasing, or redoing) while redo adds back that last action. Both of these are stack lists (drawingPaths for undo and redoPath for redo) that can store strokes and erased lines. Whenever they both have elements inside and an action other than redo is performed, the redo stack is wiped clean to ensure a linear timeline of the drawing process.`, pics[2]], 
+        [`<em>Undo and Redo</em><br><br>Undo removes the last action (drawing, erasing, or redoing) while redo adds back that last action. Both of these are stack lists (drawingPaths for undo and redoPath for redo) that can store strokes and erased lines. Whenever they both have elements inside and an action other than redo is performed, the redo stack is wiped clean to ensure a linear timeline of the drawing process.`, pics[4]], 
         [`<em>Clear Canvas and Enlarge/Shrink Window</em><br><br>Clearing the canvas empties the undo and redo stacks and permanently removes all strokes via canvas context.<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enlarge window makes the project fullscreen. It automatically scrolls up to the top and disables scrolling as the additional space is not in use. All strokes stay in the same position and size regardless of window size due to the nature of canvases. Reference windows are not affected by this.`, pics[0]]
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enlarge window makes the project fullscreen. It automatically scrolls up to the top and disables scrolling as the additional space is not in use. All strokes stay in the same position and size regardless of window size due to the nature of canvases. Reference windows are not affected by this.`, pics[5]]
     ]]
 ])
 
@@ -81,7 +84,7 @@ function artDesc() {
     dc.classList = 'photo'
     dc.id = 'cImg'
     const img1 = document.createElement('img')
-    img1.src = pics[0]
+    img1.src = bigPics[0]
     img1.setAttribute('id', 'center')
     img1.classList = '0 figure'
     document.getElementById('imageSlide').appendChild(dc)
@@ -92,7 +95,7 @@ function artDesc() {
     dbr.classList = 'b-photo'
     dbr.id = 'bImg'
     const img3 = document.createElement('img')
-    img3.src = pics[2]
+    img3.src = bigPics[2]
     img3.setAttribute('id', 'bott')
     img3.classList = '2'
     document.getElementById('imageSlide').appendChild(dbr)
@@ -103,7 +106,7 @@ function artDesc() {
     dt.classList = 't-photo'
     dt.id = 'tImg'
     const img2 = document.createElement('img')
-    img2.src = pics[1]
+    img2.src = bigPics[1]
     img2.setAttribute('id', 'top')
     img2.classList = '1'
     document.getElementById('imageSlide').appendChild(dt)
@@ -117,8 +120,8 @@ function artDesc() {
 
     // declare onclick after append to ensure all elements exist first
     // don't directly pass sources, elements etc.., let javascript find them to avoid hardcoding
-    document.getElementById('bott').setAttribute('onclick', 'switchPhotos("center", "bott", artPicDesc, pics, "artDesc")')
-    document.getElementById('top').setAttribute('onclick', 'switchPhotos("center", "top", artPicDesc, pics, "artDesc")')
+    document.getElementById('bott').setAttribute('onclick', 'switchPhotos("center", "bott", artPicDesc, bigPics, "artDesc")')
+    document.getElementById('top').setAttribute('onclick', 'switchPhotos("center", "top", artPicDesc, bigPics, "artDesc")')
 
     // app description: toolkit ///
     // TODO:
@@ -188,10 +191,54 @@ function artDesc() {
         document.getElementById(newKey+'Btn').setAttribute(
             'onclick', 'nextPhoto(' + indexKey +', '+ newKey + 'Photo, '+ newKey +'Desc, descList' +')'
         )
+        // when image being hovered over, play the video where mouse is
+        picDiv.setAttribute('onmouseover', 'setTimeout(playDemo('+imgGrid.id+'), 1000)')
+        picDiv.setAttribute('onmouseout', 'stopDemo()')
         i = i + 1
         indexKey = indexKey + 1
     })
 }
+
+// listen to get mouse pos
+document.addEventListener('mousemove', function(event) {
+    mX = event.pageX
+    mY = event.pageY
+});
+
+// we use mouse pos to get where we want to display the video
+function playDemo(id) {
+    let div = document.createElement('div')
+    div.id = 'vidDiv'
+    let vid = document.createElement('video')
+    // get the name of the image from the src
+    console.log(id)
+    let png = id.src
+    let png2 = png.split('/') // split string every slash -> array
+    png = png2.pop() // get name (last element)
+    console.log(png)
+    // repeat to just get actual name
+    png2 = png.split('.')
+    png = png2[0]
+    console.log(png)
+
+    vid.innerHTML = '<source src="artRes/artAppShowcase/'+png+'.mp4" type="video/mp4">'
+    vid.setAttribute('loop', 'true')
+    vid.setAttribute('autoplay', 'true')
+    vid.setAttribute('height', '200px')
+    vid.style.position = 'absolute'
+    vid.style.left = '' + mX + 'px'
+    vid.style.top = '' + mY + 'px'
+    document.querySelector('body').append(div)
+    document.getElementById('vidDiv').append(vid)
+    console.log(mX + ', ' + mY)
+}
+
+function stopDemo() {
+    console.log('out')
+    document.getElementById('vidDiv').remove()
+}
+
+// when the images in artdesc are being hovered, play respective video
 
 function nextPhoto(key, img, para, list) {
     // since you cannot get the index of a value in a Map through function, loop through instead
