@@ -118,6 +118,10 @@ function artDesc() {
     artDesc.classList = 'figure-caption text-center mb-5'
     d.appendChild(artDesc)
 
+    const belowDesc = document.createElement('p')
+    belowDesc.innerHTML = `The below slides describe the app's functionalities. Press the '>' button to move to the next slide. Hover over the images to see a demonstration!`
+    d.appendChild(belowDesc)
+
     // declare onclick after append to ensure all elements exist first
     // don't directly pass sources, elements etc.., let javascript find them to avoid hardcoding
     document.getElementById('bott').setAttribute('onclick', 'switchPhotos("center", "bott", artPicDesc, bigPics, "artDesc")')
@@ -176,6 +180,9 @@ function artDesc() {
         // again, use classList to store info about current desc
         // use integer to indicate the index of current value for the key
         imgGrid.classList = '0'
+        // when image being hovered over, play the video where mouse is
+        imgGrid.setAttribute('onmouseover', 'playDemo('+imgGrid.id+')')
+        imgGrid.setAttribute('onmouseout', 'stopDemo('+imgGrid.id+')')
 
         d.appendChild(heading)
         d.appendChild(appdiv)
@@ -191,9 +198,6 @@ function artDesc() {
         document.getElementById(newKey+'Btn').setAttribute(
             'onclick', 'nextPhoto(' + indexKey +', '+ newKey + 'Photo, '+ newKey +'Desc, descList' +')'
         )
-        // when image being hovered over, play the video where mouse is
-        picDiv.setAttribute('onmouseover', 'setTimeout(playDemo('+imgGrid.id+'), 1000)')
-        picDiv.setAttribute('onmouseout', 'stopDemo()')
         i = i + 1
         indexKey = indexKey + 1
     })
@@ -206,6 +210,7 @@ document.addEventListener('mousemove', function(event) {
 });
 
 // we use mouse pos to get where we want to display the video
+// used a looping autoplay video instead of a gif due to quality difference
 function playDemo(id) {
     let div = document.createElement('div')
     div.id = 'vidDiv'
@@ -221,21 +226,25 @@ function playDemo(id) {
     png = png2[0]
     console.log(png)
 
+    // set the video attributes and such
     vid.innerHTML = '<source src="artRes/artAppShowcase/'+png+'.mp4" type="video/mp4">'
     vid.setAttribute('loop', 'true')
     vid.setAttribute('autoplay', 'true')
     vid.setAttribute('height', '200px')
-    vid.style.position = 'absolute'
+    vid.style.position = 'absolute' // to overlay on elements without interfering
     vid.style.left = '' + mX + 'px'
     vid.style.top = '' + mY + 'px'
     document.querySelector('body').append(div)
     document.getElementById('vidDiv').append(vid)
-    console.log(mX + ', ' + mY)
+
+    // fade out the original image to see demo clearly
+    id.style.opacity = '0.5'
 }
 
-function stopDemo() {
+function stopDemo(id) {
     console.log('out')
     document.getElementById('vidDiv').remove()
+    id.style.opacity = '1'
 }
 
 // when the images in artdesc are being hovered, play respective video

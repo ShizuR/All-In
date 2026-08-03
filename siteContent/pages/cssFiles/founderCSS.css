@@ -202,6 +202,6 @@ html, body {
 }
 
 .b-photo, .t-photo, .l-photo, .r-photo {
-  transition: all 0.5s;
+  transition: all 0.2s;
   object-position: center;
 }
