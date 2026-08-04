@@ -5,7 +5,7 @@ The editor used was Visual Studio Code where you can directly view the website, 
 
 <h3>Aspects</h3>
 
-1. Interactive demonstration of the art application using the i-frame. The window can be expanded and shrunk without unwanted bugs on your drawings. The current features are: erasing lines, drawing strokes, undo/redoing
+1. Interactive demonstration of the art application using i-frame. The window can be expanded and shrunk without unwanted bugs on your drawings. The current features are: erasing lines, drawing strokes, undo/redoing
 strokes, reference button to upload multiple images as mini windows (each being able to zoom in, out, and drag around), and clearing the canvas.
 
 >> image
