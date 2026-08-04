@@ -19,5 +19,3 @@ services:
 
 # Stop when done
 #docker compose down
-
-#https://oneuptime.com/blog/post/2026-02-08-how-to-create-a-dockerfile-for-a-static-website/view#adding-health-checks
