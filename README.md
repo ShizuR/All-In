@@ -1,7 +1,7 @@
 <h1>All-In: A developing portfolio website using JavaScript, HTML, CSS, and Bootstrap</h1>
 
 This website is to showcase and explain smaller personal projects. At the moment, one project (an art application) is available to test and read about. 
-The editor used was Visual Studio Code where you can directly view the website, however, the website can also be run by a docker-compose file on http://localhost:8080/.
+The editor used was Visual Studio Code where you can directly view the website, however, the website can also be run by a docker-compose file on http://localhost:8080/ using the command 'docker compose up -d'.
 
 <h3>Aspects</h3>
 
