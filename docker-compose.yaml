@@ -1,0 +1,21 @@
+services:
+  website:
+    image: nginx:latest
+    ports: 
+      - '8080:80'
+    volumes:
+      - ./:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
+# to mount the whole project, made a nginx congif file to point to index.html
+# do not need an EXPOSE or CMD line. these are included in the base nginx image and my image will inherit these
+
+# TO RUN:
+# Start the development server in the background
+#docker compose up -d
+
+# View logs
+#docker compose logs -f website
+
+# Stop when done
+#docker compose down

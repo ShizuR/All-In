@@ -1,0 +1,207 @@
+/* transition idea use cases https://thoughtbot.com/blog/transitions-and-transforms */
+
+body {
+  interpolate-size: allow-keywords;
+  transition: background-color 5s;
+}
+
+/* animating the background to switch between seasons
+html, body {
+  width: 100%;
+  height: 100%;
+}
+*/
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+
+.summer {
+  background-color:  rgb(184, 231, 247);
+}
+
+.autumn {
+  background-color:  rgb(228, 208, 145);
+}
+
+/* adjusting dimensions of the iframe for full and small screen mode*/
+@keyframes animate {
+  0% {
+    width: none;
+    height: none;
+  }
+  100% {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/*
+#forTrans {
+  transition: all 2s ease-in;
+}
+*/
+
+.containFrame {
+  position: relative;
+  overflow: hidden;
+  width: 80%;
+  height: 600px;
+  margin: auto; /* center */
+  border-radius: 10px; /* rounded edges */
+  border: 1px solid rgba(50, 120, 136, 0.512);
+}
+
+.fullscreen {
+  z-index: 1;
+  width: 100%;
+  height: 100%
+}
+
+/* fit iframe in the container div with full height and width */
+.responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* when maximizing iframe window, disable scroll https://www.geeksforgeeks.org/javascript/how-to-disable-scrolling-temporarily-using-javascript/ */
+.disableScroll {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* animating entrance slide in of body. navigation slides in slightly after*/ 
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+#underNav {
+  animation-name: slideIn;
+  animation-duration: 1s;
+  transition-timing-function: ease-in;
+  padding: 0.5% 3% 1% 3%;
+  background-color: aliceblue;
+  margin: 10%;
+  border-radius: 5vh; /* vh to change size with veiwport (height) */
+  box-shadow: 1em 1em 0em rgba(50, 120, 136, 0.699), 2em 2em 0em rgba(105, 158, 170, 0.521);
+  border: 2px solid rgb(50, 120, 136);
+  /* for desc toggle*/
+  overflow: hidden;
+  transition: height 1s ease;
+}
+
+/* also hide the description itself to ensure that it can't be seen even when window size varies*/
+#desc {
+  overflow: hidden;
+  transition: height 0.8s ease;
+}
+
+.hideDesc {
+  height: 0px;
+}
+
+.footer {
+  position: relative;
+}
+
+#navigation {
+  animation-name: slideIn;
+  animation-duration: 1.3s;
+  transition-timing-function: ease-in;
+}
+
+/* grid for photos */
+
+.gridPhoto {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
+  grid-template-rows: minmax(0,1fr) minmax(0,1fr);
+  grid-template-areas: 
+  'photo photo t-photo'
+  'photo photo b-photo';
+  gap: 3px;
+  background-color: rgba(30, 143, 255, 0.438);
+  padding: 5px;
+  overflow: hidden;
+  border-radius: 2%;
+}
+
+.gridPhoto .t-photo {
+  grid-area: t-photo;
+}
+
+.gridPhoto .photo {
+  grid-area: photo;
+}
+
+.gridPhoto .b-photo {
+  grid-area: b-photo;
+}
+
+.b-photo:hover, .t-photo:hover{
+  transform: scale(0.95); /* scale allows objects to shrink relative to their center point, but width and height shrink to the side*/
+}
+
+/* grid for text */
+.gridText {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
+  grid-template-rows: minmax(0,1fr) minmax(0,1fr);
+  background-color: rgba(30, 143, 255, 0.154);
+  padding: 5px;
+  overflow: hidden;
+  border-radius: 2%;
+}
+
+.gridText .left {
+  grid-column: 1 / span 2;  /* start at grid 1 and span 2 columns */
+}
+
+.gridText .right {
+  grid-column: 2 / span 2;
+}
+
+.gridText .para {
+  grid-row: 1/span 2;
+}
+
+.gridText .l-photo {
+  grid-column: 1/span 1;
+  grid-row: 1/span 2;
+}
+
+.gridText .r-photo {
+  grid-column: 3/span 1;
+  grid-row: 1/ span 2;
+}
+
+.gridPhoto img, .gridText img {
+  width:  100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  border-radius: 2vh; /* vh is more consistent and stable than % */
+  object-position: center;
+}
+
+.b-photo, .t-photo, .l-photo, .r-photo {
+  transition: all 0.2s;
+  object-position: center;
+}
