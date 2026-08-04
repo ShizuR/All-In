@@ -65,7 +65,7 @@ function artDesc() {
     // photo display ///
     // header
     let header = document.createElement('p')
-    header.innerHTML = 'Art examples'
+    header.innerHTML = '<b>Art examples<b>'
     header.classList = 'header'
     d.appendChild(header)
 
@@ -150,7 +150,7 @@ function artDesc() {
         appdiv.classList = 'gridText mb-5'
         // heading for this grid
         let heading = document.createElement('p')
-        heading.innerHTML = key
+        heading.innerHTML = '<b>' + key + '</b>'
         // div to hold the current description and the button to navigate descriptions
         let paraBtn = document.createElement('div')
         // https://getbootstrap.com/docs/4.0/utilities/flex/ use flex to make div fill whole grid space, and to space out the para from the button
