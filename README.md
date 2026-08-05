@@ -17,4 +17,4 @@ They can also view a looping video demonstration by hovering over an image.
 <br><br>
 3. The background is able to be changed between two seasons. More will be added in future updates, including season-dependent colour schemes and more animated background elements to increase liveliness.
 <br><br>
-<img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/seasonWork.gif" alt="gif of animation intros and outros when switching seasons">
+<img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/seasonGIF.gif" alt="gif of animation intros and outros when switching seasons">
