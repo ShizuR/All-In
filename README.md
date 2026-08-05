@@ -14,7 +14,7 @@ strokes, reference button to upload multiple images as mini windows (each being 
 There are also two slides that elaborate on the Toolkit and Bottom Toolkit. The user is able to switch between the current slides by clicking the '>' button.
 They can also view a looping video demonstration by hovering over an image.
 <br><br>
-<img width="1652" height="878" alt="Screenshot 2026-08-04 174705" src="https://github.com/user-attachments/assets/c025e8dd-227a-48a7-8e85-0061d0f34ea0" />
+<img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/drawDemo.gif" alt="gif of information slides working and video demonstration on hover">
 <img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/slideDemo.gif" alt="gif of information slides working and video demonstration on hover">
 <br><br>
 3. The background is able to be changed between two seasons. More will be added in future updates, including season-dependent colour schemes and more animated background elements to increase liveliness.
