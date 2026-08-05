@@ -1,0 +1,59 @@
+/* summer */
+
+@keyframes infRotate {
+    0% {
+        rotate: none;
+    }
+    100% {
+        rotate: 360deg;
+    }
+}
+
+/* can't reapply that same keyframe animation (even if the only difference is it's in reverse), so create two different keyframes instead*/
+@keyframes cornerIn {
+    0% {
+        transform: translate(-400px, -300px);
+    }
+    100% {
+        transform: none;
+    }
+}
+
+@keyframes cornerOut {
+    0% {
+        transform: none;
+    }
+    100% {
+        transform: translate(-400px, -300px);
+    }
+}
+
+img {
+  position: absolute;
+}
+
+/* to transition between seasons adjust classes for the animations tied to the css */
+
+img {
+  height: 500px;
+  width: 500px;
+  transition: all 2s;
+}
+
+.sun {
+    border-radius: 50%;
+    left: -10%;
+    top: -10%;
+}
+
+.corner-In {
+    animation: cornerIn 1.5s ease-out normal forwards
+}
+
+.corner-Out {
+    animation: cornerOut 1.5s ease-in normal forwards
+}
+
+.rotateInf {
+    animation: infRotate 20s linear 0s infinite;
+}

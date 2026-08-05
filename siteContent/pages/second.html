@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html id="canvas" style="height: 100dvh; width: 100dvw;">
+    <head>
+        <meta charset="UTF-8"> <!-- define character set-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- make web work on all devices and screens-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js"></script>
+    </head>
+    
+    <body class="p-3" style="height: 100dvh; width: 100dvw;" onload="here()">
+        <div class="wrapper mt-3" style="position: relative;">
+            <div class="btn-group-vertical btn-group-sm" role="group" aria-label="Vertical button group" style="z-index: 2; position: absolute;" id="toolGroup">
+                <button class="btn btn-info" id="dragBtn">drag</button>
+                <button class="btn btn-outline-primary btn-light" id="eraseBtn" onclick="toolClick('eraseBtn')">erase</button>
+                <button class="btn btn-outline-primary btn-light" id="penBtn" onclick="toolClick('penBtn')">pen</button>
+                <div class="btn btn-outline-primary btn-light">
+                    <label for="refBtn">reference</label>
+                    <!-- hide the file input default format with d-none to hide on all devices -->
+                    <input type="file" accept="image/*" id="refBtn" name="refBtn" class="d-none"/>
+                </div>
+            </div>
+            <div class="mb-3" style="margin-right: auto; margin-left: auto; width: 500px; height: 500px; z-index: 1;">
+                <canvas id="drawHere" width="500" height="500" class="border" style="position: absolute;">
+                </canvas>
+            </div>
+            <!-- text-center needs to be own div to center button groups since btn-group is in-line block, meaning the buttons inside would be centered relative to that div instead of the screen -->
+            <!-- https://stackoverflow.com/questions/21392834/centering-bootstrap-button-group-in-an-element-->
+            <div class="wrapper text-center">
+                <div class="btn-group-horizontal btn-group" role="group">
+                    <button class="btn btn-outline-primary btn-light disabled" id="undo" onclick="adjustDrawingPath()">undo</button>
+                    <button class="btn btn-outline-primary btn-light disabled" id="redo" onclick="adjustRedoPath()">redo</button>
+                    <button class="btn btn-outline-primary btn-light disabled" id="clear" onclick="clearCanvas()">clear canvas</button>
+                    <button id="changeButtText" onclick="sendmsg()">Enlarge window</button>
+                </div>
+            </div>
+            
+        </div>
+        <script src="jsFiles/secondCode.js"></script> <!-- import external javascript code file-->
+        <script>
+            function here() {
+                console.log('loaded!')
+                // drag and drop toolkit using gsap, an animation framework
+                // script put after element declaration
+                gsap.registerPlugin(Draggable)
+                Draggable.create('#toolGroup', {
+                    bounds: document.querySelector('body')
+                })
+            }
+        </script>
+    </body>
+</html>

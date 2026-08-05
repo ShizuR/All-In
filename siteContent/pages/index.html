@@ -1,0 +1,72 @@
+<!-- https://www.w3schools.com/HOWTO/howto_website.asp -->
+<!-- https://getbootstrap.com/docs/5.3/getting-started/introduction/ -->
+<!-- https://www.w3schools.com/bootstrap/bootstrap_grid_basic.asp -->
+<!doctype html> <!-- define file as html type -->
+<html>
+    <head>
+        <noscript>Sorry, your browser does not support JavaScript!</noscript>
+        <meta charset="UTF-8"> <!-- define character set-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <link rel="stylesheet" href="cssFiles/founderCSS.css">
+        <!-- <script src="indexCode.js"></script> import external javascript code file-->
+        <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- make web work on all devices and screens-->
+        <title>Prototype</title>
+    </head>
+    
+    <body class="summer" onload="measureUnderNavHeight()">
+        <script src="jsFiles/navbar.js"></script>
+        <div style="position: relative;">
+            <script src="jsFiles/seasons.js"></script>
+            <div class="container" style="display:flex; flex-direction: column; min-height: 100%;">
+                <div id="underNav">
+                    <div class="jumbotron text-center mb-5 mt-5">
+                        <p class="display-1">WELCOME</p>
+                        <hr class="mx-auto" width="50%">
+                        <p class="h5 lead text-muted"><em>This page was made with Bootstrap, html, javascript, and CSS</em></p>
+                    </div>
+                    <div class="container">
+                        <!-- https://getbootstrap.com/docs/5.3/utilities/text/ -->
+                        <p class="text-center">Click the buttons below to start the respective project demos</p>
+                        <!-- inline javascript code -->
+                        <!-- https://www.w3schools.com/jsref/met_win_prompt.asp -->
+                        <div class="btn-group d-flex gap-2 mb-3" role="group">
+                            <button onclick="myFunction('second.html')" type="button" class="btn btn-primary btn-sm">Art Application</button>
+                            <button onclick="myFunction('third.html')" type="button" class="btn btn-primary btn-sm disabled">Unavailable Project</button>
+                            <button onclick="changeSeason()" type="button" class="btn btn-primary btn-sm">change season</button>
+                        </div>
+
+                        <!-- mini window for websites -->
+                        <!-- responsive aspect ratio: https://www.w3schools.com/howto/howto_css_responsive_iframes.asp-->
+                        <div class="containFrame mb-2" id="forTrans">
+                            <!-- did not use the fullscreen function to allow use with elements without focus -->
+                            <iframe class="responsive-iframe" id="replace" title="project" style="background-color: aliceblue; z-index: auto;"></iframe>
+                        </div>
+                        
+                        <script>
+                            function myFunction(i) {
+                                document.getElementById("replace").src = i
+                                desc(i)
+                            }
+                        </script>
+                        <!-- justify content between spaces them out https://getbootstrap.com/docs/4.0/utilities/flex/ -->
+                        <div class="d-flex flex-row justify-content-between">
+                            <h5 class="display-6 mt-3">Description</h5>
+                            <!-- padding: inner space, margin: outer space-->
+                            <span><button onclick="descToggle()" class="mt-4 pt-1 btn btn-primary">collapse</button></span>
+                        </div>
+                        
+                        <section id="desc" class="mt-4"></section>
+                    </div>
+                </div>
+                <footer>
+                    <hr>
+                    <div class="p-3 text-center">
+                        <p class="h5 lead text-muted"><em>Something goes in here, maybe a good fat space!</em></p>
+                    </div>
+                    <hr>
+                </footer>
+            </div>
+        </div>
+        <script src="jsFiles/indexCode.js"></script>
+    </body>
+</html>
