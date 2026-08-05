@@ -15,7 +15,7 @@ There are also two slides that elaborate on the Toolkit and Bottom Toolkit. The 
 They can also view a looping video demonstration by hovering over an image.
 <br><br>
 <img width="1652" height="878" alt="Screenshot 2026-08-04 174705" src="https://github.com/user-attachments/assets/c025e8dd-227a-48a7-8e85-0061d0f34ea0" />
-<img width="1652" height="878" alt="Screenshot 2026-08-04 175242" src="https://github.com/user-attachments/assets/b6bc0cc7-97b6-4ad7-9515-345c43e9f987" />
+<img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/slideDemo.gif" alt="gif of information slides working and video demonstration on hover">
 <br><br>
 3. The background is able to be changed between two seasons. More will be added in future updates, including season-dependent colour schemes and more animated background elements to increase liveliness.
 <br><br>
