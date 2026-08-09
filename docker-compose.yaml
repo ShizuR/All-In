@@ -10,7 +10,7 @@ services:
       - custDB
 
   backend:
-    image: node:latest
+    image: node:26
     ports:
       - '8888:8888'
     user: 'node'
@@ -22,10 +22,13 @@ services:
     networks:
       - postgres-network
     command: ['npm', 'start']
+    depends_on:
+      - custDB
   
   custDB:
     image: postgres:18
     restart: always
+    container_name: database
     environment:
       - POSTGRES_PASSWORD=${custPW}
       - POSTGRES_USER=${custUSER}
@@ -33,7 +36,7 @@ services:
     volumes:
       - ./pgdata:/docker-entrypoint-initdb.d/ # initialise database data using initialData.sql
     ports:
-      - ${custPORT}:5432
+      - 5432:5432
     networks:
       - postgres-network
   

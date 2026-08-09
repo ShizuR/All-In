@@ -1,5 +1,16 @@
 {
   "scripts": {
     "start": "node ./siteContent/backend/thirdBackendScript.ts"
-  }
+  },
+  "dependencies": {
+    "@types/node": "26",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/pg": "^8.21.0"
+  },
+  "type": "module"
 }

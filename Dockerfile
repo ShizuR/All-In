@@ -4,11 +4,17 @@
 # consider a reverse proxy to handle requests
 # static website
 
-FROM postgres:18
-ADD initialData.sql /docker-entrypoint-initdb.d/
-ENTRYPOINT ["docker-entrypoint.sh"]
-EXPOSE 8888
-CMD ["postgres"]
+FROM node:latest
+ 
+WORKDIR /app
+ 
+COPY package.json package.json
+ 
+RUN npm install
+ 
+COPY . .
+ 
+CMD [ "node", "server.js" ]
 
 #https://www.atdatabases.org/docs/pg-guide-typescript
 # non functional file
