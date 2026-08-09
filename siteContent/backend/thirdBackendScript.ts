@@ -2,6 +2,8 @@ import { Pool } from 'pg'; /* to interact with db */
 import dotenv from 'dotenv'; /* to access .env variables */
 import type { Request, Response } from 'express';
 
+/* to do: connect to front end */
+
 dotenv.config(); /* Loads .env file contents into process.env by default */
 let message: string = 'Hello World';
 console.log(message);
