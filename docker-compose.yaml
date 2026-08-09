@@ -6,6 +6,22 @@ services:
     volumes:
       - ./:/usr/share/nginx/html
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - custDB
+
+  backend:
+    image: node:latest
+    ports:
+      - '8888:8888'
+    user: 'node'
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    networks:
+      - postgres-network
+    command: ['npm', 'start']
   
   custDB:
     image: postgres:18
