@@ -17,20 +17,39 @@ const pool = new Pool({
 
 export default pool;
 
-/* get all customers and their information 
+/* get all customers and their information */
 export async function getCustomers(req: Request, res: Response) {
   try {
     const result = await pool.query("SELECT * FROM customers;");
-    return res.json(result.rows);
+    res.json(result.rows);
   } 
   catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch customers" });
   }
-} */
+} 
 
+/* 
+test function works
+get all customers and their information
+export async function getCustomers() {
+  try {
+    const result = await pool.query("SELECT * FROM customers;");
+    return res.json(result.rows);
+    console.log(result.rows)
+  } 
+  catch (err) {
+    console.error(err);
+  }
+} 
+
+getCustomers();
+*/
+
+/*
 const result = await pool.query('SELECT * from customers')
-console.log(result.rows) // brianc
+console.log(result.rows) */
+
 /* 
 pool: https://node-postgres.com/apis/pool
 for the dotenv: https://medium.com/the-node-js-collection/making-your-node-js-work-everywhere-with-environment-variables-2da8cdf6e786
