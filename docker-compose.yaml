@@ -2,10 +2,49 @@ services:
   website:
     image: nginx:latest
     ports: 
-      - '8080:80'
+      - '7272:80'
     volumes:
       - ./:/usr/share/nginx/html
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+  
+  custDB:
+    image: postgres:18
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${custPW}
+      - POSTGRES_USER=${custUSER}
+      - POSTGRES_DB=${custDBname}
+    volumes:
+      - ./pgdata:/docker-entrypoint-initdb.d/ # initialise database data using initialData.sql
+    ports:
+      - ${custPORT}:5432
+    networks:
+      - postgres-network
+  
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - '8080:8080'
+    environment:
+      ADMINER_DEFAULT_SERVER: primaryDatabase
+    networks:
+      - postgres-network
+
+networks:
+  postgres-network:
+    driver: bridge
+
+#volumes:
+#  dbData:
+#volumes: 
+#      - dbData:/var/lib/postgresql # for persistent data
+
+# used volumes to seed data instead of dockerfile https://github.com/docker-library/postgres/issues/1373
+# for connecting adminer to postgres https://dev.to/rafi021/set-up-postgresql-and-adminer-using-docker-for-local-web-development-104m
+#https://www.docker.com/blog/how-to-use-the-postgres-docker-official-image/
+# for multiple db in future https://stackoverflow.com/questions/46668233/multiple-databases-in-docker-and-docker-compose
+# used .env instead of env_file. reason -> https://stackoverflow.com/questions/29377853/how-can-i-use-environment-variables-in-docker-compose
 
 # to mount the whole project, made a nginx congif file to point to index.html
 # do not need an EXPOSE or CMD line. these are included in the base nginx image and my image will inherit these
@@ -19,3 +58,6 @@ services:
 
 # Stop when done
 #docker compose down
+
+# DB idea:
+# countries. hover over and click to display customers -> second database could be orders
