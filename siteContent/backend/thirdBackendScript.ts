@@ -47,26 +47,6 @@ export async function getCustomers(req: Request, res: Response) {
   }
 } 
 
-/* 
-test function works
-get all customers and their information
-export async function getCustomers() {
-  try {
-    const result = await pool.query("SELECT * FROM customers;");
-    return res.json(result.rows);
-    console.log(result.rows)
-  } 
-  catch (err) {
-    console.error(err);
-  }
-} 
-
-getCustomers();
-*/
-
-/*
-const result = await pool.query('SELECT * from customers')
-console.log(result.rows) */
 
 /* 
 pool: https://node-postgres.com/apis/pool

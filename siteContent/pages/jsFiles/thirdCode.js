@@ -4,7 +4,7 @@
 // create customer
 
 async function create(nameP, emailP){
-        const response = await fetch('http://localhost:8888/'+nameP+'/'+emailP, {
+        const response = await fetch('http://localhost:8888/customers/'+nameP+'/'+emailP, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nameP, email: emailP }),

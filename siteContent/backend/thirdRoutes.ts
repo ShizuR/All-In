@@ -9,7 +9,7 @@ const router = Router();
 app.use(cors()); // allow frontend to access backend
 app.use(express.json()); // parse requests into json
 
-router.post("/:name/:email", createCustomer);
+router.post("/customers/:name/:email", createCustomer);
 router.get("/customers", getCustomers);
 
 /*
