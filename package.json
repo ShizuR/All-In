@@ -1,6 +1,7 @@
 {
+  "type": "module",
   "scripts": {
-    "start": "node ./siteContent/backend/thirdBackendScript.ts"
+    "start": "node ./siteContent/backend/thirdRoutes.ts"
   },
   "dependencies": {
     "@types/node": "26",
@@ -10,7 +11,7 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
-    "@types/pg": "^8.21.0"
-  },
-  "type": "module"
+    "@types/pg": "^8.21.0",
+    "typescript": "^7.0.2"
+  }
 }

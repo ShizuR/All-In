@@ -7,6 +7,7 @@
     <body>
         <header>this is third!!</header>
         <div id="data"></div>
-        <script src="./jsFiles/thirdCode.js"></script>
+        <!-- 'type':'module' in package.json only tells Node.js that js files are es modules when running, not the browser -> reinstate -->
+        <script type="module" src="./jsFiles/thirdCode.js"></script>
     </body>
 </html>

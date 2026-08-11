@@ -1,8 +1,8 @@
 import { Pool } from 'pg'; /* to interact with db */
 import dotenv from 'dotenv'; /* to access .env variables */
-import type { Request, Response } from 'express';
+import { type Request, type Response } from 'express'; /* https://expressjs.com/en/5x/api/request/ */
 
-/* to do: connect to front end */
+/* controller functions */
 
 dotenv.config(); /* Loads .env file contents into process.env by default */
 let message: string = 'Hello World';
@@ -19,7 +19,23 @@ const pool = new Pool({
 
 export default pool;
 
-/* get all customers and their information */
+/* https://medium.com/@oyerindesamuelabiodun/building-an-api-with-express-js-and-connecting-it-to-the-frontend-f0f0af656c71 
+https://dev.to/justwonder/a-beginners-guide-to-building-a-crud-api-with-express-typescript-and-mongoose-2np0 */
+
+/* create  customer */
+export async function createCustomer(req: Request, res: Response) {
+  const { name, email } = req.body;
+  try {
+    const query = await pool.query(`INSERT INTO customers(name, email) VALUES ($1, $2)`, [name, email])
+    console.log('customer created!')
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to create customer" });
+  }
+}
+
+/* read all customers and their information */
 export async function getCustomers(req: Request, res: Response) {
   try {
     const result = await pool.query("SELECT * FROM customers;");

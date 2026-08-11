@@ -1,12 +1,12 @@
 -- pre-seeding with dummy data
 
 CREATE TABLE IF NOT EXISTS customers (
-    id INT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name VARCHAR(20) NOT NULL,
     email VARCHAR(20) UNIQUE NOT NULL
 );
 
-INSERT INTO customers (id, name, email) VALUES 
-(1, 'Abigail Potts', 'aPotts@gmail.com'),
-(2, 'Elliot Smith', 'eSmith@hotmail.com'),
-(3, 'Samantha Hues', 'sHues@icloud.com');
+INSERT INTO customers (name, email) VALUES 
+('Abigail Potts', 'aPotts@gmail.com'),
+('Elliot Smith', 'eSmith@hotmail.com'),
+('Samantha Hues', 'sHues@icloud.com');
