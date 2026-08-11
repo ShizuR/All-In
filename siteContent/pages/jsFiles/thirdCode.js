@@ -4,11 +4,13 @@
 // create customer
 
 async function create(nameP, emailP){
-        const response = await fetch('/'+nameP+'/'+emailP, {
+        const response = await fetch('http://localhost:8888/'+nameP+'/'+emailP, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nameP, email: emailP }),
     })
+    const now = await response.json();
+    console.log(now);
 };
 
 async function get(){ // use entire url as backend and frontend on different ports
@@ -19,3 +21,4 @@ async function get(){ // use entire url as backend and frontend on different por
 
 get();
 create('tester', 'test@example.com');
+get();
