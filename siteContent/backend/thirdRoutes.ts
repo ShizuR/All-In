@@ -1,10 +1,13 @@
 import express, { Router } from "express"; /* https://expressjs.com/en/5x/guide/routing/#approute */
 import { createCustomer, getCustomers } from "./thirdBackendScript.ts";
+import cors from "cors";
 const app = express();
 
 /* initialise routes */
 
 const router = Router();
+app.use(cors()); // allow frontend to access backend
+app.use(express.json()); // parse requests into json
 
 router.post("/:name/:email", createCustomer);
 router.get("/customers", getCustomers);
