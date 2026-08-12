@@ -1,5 +1,5 @@
 import express, { Router } from "express"; /* https://expressjs.com/en/5x/guide/routing/#approute */
-import { createCustomer, getCustomers } from "./thirdBackendScript.ts";
+import { createCustomer, getCustomers, updateCustomer } from "./thirdBackendScript.ts";
 import cors from "cors";
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(express.json()); // parse requests into json
 
 router.post("/customers/:name/:email", createCustomer);
 router.get("/customers", getCustomers);
+router.put("/customers/:name/:email/:id", updateCustomer);
 
 /*
 router.get("/:id", getBookById);

@@ -45,7 +45,21 @@ export async function getCustomers(req: Request, res: Response) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch customers" });
   }
-} 
+}
+
+/* update customer information */
+/* create  customer */
+export async function updateCustomer(req: Request, res: Response) {
+  const { name, email, id } = req.body;
+  try {
+    const query = await pool.query(`UPDATE customers SET name = ($1), email = ($2) WHERE id = ($3)`, [name, email, id])
+    console.log('customer updated!')
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update customer" });
+  }
+}
 
 
 /* 
