@@ -48,7 +48,6 @@ export async function getCustomers(req: Request, res: Response) {
 }
 
 /* update customer information */
-/* create  customer */
 export async function updateCustomer(req: Request, res: Response) {
   const { name, email, id } = req.body;
   try {
@@ -58,6 +57,19 @@ export async function updateCustomer(req: Request, res: Response) {
   catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to update customer" });
+  }
+}
+
+/* delete customer */
+export async function deleteCustomer(req: Request, res: Response) {
+  const { id } = req.body;
+  try {
+    const query = await pool.query(`DELETE FROM customers WHERE id = ($1)`, [id])
+    console.log('customer deleted!')
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete customer" });
   }
 }
 

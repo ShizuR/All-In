@@ -29,8 +29,16 @@ async function update(nameP, emailP, idP){
     //console.log(now);
 };
 
+async function deleteC(idP){
+        const response = await fetch('http://localhost:8888/customers/'+idP, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: idP }),
+    })
+    //const now = await response.json();
+    //console.log(now);
+};
+
 get();
-create('tester', 'test@example.com');
-get();
-update('updated', 'updated@email.com', 4);
+deleteC(2);
 get();
