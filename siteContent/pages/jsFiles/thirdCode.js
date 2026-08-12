@@ -9,14 +9,19 @@ async function create(nameP, emailP){
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nameP, email: emailP }),
     })
-    //const now = await response.json();
+    const now = await response.json();
     //console.log(now);
 };
 
 async function get(){ // use entire url as backend and frontend on different ports
     const response = await fetch('http://localhost:8888/customers')
     const data = await response.json();
-    console.log(data);
+    console.log(data)
+    // to access a specific value for a customer
+    for (let i = 0; i < data.length; i++) {
+        console.log(data[i].name);
+    }
+    document.getElementById('data').innerText = String(data[1].email)
 };
 
 async function update(nameP, emailP, idP){
@@ -39,6 +44,4 @@ async function deleteC(idP){
     //console.log(now);
 };
 
-get();
-deleteC(2);
 get();
