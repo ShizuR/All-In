@@ -8,12 +8,12 @@ dotenv.config(); /* Loads .env file contents into process.env by default */
 let message: string = 'Hello World';
 console.log(message);
 
-/* connect to customer table. NEED host to connect to database*/
+/* connect to both criminals and prisons table. NEED host to connect to database*/
 const pool = new Pool({
   host: 'database',
-  user: process.env.custUSER,
-  password: process.env.custPW,
-  database: process.env.custDBname,
+  user: process.env.crimeUSER,
+  password: process.env.crimePW,
+  database: process.env.crimeDBname,
   port: 5432
 });
 
@@ -23,27 +23,27 @@ export default pool;
 https://dev.to/justwonder/a-beginners-guide-to-building-a-crud-api-with-express-typescript-and-mongoose-2np0 */
 
 /* create  customer */
-export async function createCustomer(req: Request, res: Response) {
-  const { name, email } = req.body;
+export async function createCriminal(req: Request, res: Response) {
+  const { prison_id, Name, Age, Gender, Crime, danger_lvl } = req.body;
   try {
-    const query = await pool.query(`INSERT INTO customers(name, email) VALUES ($1, $2)`, [name, email])
-    console.log('customer created!')
+    const query = await pool.query(`INSERT INTO criminals(prison_id, Name, Age, Gender, Crime, danger_lvl) VALUES ($1, $2, $3, $4, $5, $6)`, [prison_id, Name, Age, Gender, Crime, danger_lvl])
+    console.log('criminal created!')
   }
   catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to create customer" });
+    res.status(500).json({ error: "Failed to create criminal" });
   }
 }
 
 /* read all customers and their information */
-export async function getCustomers(req: Request, res: Response) {
+export async function getCriminals(req: Request, res: Response) {
   try {
-    const result = await pool.query("SELECT * FROM customers;");
+    const result = await pool.query("SELECT * FROM criminals;");
     res.json(result.rows);
   } 
   catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to fetch customers" });
+    res.status(500).json({ error: "Failed to fetch criminals" });
   }
 }
 

@@ -1,5 +1,5 @@
 import express, { Router } from "express"; /* https://expressjs.com/en/5x/guide/routing/#approute */
-import { createCustomer, deleteCustomer, getCustomers, updateCustomer } from "./thirdBackendScript.ts";
+import { createCriminal, deleteCustomer, getCriminals, updateCustomer } from "./thirdBackendScript.ts";
 import cors from "cors";
 const app = express();
 
@@ -9,16 +9,10 @@ const router = Router();
 app.use(cors()); // allow frontend to access backend
 app.use(express.json()); // parse requests into json
 
-router.post("/customers/:name/:email", createCustomer);
-router.get("/customers", getCustomers);
-router.put("/customers/:name/:email/:id", updateCustomer);
-router.delete("/customers/:id", deleteCustomer);
-
-/*
-router.get("/:id", getBookById);
-router.put("/:id", updateBook);
-router.delete("/:id", deleteBook);
-*/
+router.post("/criminals/:prison_id/:Name/:Age/:Gender/:Crime/:danger_lvl", createCriminal);
+router.get("/criminals", getCriminals);
+router.put("/criminals/:name/:email/:id", updateCustomer);
+router.delete("/criminals/:id", deleteCustomer);
 
 app.use('/', router);
 

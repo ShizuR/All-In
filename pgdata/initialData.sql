@@ -2,7 +2,7 @@
 
 CREATE TABLE IF NOT EXISTS prisons (
     prison_id SERIAL PRIMARY KEY,
-    Name VARCHAR(25) NOT NULL,
+    Name VARCHAR(25) UNIQUE NOT NULL,
     Country VARCHAR(16) NOT NULL CHECK(Country = 'England' OR Country = 'Wales' OR Country = 'Scotland' OR Country = 'Northern Ireland'),
     security_lvl INTEGER CHECK(0 <= security_lvl AND security_lvl < 5),
     max_prisoners INTEGER NOT NULL,
