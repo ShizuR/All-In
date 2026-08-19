@@ -7,7 +7,7 @@ services:
       - ./:/usr/share/nginx/html
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - custDB
+      - crimeDB
 
   backend:
     image: node:26
@@ -23,16 +23,16 @@ services:
       - postgres-network
     command: ['npm', 'start']
     depends_on:
-      - custDB
+      - crimeDB
   
-  custDB:
+  crimeDB:
     image: postgres:18
     restart: always
     container_name: database
     environment:
-      - POSTGRES_PASSWORD=${custPW}
-      - POSTGRES_USER=${custUSER}
-      - POSTGRES_DB=${custDBname}
+      - POSTGRES_PASSWORD=${crimePW}
+      - POSTGRES_USER=${crimeUSER}
+      - POSTGRES_DB=${crimeDBname}
     volumes:
       - ./pgdata:/docker-entrypoint-initdb.d/ # initialise database data using initialData.sql
     ports:
@@ -46,9 +46,11 @@ services:
     ports:
       - '8080:8080'
     environment:
-      ADMINER_DEFAULT_SERVER: primaryDatabase
+      ADMINER_DEFAULT_SERVER: crimeDB
     networks:
       - postgres-network
+    depends_on:
+      - crimeDB
 
 networks:
   postgres-network:
