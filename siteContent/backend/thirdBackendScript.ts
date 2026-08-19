@@ -22,7 +22,8 @@ export default pool;
 /* https://medium.com/@oyerindesamuelabiodun/building-an-api-with-express-js-and-connecting-it-to-the-frontend-f0f0af656c71 
 https://dev.to/justwonder/a-beginners-guide-to-building-a-crud-api-with-express-typescript-and-mongoose-2np0 */
 
-/* create  customer */
+/* Criminals */
+/* create  criminal */
 export async function createCriminal(req: Request, res: Response) {
   const { prison_id, Name, Age, Gender, Crime, danger_lvl } = req.body;
   try {
@@ -35,7 +36,7 @@ export async function createCriminal(req: Request, res: Response) {
   }
 }
 
-/* read all customers and their information */
+/* read all criminals and their information */
 export async function getCriminals(req: Request, res: Response) {
   try {
     const result = await pool.query("SELECT * FROM criminals;");
@@ -47,7 +48,7 @@ export async function getCriminals(req: Request, res: Response) {
   }
 }
 
-/* update customer information */
+/* update criminal information */
 export async function updateCriminal(req: Request, res: Response) {
   const { id, prison_id, Name, Age, Gender, Crime, danger_lvl } = req.body;
   try {
@@ -61,7 +62,7 @@ export async function updateCriminal(req: Request, res: Response) {
   }
 }
 
-/* delete customer */
+/* delete criminal */
 export async function deleteCriminal(req: Request, res: Response) {
   const { id } = req.body;
   try {
@@ -71,6 +72,61 @@ export async function deleteCriminal(req: Request, res: Response) {
   catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to delete criminal" });
+  }
+}
+
+
+/* Prisons */
+/* create prison */
+export async function createPrison(req: Request, res: Response) {
+  const { Name, Country, security_lvl, max_prisoners, prisoner_count, Gender } = req.body;
+  try {
+    const query = await pool.query(`INSERT INTO prisons(Name, Country, security_lvl, max_prisoners, prisoner_count, Gender) VALUES ($1, $2, $3, $4, $5, $6)`, 
+      [Name, Country, security_lvl, max_prisoners, prisoner_count, Gender])
+    console.log('prison created!')
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to create prison" });
+  }
+}
+
+/* read all prisons and their information */
+export async function getPrisons(req: Request, res: Response) {
+  try {
+    const result = await pool.query("SELECT * FROM prisons;");
+    res.json(result.rows);
+  } 
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch prisons" });
+  }
+}
+
+/* update prison information */
+export async function updatePrison(req: Request, res: Response) {
+  const { prison_id, Name, Country, security_lvl, max_prisoners, prisoner_count, Gender } = req.body;
+  try {
+    const query = await pool.query(`UPDATE prisons SET Gender = ($1), Name = ($2), Country = ($3), security_lvl = ($4), max_prisoners = ($5), prisoner_count = ($6) WHERE prison_id = ($7)`, 
+      [Gender, Name, Country, security_lvl, max_prisoners, prisoner_count, prison_id])
+    console.log('prison updated!')
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update prison" });
+  }
+}
+
+/* delete prison */
+export async function deletePrison(req: Request, res: Response) {
+  const { prison_id } = req.body;
+  try {
+    const query = await pool.query(`DELETE FROM prisons WHERE prison_id = ($1)`, [prison_id])
+    console.log('prison deleted!')
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete prison" });
   }
 }
 
