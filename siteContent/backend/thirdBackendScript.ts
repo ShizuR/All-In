@@ -48,15 +48,16 @@ export async function getCriminals(req: Request, res: Response) {
 }
 
 /* update customer information */
-export async function updateCustomer(req: Request, res: Response) {
-  const { name, email, id } = req.body;
+export async function updateCriminal(req: Request, res: Response) {
+  const { id, prison_id, Name, Age, Gender, Crime, danger_lvl } = req.body;
   try {
-    const query = await pool.query(`UPDATE customers SET name = ($1), email = ($2) WHERE id = ($3)`, [name, email, id])
-    console.log('customer updated!')
+    const query = await pool.query(`UPDATE criminals SET prison_id = ($1), Name = ($2), Age = ($3), Gender = ($4), Crime = ($5), danger_lvl = ($6) WHERE id = ($7)`, 
+      [prison_id, Name, Age, Gender, Crime, danger_lvl, id])
+    console.log('criminal updated!')
   }
   catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to update customer" });
+    res.status(500).json({ error: "Failed to update criminal" });
   }
 }
 

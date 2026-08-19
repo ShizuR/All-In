@@ -1,5 +1,5 @@
 import express, { Router } from "express"; /* https://expressjs.com/en/5x/guide/routing/#approute */
-import { createCriminal, deleteCustomer, getCriminals, updateCustomer } from "./thirdBackendScript.ts";
+import { createCriminal, deleteCustomer, getCriminals, updateCriminal } from "./thirdBackendScript.ts";
 import cors from "cors";
 const app = express();
 
@@ -11,7 +11,7 @@ app.use(express.json()); // parse requests into json
 
 router.post("/criminals/:prison_id/:Name/:Age/:Gender/:Crime/:danger_lvl", createCriminal);
 router.get("/criminals", getCriminals);
-router.put("/criminals/:name/:email/:id", updateCustomer);
+router.put("/criminals/:id/:prison_id/:Name/:Age/:Gender/:Crime/:danger_lvl", updateCriminal);
 router.delete("/criminals/:id", deleteCustomer);
 
 app.use('/', router);

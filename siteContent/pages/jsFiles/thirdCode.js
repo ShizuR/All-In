@@ -3,7 +3,7 @@
 // await needs to be used inside async function
 // create customer
 
-async function create(prison_id, Name, Age, Gender, Crime, danger_lvl){
+async function createC(prison_id, Name, Age, Gender, Crime, danger_lvl){
         const response = await fetch('http://localhost:8888/criminals/'+prison_id+'/'+Name+'/'+Age+'/'+Gender+'/'+Crime+'/'+danger_lvl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -12,7 +12,7 @@ async function create(prison_id, Name, Age, Gender, Crime, danger_lvl){
     const now = await response.json();
 };
 
-async function get(){ // use entire url as backend and frontend on different ports
+async function getC(){ // use entire url as backend and frontend on different ports
     const response = await fetch('http://localhost:8888/criminals')
     const data = await response.json();
     console.log(data)
@@ -23,11 +23,11 @@ async function get(){ // use entire url as backend and frontend on different por
     document.getElementById('data').innerText = String(data[1].crime)
 };
 
-async function update(nameP, emailP, idP){
-        const response = await fetch('http://localhost:8888/customers/'+nameP+'/'+emailP+'/'+idP, {
+async function updateC(id, prison_id, Name, Age, Gender, Crime, danger_lvl){
+        const response = await fetch('http://localhost:8888/criminals/'+id+'/'+prison_id+'/'+Name+'/'+Age+'/'+Gender+'/'+Crime+'/'+danger_lvl, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: nameP, email: emailP, id: idP }),
+        body: JSON.stringify({ id: id, prison_id: prison_id, Name: Name, Age: Age, Gender: Gender, Crime: Crime, danger_lvl: danger_lvl }),
     })
     //const now = await response.json();
     //console.log(now);
@@ -43,6 +43,6 @@ async function deleteC(idP){
     //console.log(now);
 };
 
-get();
-create(2, 'test', 35, 'M', 'Trespassing', 1);
-get();
+getC();
+updateC(1, 2, 'test', 35, 'M', 'Trespassing', 1);
+getC();
