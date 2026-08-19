@@ -62,15 +62,15 @@ export async function updateCriminal(req: Request, res: Response) {
 }
 
 /* delete customer */
-export async function deleteCustomer(req: Request, res: Response) {
+export async function deleteCriminal(req: Request, res: Response) {
   const { id } = req.body;
   try {
-    const query = await pool.query(`DELETE FROM customers WHERE id = ($1)`, [id])
-    console.log('customer deleted!')
+    const query = await pool.query(`DELETE FROM criminals WHERE id = ($1)`, [id])
+    console.log('criminal deleted!')
   }
   catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to delete customer" });
+    res.status(500).json({ error: "Failed to delete criminal" });
   }
 }
 

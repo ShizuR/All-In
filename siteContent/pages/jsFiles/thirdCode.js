@@ -33,16 +33,14 @@ async function updateC(id, prison_id, Name, Age, Gender, Crime, danger_lvl){
     //console.log(now);
 };
 
-async function deleteC(idP){
-        const response = await fetch('http://localhost:8888/customers/'+idP, {
+async function deleteC(id){
+        const response = await fetch('http://localhost:8888/criminals/'+id, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: idP }),
+        body: JSON.stringify({ id: id }),
     })
-    //const now = await response.json();
-    //console.log(now);
 };
 
 getC();
-updateC(1, 2, 'test', 35, 'M', 'Trespassing', 1);
+deleteC(1);
 getC();
