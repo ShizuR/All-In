@@ -69,8 +69,15 @@ body {
     top: 75%;
 }
 
-h1 {
-    position: absolute;
-    left: 65%;
-    top: 10%;
+#dataHeader {
+    text-align: center;
+}
+
+#dataHeaderDiv {
+    left: 65%; 
+    top: 10%; 
+    width: 48%; 
+    height: 10%; 
+    position: absolute; 
+    left: 50%;
 }
