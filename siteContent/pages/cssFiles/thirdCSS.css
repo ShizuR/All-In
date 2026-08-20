@@ -2,19 +2,19 @@
     fill: rgb(100, 191, 233);
 }
 
-#wales {
+.wales {
     fill: rgb(233, 104, 104);
 }
 
-#wales:hover {
+.walesHover:hover {
     fill: rgb(207, 75, 75);
 }
 
-#northernI {
+.northernI {
     fill: rgb(233, 191, 100);
 }
 
-#northernI:hover {
+.northernIHover:hover {
     fill: rgb(202, 161, 74);
 }
 
@@ -22,15 +22,15 @@
     fill: rgb(201, 200, 201);
 }
 
-#scotland {
+.scotland {
     fill: rgb(100, 233, 131);
 }
 
-#scotland:hover {
+.scotlandHover:hover {
     fill: rgb(75, 207, 143);
 }
 
-.england, #wales, #northernI, #scotland {
+.england, .wales, .northernI, .scotland {
     transition: all 0.5s;
 }
 
