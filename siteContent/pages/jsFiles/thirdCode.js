@@ -1,5 +1,4 @@
-// connect CRUD operations to backend
-
+// connect CRUD operations to backend using restful apis
 // await needs to be used inside async function
 
 // criminals
@@ -77,11 +76,3 @@ async function deleteP(prison_id){
         body: JSON.stringify({ prison_id: prison_id }),
     })
 };
-
-getP();
-createP('test', 'England', 4, 123, 23, 'F');
-getP();
-updateP(2, 'updated', 'England', 1, 456, 123, 'F');
-getP();
-deleteP(1);
-getP();

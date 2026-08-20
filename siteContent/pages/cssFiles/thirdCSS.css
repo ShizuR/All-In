@@ -1,0 +1,60 @@
+.england {
+    fill: goldenrod;
+}
+
+#wales {
+    fill: red;
+}
+
+#northernI {
+    fill: purple;
+}
+
+#ireland {
+    fill: blue;
+}
+
+#scotland {
+    fill: pink;
+}
+
+#UK {
+    scale: 0.5;
+    left: -18%;
+    position: absolute;
+    top: -40%;
+}
+
+.disableScroll {
+  height: 100%;
+  overflow: hidden;
+}
+
+#data {
+    position: absolute;
+    background-color: rgba(0, 255, 255, 0.086);
+    left: 50%;
+    top: 20%;
+    padding: 10px;
+    border: solid black;
+    border-radius: 5px;
+    border-width: thin;
+    height: 50%;
+    width: 45%;
+}
+
+body {
+    background-color: white;
+}
+
+#btnGroup {
+    position: absolute;
+    left: 58%;
+    top: 75%;
+}
+
+h1 {
+    position: absolute;
+    left: 65%;
+    top: 10%;
+}
