@@ -5,13 +5,13 @@
 document.querySelectorAll('.england').forEach(function(e) {
     e.addEventListener('mouseover', e => {
         document.querySelectorAll('.england').forEach(function(f){
-            f.setAttribute('style', 'fill: green');
+            f.setAttribute('style', 'fill: rgb(69, 162, 205)');
         })
     })
 
     e.addEventListener('mouseout', e => {
         document.querySelectorAll('.england').forEach(function(f){
-            f.setAttribute('style', 'fill: goldenrod');
+            f.setAttribute('style', 'fill: rgb(100, 191, 233)');
         })
     })
 });

@@ -1,21 +1,37 @@
 .england {
-    fill: goldenrod;
+    fill: rgb(100, 191, 233);
 }
 
 #wales {
-    fill: red;
+    fill: rgb(233, 104, 104);
+}
+
+#wales:hover {
+    fill: rgb(207, 75, 75);
 }
 
 #northernI {
-    fill: purple;
+    fill: rgb(233, 191, 100);
+}
+
+#northernI:hover {
+    fill: rgb(202, 161, 74);
 }
 
 #ireland {
-    fill: blue;
+    fill: rgb(201, 200, 201);
 }
 
 #scotland {
-    fill: pink;
+    fill: rgb(100, 233, 131);
+}
+
+#scotland:hover {
+    fill: rgb(75, 207, 143);
+}
+
+.england, #wales, #northernI, #scotland {
+    transition: all 0.5s;
 }
 
 #UK {
