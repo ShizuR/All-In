@@ -43,6 +43,12 @@ function choiceClicked(name) {
         document.getElementById(e).removeAttribute('disabled');
     });
     document.getElementById(name).setAttribute('disabled', 'True');
+    if (name == 'home') {
+        document.getElementById('dataHeader').innerText = 'Prisoners';
+    }
+    else {
+        document.getElementById('dataHeader').innerText = document.getElementById(name).innerText;
+    }
 }
 
 
