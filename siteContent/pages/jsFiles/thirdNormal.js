@@ -1,6 +1,7 @@
 // this code can run without docker
 // used to customize the map
 let currentPick = 'home';
+const allChoices = ['home', 'alterC', 'alterP']
 
 // since the svg separates england into smaller areas, group them into the england class and treat them as one entity
 document.querySelectorAll('.england').forEach(function(e) {
@@ -21,6 +22,7 @@ document.querySelectorAll('.england').forEach(function(e) {
     })
 });
 
+// change header on hover
 document.querySelectorAll('.country').forEach(function(e) {
     e.addEventListener('mouseover', e => {
         changeHeader(document.getElementById(e.target.id).getAttribute('title'));
@@ -34,5 +36,14 @@ document.querySelectorAll('.country').forEach(function(e) {
 function changeHeader(country) {
     document.getElementById('dataHeader').innerHTML = country;
 };
+
+function choiceClicked(name) {
+    currentPick = name;
+    allChoices.forEach(e => {
+        document.getElementById(e).removeAttribute('disabled');
+    });
+    document.getElementById(name).setAttribute('disabled', 'True');
+}
+
 
 document.body.classList.add("disableScroll");
