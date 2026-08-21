@@ -83,7 +83,6 @@ body {
     left: 50%;
 }
 
-
 table {
-    margin: auto;
+    border-spacing: 0.5em;
 }

@@ -51,6 +51,21 @@ export async function getCriminals(req: Request, res: Response) {
   }
 }
 
+export async function getCriminalsByCountry(req: Request, res: Response) {
+  try {
+    const { country } = req.body;
+    const result = await pool.query(`SELECT criminals.Name AS Name, criminals.Age AS Age, criminals.Gender AS Gender, Crime, danger_lvl, prisons.Name AS Prison 
+      FROM criminals 
+      INNER JOIN prisons
+      ON criminals.prison_id = prisons.prison_id AND prisons.Country = ($1);`, [country]);
+    res.json(result.rows);
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch criminals from country" });
+  }
+}
+
 /* update criminal information */
 export async function updateCriminal(req: Request, res: Response) {
   const { id, prison_id, Name, Age, Gender, Crime, danger_lvl } = req.body;

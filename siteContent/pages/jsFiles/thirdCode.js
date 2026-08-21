@@ -22,6 +22,17 @@ export async function getC(){ // use entire url as backend and frontend on diffe
     return data;
 };
 
+export async function getCC(country) {
+    const response = await fetch('http://localhost:8888/criminals/' + country, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country: country }),
+    })
+    const data = await response.json();
+    console.log(data)
+    return data;
+}
+
 export async function updateC(id, prison_id, Name, Age, Gender, Crime, danger_lvl){
         const response = await fetch('http://localhost:8888/criminals/'+id+'/'+prison_id+'/'+Name+'/'+Age+'/'+Gender+'/'+Crime+'/'+danger_lvl, {
         method: 'PUT',
@@ -76,5 +87,3 @@ export async function deleteP(prison_id){
         body: JSON.stringify({ prison_id: prison_id }),
     })
 };
-
-getC();
