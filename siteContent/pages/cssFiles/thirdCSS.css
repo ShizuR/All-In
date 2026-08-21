@@ -57,6 +57,7 @@
     border-width: thin;
     height: 50%;
     width: 45%;
+    overflow: scroll;
 }
 
 body {
@@ -69,7 +70,7 @@ body {
     top: 75%;
 }
 
-#dataHeader {
+#dataHeader, th, td {
     text-align: center;
 }
 
@@ -80,4 +81,9 @@ body {
     height: 10%; 
     position: absolute; 
     left: 50%;
+}
+
+
+table {
+    margin: auto;
 }

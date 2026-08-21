@@ -5,7 +5,7 @@ import * as route from './thirdCode.js';
 let currentPick = 'home';
 const allChoices = ['home', 'alterC', 'alterP'];
 const allCountries = ['wales', 'northernI', 'scotland'];
-const prisonerColumns = ['Name', 'Age', 'Gender', 'Crime', 'Danger Level'];
+const criminalColumns = ['Name', 'Age', 'Gender', 'Crime', 'Danger Level', 'Prison'];
 
 // since the svg separates england into smaller areas, group them into the england class and treat them as one entity
 document.querySelectorAll('.england').forEach(function(e) {
@@ -92,7 +92,8 @@ function choiceClicked(name) {
 function changeData(mode) {
     // display data as a table
     let tb = document.createElement("TABLE");
-    document.body.appendChild(tb);
+    tb.setAttribute("id", "myTable");
+    document.getElementById('data').appendChild(tb);
 
     switch(mode) {
         case 'allC':
@@ -101,9 +102,32 @@ function changeData(mode) {
             head.setAttribute("id", "myTr");
             document.getElementById("myTable").appendChild(head);
 
-            data.forEach(e => {
+            // instantiate the column names first
+            criminalColumns.forEach(e => {
+                let d = document.createElement('TH');
+                d.appendChild(document.createTextNode(e));
+                document.getElementById('myTr').appendChild(d)
+            });
+
+            // access returned values from the promise
+            data.then(e => {
+                // loop through objects in the array
+                for (let i = 0; i < e.length; i++) {
+                    let row = document.getElementById("myTable").insertRow();
+
+                    row.insertCell().innerHTML = e[i].name;
+                    row.insertCell().innerHTML = e[i].age;
+                    row.insertCell().innerHTML = e[i].gender;
+                    row.insertCell().innerHTML = e[i].crime;
+                    row.insertCell().innerHTML = e[i].danger_lvl;
+                    row.insertCell().innerHTML = e[i].prison;
+
+                    document.getElementById('myTable').appendChild(row)
+                }
             })
+            
     }
 }
 
 document.body.classList.add("disableScroll");
+changeData('allC');
