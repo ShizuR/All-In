@@ -2,7 +2,7 @@
 // await needs to be used inside async function
 
 // criminals
-async function createC(prison_id, Name, Age, Gender, Crime, danger_lvl){
+export async function createC(prison_id, Name, Age, Gender, Crime, danger_lvl){
         const response = await fetch('http://localhost:8888/criminals/'+prison_id+'/'+Name+'/'+Age+'/'+Gender+'/'+Crime+'/'+danger_lvl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -11,7 +11,7 @@ async function createC(prison_id, Name, Age, Gender, Crime, danger_lvl){
     const now = await response.json();
 };
 
-async function getC(){ // use entire url as backend and frontend on different ports
+export async function getC(){ // use entire url as backend and frontend on different ports
     const response = await fetch('http://localhost:8888/criminals')
     const data = await response.json();
     console.log(data)
@@ -19,10 +19,10 @@ async function getC(){ // use entire url as backend and frontend on different po
     for (let i = 0; i < data.length; i++) {
         console.log(data[i].name);
     }
-    document.getElementById('data').innerText = String(data[1].crime)
+    return data;
 };
 
-async function updateC(id, prison_id, Name, Age, Gender, Crime, danger_lvl){
+export async function updateC(id, prison_id, Name, Age, Gender, Crime, danger_lvl){
         const response = await fetch('http://localhost:8888/criminals/'+id+'/'+prison_id+'/'+Name+'/'+Age+'/'+Gender+'/'+Crime+'/'+danger_lvl, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -32,7 +32,7 @@ async function updateC(id, prison_id, Name, Age, Gender, Crime, danger_lvl){
     //console.log(now);
 };
 
-async function deleteC(id){
+export async function deleteC(id){
         const response = await fetch('http://localhost:8888/criminals/'+id, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
@@ -41,7 +41,7 @@ async function deleteC(id){
 };
 
 // prisons
-async function createP(Name, Country, security_lvl, max_prisoners, prisoner_count, Gender){
+export async function createP(Name, Country, security_lvl, max_prisoners, prisoner_count, Gender){
         const response = await fetch('http://localhost:8888/prisons/'+Name+'/'+Country+'/'+security_lvl+'/'+max_prisoners+'/'+prisoner_count+'/'+Gender, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,7 +50,7 @@ async function createP(Name, Country, security_lvl, max_prisoners, prisoner_coun
     const now = await response.json();
 };
 
-async function getP(){
+export async function getP(){
     const response = await fetch('http://localhost:8888/prisons')
     const data = await response.json();
     console.log(data)
@@ -61,7 +61,7 @@ async function getP(){
     document.getElementById('data').innerText = String(data[1].country)
 };
 
-async function updateP(prison_id, Name, Country, security_lvl, max_prisoners, prisoner_count, Gender){
+export async function updateP(prison_id, Name, Country, security_lvl, max_prisoners, prisoner_count, Gender){
         const response = await fetch('http://localhost:8888/prisons/'+prison_id+'/'+Name+'/'+Country+'/'+security_lvl+'/'+max_prisoners+'/'+prisoner_count+'/'+Gender, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -69,10 +69,12 @@ async function updateP(prison_id, Name, Country, security_lvl, max_prisoners, pr
     })
 };
 
-async function deleteP(prison_id){
+export async function deleteP(prison_id){
         const response = await fetch('http://localhost:8888/prisons/'+prison_id, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prison_id: prison_id }),
     })
 };
+
+getC();

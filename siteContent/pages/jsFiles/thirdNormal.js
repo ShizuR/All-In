@@ -1,8 +1,11 @@
 // this code can run without docker
 // used to customize the map
+import * as route from './thirdCode.js';
+
 let currentPick = 'home';
-const allChoices = ['home', 'alterC', 'alterP']
-const allCountries = ['wales', 'northernI', 'scotland']
+const allChoices = ['home', 'alterC', 'alterP'];
+const allCountries = ['wales', 'northernI', 'scotland'];
+const prisonerColumns = ['Name', 'Age', 'Gender', 'Crime', 'Danger Level'];
 
 // since the svg separates england into smaller areas, group them into the england class and treat them as one entity
 document.querySelectorAll('.england').forEach(function(e) {
@@ -28,7 +31,7 @@ document.querySelectorAll('.england').forEach(function(e) {
     
 });
 
-// change header on hover
+// on hover countries
 document.querySelectorAll('.country').forEach(function(e) {
     e.addEventListener('mouseover', e => {
         if (e.target.classList.contains(e.target.id + 'Hover')) {
@@ -86,5 +89,21 @@ function choiceClicked(name) {
     }
 }
 
+function changeData(mode) {
+    // display data as a table
+    let tb = document.createElement("TABLE");
+    document.body.appendChild(tb);
+
+    switch(mode) {
+        case 'allC':
+            let data = route.getC();
+            let head = document.createElement("TR");
+            head.setAttribute("id", "myTr");
+            document.getElementById("myTable").appendChild(head);
+
+            data.forEach(e => {
+            })
+    }
+}
 
 document.body.classList.add("disableScroll");

@@ -39,7 +39,10 @@ export async function createCriminal(req: Request, res: Response) {
 /* read all criminals and their information */
 export async function getCriminals(req: Request, res: Response) {
   try {
-    const result = await pool.query("SELECT * FROM criminals;");
+    const result = await pool.query(`SELECT criminals.Name AS Name, criminals.Age AS Age, criminals.Gender AS Gender, Crime, danger_lvl, prisons.Name AS Prison 
+      FROM criminals 
+      INNER JOIN prisons
+      ON criminals.prison_id = prisons.prison_id;`);
     res.json(result.rows);
   } 
   catch (err) {
