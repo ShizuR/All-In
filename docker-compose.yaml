@@ -22,11 +22,17 @@ services:
     networks:
       - postgres-network
     command: ['npm', 'start']
-    depends_on:
-      - crimeDB
-  
+    depends_on: # start database first before backend
+      crimeDB:
+        condition: service_healthy # only run when database is available https://www.warp.dev/terminus/docker-compose-depends-on
+
   crimeDB:
     image: postgres:18
+    healthcheck: # ensure that database is available
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     restart: always
     container_name: database
     environment:
