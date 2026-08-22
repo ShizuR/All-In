@@ -184,10 +184,12 @@ function clickFormBtn(btn) {
 }
 
 function makeForm(mode) {
+    document.getElementById('belowDiv').innerHTML = '';
     if (mode == 'create') {
+        let p = `<br>Click Complete after filling out the form to choose the appropriate prison. Prison options change depending on the criminal's security level.\n
+        If you want to change the criminal, please re-complete the criminal form, otherwise the previously completed criminal in this session will be created instead.`
         let form = `
-        <br>
-        <form id='createCrim'>
+        <form id='createCrim' style='margin-top: 5px;'>
             <fieldset>
                 <legend>Create Criminal</legend>
                 <p>
@@ -238,6 +240,7 @@ function makeForm(mode) {
         `
         let otherDiv = document.createElement('div')
         otherDiv.id = 'prisonDiv'
+        document.getElementById('belowDiv').insertAdjacentHTML('beforeend', p);
         document.getElementById('belowDiv').insertAdjacentHTML('beforeend', form);
         document.getElementById('belowDiv').appendChild(otherDiv)
 

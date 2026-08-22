@@ -29,10 +29,12 @@ export async function createCriminal(req: Request, res: Response) {
   try {
     const query = await pool.query(`INSERT INTO criminals(prison_id, Name, Age, Gender, Crime, danger_lvl) VALUES ($1, $2, $3, $4, $5, $6)`, [prison_id, Name, Age, Gender, Crime, danger_lvl])
     console.log('criminal created!')
+    res.json('Criminal created!')
   }
   catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to create criminal" });
+    // the only possible error that can be gotten
+    res.json('Criminal name already exists, ensure name is unique to the database');
   }
 }
 

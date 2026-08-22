@@ -4,12 +4,14 @@
 // criminals
 
 export async function createC(prison_id, Name, Age, Gender, Crime, danger_lvl){
-        const response = await fetch('http://localhost:8888/criminals/'+prison_id+'/'+Name+'/'+Age+'/'+Gender+'/'+Crime+'/'+danger_lvl, {
+    const response = await fetch('http://localhost:8888/criminals/'+prison_id+'/'+Name+'/'+Age+'/'+Gender+'/'+Crime+'/'+danger_lvl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prison_id: prison_id, Name: Name, Age: Age, Gender: Gender, Crime: Crime, danger_lvl: danger_lvl }),
     })
-    const now = await response.json();
+    let now = await response.json();
+    now = JSON.stringify(now)
+    alert(now)
 };
 
 export async function getC(){ // use entire url as backend and frontend on different ports
