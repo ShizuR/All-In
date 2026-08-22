@@ -152,12 +152,8 @@ fileRead.onload = e => {
     dragImport.src = 'https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js'
     dragImport.setAttribute('onload', 'checkLoadedGsap("drag import")')
 
-    ref.document.querySelector('div').appendChild(zoomIn)
-    ref.document.querySelector('div').appendChild(zoomOut)
-    ref.document.querySelector('div').appendChild(reset)
-    ref.document.querySelector('body').appendChild(gsapImport)
-    ref.document.querySelector('body').appendChild(dragImport)
-    ref.document.querySelector('body').appendChild(code)
+    ref.document.querySelector('div').append(zoomIn, zoomOut, reset)
+    ref.document.querySelector('body').append(gsapImport, dragImport, code)
 }
 
 newRef.addEventListener('change', e => {

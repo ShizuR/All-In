@@ -2,6 +2,7 @@
 // await needs to be used inside async function
 
 // criminals
+
 export async function createC(prison_id, Name, Age, Gender, Crime, danger_lvl){
         const response = await fetch('http://localhost:8888/criminals/'+prison_id+'/'+Name+'/'+Age+'/'+Gender+'/'+Crime+'/'+danger_lvl, {
         method: 'POST',
@@ -64,12 +65,7 @@ export async function createP(Name, Country, security_lvl, max_prisoners, prison
 export async function getP(){
     const response = await fetch('http://localhost:8888/prisons')
     const data = await response.json();
-    console.log(data)
-    // to access a specific value for a criminal
-    for (let i = 0; i < data.length; i++) {
-        console.log(data[i].name);
-    }
-    document.getElementById('data').innerText = String(data[1].country)
+    return data
 };
 
 export async function updateP(prison_id, Name, Country, security_lvl, max_prisoners, prisoner_count, Gender){
