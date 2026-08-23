@@ -1,0 +1,88 @@
+.england {
+    fill: rgb(100, 191, 233);
+}
+
+.wales {
+    fill: rgb(233, 104, 104);
+}
+
+.walesHover:hover {
+    fill: rgb(207, 75, 75);
+}
+
+.northernI {
+    fill: rgb(233, 191, 100);
+}
+
+.northernIHover:hover {
+    fill: rgb(202, 161, 74);
+}
+
+#ireland {
+    fill: rgb(201, 200, 201);
+}
+
+.scotland {
+    fill: rgb(100, 233, 131);
+}
+
+.scotlandHover:hover {
+    fill: rgb(75, 207, 143);
+}
+
+.england, .wales, .northernI, .scotland {
+    transition: all 0.5s;
+}
+
+#UK {
+    scale: 0.5;
+    left: -18%;
+    position: absolute;
+    top: -40%;
+}
+
+.disableScroll {
+  height: 100%;
+  overflow: hidden;
+}
+
+#data {
+    position: absolute;
+    background-color: rgba(0, 255, 255, 0.086);
+    left: 50%;
+    top: 20%;
+    padding: 10px;
+    border: solid black;
+    border-radius: 5px;
+    border-width: thin;
+    height: 50%;
+    width: 45%;
+    overflow: scroll;
+}
+
+body {
+    background-color: white;
+}
+
+#btnGroup {
+    position: absolute;
+    left: 63%;
+    top: 75%;
+}
+
+#dataHeader, th, td {
+    text-align: center;
+}
+
+#dataHeaderDiv {
+    left: 65%; 
+    top: 10%; 
+    width: 48%; 
+    height: 10%; 
+    position: absolute; 
+    left: 50%;
+}
+
+table {
+    border-spacing: 0.5em;
+}
