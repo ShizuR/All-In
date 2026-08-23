@@ -381,8 +381,10 @@ function makeForm(mode, criminal) {
 
 function deleteCriminal(id) {
     route.deleteC(id)
-    currentForm = 'createB'
-    clickFormBtn('selectB')
+    setTimeout(function(){
+        currentForm = 'createB'
+        clickFormBtn('selectB')
+    }, 1500);
 }
 
 // https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Sending_forms_through_JavaScript#building_a_formdata_object_manually
