@@ -41,7 +41,7 @@ export async function createCriminal(req: Request, res: Response) {
 /* read all criminals and their information */
 export async function getCriminals(req: Request, res: Response) {
   try {
-    const result = await pool.query(`SELECT criminals.Name AS Name, criminals.Age AS Age, criminals.Gender AS Gender, Crime, danger_lvl, prisons.Name AS Prison 
+    const result = await pool.query(`SELECT criminals.id AS id, criminals.Name AS Name, criminals.Age AS Age, criminals.Gender AS Gender, Crime, danger_lvl, prisons.Name AS Prison 
       FROM criminals 
       INNER JOIN prisons
       ON criminals.prison_id = prisons.prison_id;`);
@@ -75,10 +75,11 @@ export async function updateCriminal(req: Request, res: Response) {
     const query = await pool.query(`UPDATE criminals SET prison_id = ($1), Name = ($2), Age = ($3), Gender = ($4), Crime = ($5), danger_lvl = ($6) WHERE id = ($7)`, 
       [prison_id, Name, Age, Gender, Crime, danger_lvl, id])
     console.log('criminal updated!')
+    res.json('Criminal updated!')
   }
   catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to update criminal" });
+    res.json('Criminal cannot be updated. Ensure name is unique to the database')
   }
 }
 
@@ -120,6 +121,18 @@ export async function getPrisons(req: Request, res: Response) {
   catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch prisons" });
+  }
+}
+
+export async function getPrison(req: Request, res: Response) {
+  try {
+    const {name} = req.body
+    const result = await pool.query("SELECT * FROM prisons WHERE prisons.Name = ($1);", [name]);
+    res.json(result.rows);
+  } 
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch prison" });
   }
 }
 

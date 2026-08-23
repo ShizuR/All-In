@@ -130,7 +130,6 @@ function changeDisplayData(mode, div) {
         case 'allC':
             data = route.getC();
             break;
-        
         // get prisoners by country
         default:
             data = route.getCC(mode);
@@ -145,18 +144,32 @@ function changeDisplayData(mode, div) {
     let head = document.createElement("TR");
     head.setAttribute("id", "myTr");
     document.getElementById("myTable").appendChild(head);
+
     // instantiate the column names
+    // if it's for the select criminal form, make an empty table head column for the select buttons
+    if (div.id == 'belowDiv'){
+        let m = document.createElement('TH');
+        m.appendChild(document.createTextNode(''));
+        document.getElementById('myTr').appendChild(m)
+    }
     criminalColumns.forEach(e => {
         let d = document.createElement('TH');
         d.appendChild(document.createTextNode(e));
         document.getElementById('myTr').appendChild(d)
     });
+
     // access returned values from the promise
     data.then(e => {
         // loop through objects in the array
         for (let i = 0; i < e.length; i++) {
             let row = document.getElementById("myTable").insertRow();
 
+            if (div.id == 'belowDiv'){
+                let b = document.createElement('button')
+                b.innerHTML = 'Select'
+                b.addEventListener('click', f => {makeForm('change', e[i])})
+                row.insertCell().appendChild(b);
+            }
             row.insertCell().innerHTML = e[i].name;
             row.insertCell().innerHTML = e[i].age;
             row.insertCell().innerHTML = e[i].gender;
@@ -178,18 +191,19 @@ function clickFormBtn(btn) {
     else if (btn == 'createB' & currentForm != 'createB') {
         currentForm = 'createB'
         document.getElementById('belowDiv').innerHTML = '';
-        makeForm('create');
+        makeForm('create', null);
     }
     
 }
 
-function makeForm(mode) {
+function makeForm(mode, criminal) {
     document.getElementById('belowDiv').innerHTML = '';
+    let {p, form} = ''
     if (mode == 'create') {
-        let p = `<br>Click Complete after filling out the form to choose the appropriate prison. Prison options change depending on the criminal's security level.\n
+        p = `<br>Click Complete after filling out the form to choose the appropriate prison. Prison options change depending on the criminal's security level.\n
         If you want to change the criminal, please re-complete the criminal form, otherwise the previously completed criminal in this session will be created instead.`
-        let form = `
-        <form id='createCrim' style='margin-top: 5px;'>
+        form = `
+        <form id='formCrim' style='margin-top: 5px;'>
             <fieldset>
                 <legend>Create Criminal</legend>
                 <p>
@@ -224,65 +238,153 @@ function makeForm(mode) {
             </fieldset>
         </form>
         `
-        const formP = `
-        <br>
-        <form id='choosePrison'>
+    }
+    else if (mode == 'change') {
+        p = `<br>Click Complete after filling out the form to choose the appropriate prison. Prison options change depending on the criminal's security level.\n
+        If you want to change the criminal, please re-complete the criminal form, otherwise the previously completed criminal in this session will be created instead.`
+        form = `
+        <form id='formCrim' style='margin-top: 5px;'>
             <fieldset>
-                <Legend>Choose Prison</Legend>
+                <legend>Change Criminal</legend>
                 <p>
-                    <label for="prison">Prison:</label>
-                    <select id='prison' name='prison_id' required>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="Name" maxlength="25" required/>
+                </p>
+                <p>
+                    <label for="age">Age (18-100):</label>
+                    <input type='number' id="age" name="Age" min='18' max='100' required/>
+                </p>
+                <p>
+                    <label for="gender">Gender:</label>
+                    <select id='gender' name='Gender' required>
                     </select>
                 </p>
-                <input type="submit" value="Submit All">
+                <p>
+                    <label for='crime'>Crime:</label>
+                    <input type='text' id='crime' name='Crime' maxlength="25" required/>
+                </p>
+                <p>
+                    <label for='danger'>Danger level:</label>
+                    <select id='danger' name='danger_lvl' required>
+                    </select>
+                </p>
+                <input type="submit" value="Complete"/>
+                <button id='deleteC'>Delete Criminal</button>
             </fieldset>
         </form>
         `
-        let otherDiv = document.createElement('div')
-        otherDiv.id = 'prisonDiv'
-        document.getElementById('belowDiv').insertAdjacentHTML('beforeend', p);
-        document.getElementById('belowDiv').insertAdjacentHTML('beforeend', form);
-        document.getElementById('belowDiv').appendChild(otherDiv)
-
-        document.getElementById('createCrim').addEventListener("submit", (event) => {
-            event.preventDefault();
-            document.getElementById('prisonDiv').innerHTML = '';
-
-            // retrieve form data 
-            const formData = new FormData(document.getElementById('createCrim'))
-            document.getElementById('prisonDiv').insertAdjacentHTML('beforeend', formP);
-
-            // make prison drop down menu
-            let prisons = route.getP()
-            // make each prison an option as a drop down menu
-            // only return prisons danger level >= criminal danger level
-            prisons.then(e => {
-                for (let i = 0; i < e.length; i++) {
-                    if (e[i].security_lvl >= formData.get('danger_lvl')) {
-                        let option = document.createElement('option')
-                        option.setAttribute('value', e[i].prison_id)
-                        option.innerHTML = e[i].name
-                        document.getElementById('prison').appendChild(option)
-                    }
-                }
-            })
-
-            document.getElementById('choosePrison').addEventListener('submit', (event) => {
-                event.preventDefault()
-                const prisonData = new FormData(document.getElementById('choosePrison'))
-                formData.append('prison_id', prisonData.get('prison_id'))
-                sendData('create', formData)
-            })
-        });
-
-        // if values change before submitting, alert
     }
+    const formP = `
+    <br>
+    <form id='choosePrison'>
+        <fieldset>
+            <Legend>Choose Prison</Legend>
+            <p>
+                <label for="prison">Prison:</label>
+                <select id='prison' name='prison_id' required>
+                </select>
+            </p>
+            <input type="submit" value="Submit All">
+        </fieldset>
+    </form>
+    `
+    let otherDiv = document.createElement('div')
+    otherDiv.id = 'prisonDiv'
+    document.getElementById('belowDiv').insertAdjacentHTML('beforeend', p);
+    document.getElementById('belowDiv').insertAdjacentHTML('beforeend', form);
+    document.getElementById('belowDiv').appendChild(otherDiv)
+
+    // autofill change criminal form
+    if (mode == 'change') {
+        document.getElementById('name').setAttribute('value', criminal.name)
+        document.getElementById('age').setAttribute('value', criminal.age)
+        if (criminal.gender == 'F') {
+            document.getElementById('gender').innerHTML = `<option value='F'>Female</option>
+                <option value='M'>Male</option>`
+        }
+        else {
+            document.getElementById('gender').innerHTML = `<option value='M'>Male</option>
+                <option value='F'>Female</option>`
+        }
+        document.getElementById('crime').setAttribute('value', criminal.crime)
+        let dangers = [1,2,3,4]
+        dangers.splice(dangers.indexOf(criminal.danger_lvl), 1)
+        document.getElementById('danger').innerHTML = `<option value='${criminal.danger_lvl}'>${criminal.danger_lvl}</option>`
+        for (let i = 1; i < 5; i++) {
+            if (i != criminal.danger_lvl) {
+                let m = document.createElement('option')
+                m.value = i
+                m.innerHTML = i
+                document.getElementById('danger').appendChild(m)
+            }
+        }
+    }
+
+    // show prison form after complete
+    document.getElementById('formCrim').addEventListener("submit", (event) => {
+        event.preventDefault();
+        document.getElementById('prisonDiv').innerHTML = '';
+
+        // retrieve form data 
+        const formData = new FormData(document.getElementById('formCrim'))
+        if (mode == 'change') {
+            formData.append('id', criminal.id)
+            console.log(criminal.id)
+        }
+        document.getElementById('prisonDiv').insertAdjacentHTML('beforeend', formP);
+
+        // make prison drop down menu
+        let prisons = route.getP()
+        // make each prison an option as a drop down menu
+        // only return prisons danger level >= criminal danger level
+
+        prisons.then(e => {
+            // make the criminal's prison appear first for change form
+            let prisonC = ''
+
+            if (mode == 'change') {
+                prisonC = route.getPSingle(criminal.prison)
+            }
+
+            for (let i = 0; i < e.length; i++) {
+                if (e[i].security_lvl >= formData.get('danger_lvl') & criminal.prison != e[i].name & e[i].prisoner_count < e[i].max_prisoners) {
+                    let option = new Option(e[i].name, e[i].prison_id)
+                    document.getElementById('prison').add(option, undefined)
+                }
+            }
+
+            if (mode == 'change') {
+                prisonC.then(d => {
+                    console.log(d[0])
+                    let o = new Option(d[0].name, d[0].prison_id);
+                    o.setAttribute('selected', 'selected')
+                    document.getElementById('prison').add(o, document.getElementById('prison')[0])
+                })
+            }
+        })
+
+        document.getElementById('choosePrison').addEventListener('submit', (event) => {
+            event.preventDefault()
+            const prisonData = new FormData(document.getElementById('choosePrison'))
+            formData.append('prison_id', prisonData.get('prison_id'))
+            if (mode == 'create') {
+                sendData('create', formData)
+            }
+            else {
+                console.log(formData.entries())
+                sendData('change', formData)
+            }
+        })
+    });
 }
 
 // https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Sending_forms_through_JavaScript#building_a_formdata_object_manually
 function sendData(mode, values){
     if (mode == 'create') {
         route.createC(values.get('prison_id'), values.get('Name'), values.get('Age'), values.get('Gender'), values.get('Crime'), values.get('danger_lvl'));
+    }
+    else {
+        route.updateC(values.get('id'), values.get('prison_id'), values.get('Name'), values.get('Age'), values.get('Gender'), values.get('Crime'), values.get('danger_lvl'));
     }
 }
 

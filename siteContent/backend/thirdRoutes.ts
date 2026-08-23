@@ -1,5 +1,5 @@
 import express, { Router } from "express"; /* https://expressjs.com/en/5x/guide/routing/#approute */
-import { createCriminal, deleteCriminal, getCriminals, updateCriminal, createPrison, deletePrison, getPrisons, updatePrison, getCriminalsByCountry } from "./thirdBackendScript.ts";
+import { createCriminal, deleteCriminal, getCriminals, updateCriminal, createPrison, deletePrison, getPrisons, getPrison, updatePrison, getCriminalsByCountry } from "./thirdBackendScript.ts";
 import cors from "cors";
 const app = express();
 
@@ -17,6 +17,7 @@ router.delete("/criminals/:id", deleteCriminal);
 
 router.post("/prisons/:Name/:Country/:security_lvl/:max_prisoners/:prisoner_count/:Gender", createPrison);
 router.get("/prisons", getPrisons);
+router.post("/prisons/:Name", getPrison);
 router.put("/prisons/:prison_id/:Name/:Country/:security_lvl/:max_prisoners/:prisoner_count/:Gender", updatePrison);
 router.delete("/prisons/:prison_id", deletePrison);
 

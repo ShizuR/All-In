@@ -42,8 +42,9 @@ export async function updateC(id, prison_id, Name, Age, Gender, Crime, danger_lv
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: id, prison_id: prison_id, Name: Name, Age: Age, Gender: Gender, Crime: Crime, danger_lvl: danger_lvl }),
     })
-    //const now = await response.json();
-    //console.log(now);
+    let now = await response.json();
+    now = JSON.stringify(now)
+    alert(now)
 };
 
 export async function deleteC(id){
@@ -67,6 +68,16 @@ export async function createP(Name, Country, security_lvl, max_prisoners, prison
 export async function getP(){
     const response = await fetch('http://localhost:8888/prisons')
     const data = await response.json();
+    return data
+};
+
+export async function getPSingle(name) {
+    const response = await fetch('http://localhost:8888/prisons/' + name, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({ name: name }) // ensure the key matches the constant retrieved in thirdbackendscripts
+    })
+    const data = await response.json()
     return data
 };
 
