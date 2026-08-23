@@ -1,5 +1,5 @@
 import express, { Router } from "express"; /* https://expressjs.com/en/5x/guide/routing/#approute */
-import { createCriminal, deleteCriminal, getCriminals, updateCriminal, createPrison, deletePrison, getPrisons, getPrison, updatePrison, getCriminalsByCountry } from "./thirdBackendScript.ts";
+import { createCriminal, deleteCriminal, getCriminals, searchCriminal, updateCriminal, createPrison, deletePrison, getPrisons, getPrison, updatePrison, getCriminalsByCountry } from "./thirdBackendScript.ts";
 import cors from "cors";
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(express.json()); // parse requests into json
 
 router.post("/criminals/:prison_id/:Name/:Age/:Gender/:Crime/:danger_lvl", createCriminal);
 router.get("/criminals", getCriminals);
+router.post("/criminals/:text", searchCriminal);
 router.post("/criminals/:country", getCriminalsByCountry);
 router.put("/criminals/:id/:prison_id/:Name/:Age/:Gender/:Crime/:danger_lvl", updateCriminal);
 router.delete("/criminals/:id", deleteCriminal);

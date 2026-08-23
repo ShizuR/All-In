@@ -36,6 +36,17 @@ export async function getCC(country) {
     return data;
 }
 
+export async function searchC(text) {
+    const response = await fetch('http://localhost:8888/criminals/' + text, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text }),
+    })
+    const data = await response.json();
+    console.log(data)
+    return data;
+}
+
 export async function updateC(id, prison_id, Name, Age, Gender, Crime, danger_lvl){
         const response = await fetch('http://localhost:8888/criminals/'+id+'/'+prison_id+'/'+Name+'/'+Age+'/'+Gender+'/'+Crime+'/'+danger_lvl, {
         method: 'PUT',

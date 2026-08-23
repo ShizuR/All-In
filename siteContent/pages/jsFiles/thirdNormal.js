@@ -3,7 +3,7 @@
 import * as route from './thirdCode.js';
 
 let currentPick = 'home';
-const allChoices = ['home', 'alterC', 'alterP'];
+const allChoices = ['home', 'alterC'];
 const allCountries = ['wales', 'northernI', 'scotland'];
 const criminalColumns = ['Name', 'Age', 'Gender', 'Crime', 'Danger Level', 'Prison'];
 let currentClick = 'Prisoners';
@@ -34,13 +34,13 @@ document.querySelectorAll('.england').forEach(function(e) {
         if (currentPick == 'home') {
             if (currentClick != 'England') {
                 changeHeader('England');
-                changeDisplayData('England', dataDiv);
+                changeDisplayData('England', dataDiv, null);
                 currentClick = 'England';
             }
             else {
                 currentClick = 'Prisoners';
                 changeHeader('Prisoners');
-                changeDisplayData('allC', dataDiv);
+                changeDisplayData('allC', dataDiv, null);
             }
         }
         
@@ -55,13 +55,13 @@ document.querySelectorAll('.country').forEach(function(e) {
         if (currentPick == 'home') {
             if (currentClick != document.getElementById(e.target.id).getAttribute('title')) {
                 changeHeader(document.getElementById(e.target.id).getAttribute('title'));
-                changeDisplayData(document.getElementById(e.target.id).getAttribute('title'), dataDiv);
+                changeDisplayData(document.getElementById(e.target.id).getAttribute('title'), dataDiv, null);
                 currentClick = document.getElementById(e.target.id).getAttribute('title');
             }
             else {
                 currentClick = 'Prisoners';
                 changeHeader('Prisoners');
-                changeDisplayData('allC', dataDiv);
+                changeDisplayData('allC', dataDiv, null);
             }
             console.log('click')
         }
@@ -92,7 +92,7 @@ function choiceClicked(name) {
         showForm();
     }
     else {
-        changeDisplayData('allC', dataDiv)
+        changeDisplayData('allC', dataDiv, null)
         allCountries.forEach(e => {
             if (document.getElementById(e).classList.contains(e + 'Hover') == false) {
                 document.getElementById(e).classList.add(e + 'Hover')
@@ -119,8 +119,16 @@ function choiceClicked(name) {
     }
 };
 
+function search(text) {
+    if (text.trim().length == 0) {
+        changeDisplayData('allC', document.getElementById('belowDiv'), null)
+    }
+    const search = route.searchC(text)
+    changeDisplayData('searched', document.getElementById('belowDiv'), search)
+}
+
 // either get all criminals or criminals by country
-function changeDisplayData(mode, div) {
+function changeDisplayData(mode, div, ownData) {
     div.innerHTML = ''; // clear div
     let data = null;
 
@@ -130,9 +138,23 @@ function changeDisplayData(mode, div) {
         case 'allC':
             data = route.getC();
             break;
+        case 'searched':
+            data = ownData;
+            break;
         // get prisoners by country
         default:
             data = route.getCC(mode);
+    }
+
+    if (div.id == 'belowDiv') {
+        let d = `
+        <p style="display: flex; flex-direction: row;">
+            <label for="nameS" style="margin-right: 5px;">Search by name: </label>
+            <input type="text" id="nameS" name="Name" maxlength="25"/>
+            <button id="searchC">Search</button>
+        </p>`
+        div.insertAdjacentHTML('beforeend', d)
+        document.getElementById('searchC').addEventListener('click', e => {search(document.getElementById('nameS').value)})
     }
 
     console.log(data)
@@ -186,7 +208,7 @@ function clickFormBtn(btn) {
     if (btn == 'selectB' & currentForm != 'selectB') {
         currentForm = 'selectB'
         // make search bar
-        changeDisplayData('allC', document.getElementById('belowDiv'));
+        changeDisplayData('allC', document.getElementById('belowDiv'), null);
     }
     else if (btn == 'createB' & currentForm != 'createB') {
         currentForm = 'createB'
@@ -381,19 +403,23 @@ function makeForm(mode, criminal) {
 
 function deleteCriminal(id) {
     route.deleteC(id)
-    setTimeout(function(){
-        currentForm = 'createB'
-        clickFormBtn('selectB')
-    }, 1500);
 }
 
 // https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Sending_forms_through_JavaScript#building_a_formdata_object_manually
 function sendData(mode, values){
     if (mode == 'create') {
         route.createC(values.get('prison_id'), values.get('Name'), values.get('Age'), values.get('Gender'), values.get('Crime'), values.get('danger_lvl'));
+        setTimeout(function(){
+            currentForm = 'selectB'
+            clickFormBtn('createB')
+        }, 1500);
     }
     else {
         route.updateC(values.get('id'), values.get('prison_id'), values.get('Name'), values.get('Age'), values.get('Gender'), values.get('Crime'), values.get('danger_lvl'));
+        setTimeout(function(){
+            currentForm = 'createB'
+            clickFormBtn('selectB')
+        }, 1500);
     }
 }
 
@@ -419,7 +445,6 @@ function showForm() {
 }
 
 document.body.classList.add("disableScroll");
-changeDisplayData('allC', dataDiv);
+changeDisplayData('allC', dataDiv, null);
 document.getElementById('home').addEventListener('click', e => {choiceClicked('home')});
 document.getElementById('alterC').addEventListener('click', e => {choiceClicked('alterC')});
-document.getElementById('alterP').addEventListener('click', e => {choiceClicked('alterP')});
