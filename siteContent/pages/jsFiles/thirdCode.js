@@ -53,6 +53,9 @@ export async function deleteC(id){
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: id }),
     })
+    let now = await response.json();
+    now = JSON.stringify(now)
+    alert(now)
 };
 
 // prisons

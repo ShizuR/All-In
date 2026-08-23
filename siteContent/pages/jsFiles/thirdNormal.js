@@ -293,6 +293,7 @@ function makeForm(mode, criminal) {
     document.getElementById('belowDiv').insertAdjacentHTML('beforeend', p);
     document.getElementById('belowDiv').insertAdjacentHTML('beforeend', form);
     document.getElementById('belowDiv').appendChild(otherDiv)
+    document.getElementById('deleteC').addEventListener('click', e => {deleteCriminal(criminal.id)});
 
     // autofill change criminal form
     if (mode == 'change') {
@@ -376,6 +377,12 @@ function makeForm(mode, criminal) {
             }
         })
     });
+}
+
+function deleteCriminal(id) {
+    route.deleteC(id)
+    currentForm = 'createB'
+    clickFormBtn('selectB')
 }
 
 // https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Sending_forms_through_JavaScript#building_a_formdata_object_manually

@@ -89,10 +89,11 @@ export async function deleteCriminal(req: Request, res: Response) {
   try {
     const query = await pool.query(`DELETE FROM criminals WHERE id = ($1)`, [id])
     console.log('criminal deleted!')
+    res.json('Criminal deleted!')
   }
   catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to delete criminal" });
+    res.json("Failed to delete criminal");
   }
 }
 
