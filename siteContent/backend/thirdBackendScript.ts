@@ -28,6 +28,8 @@ export async function createCriminal(req: Request, res: Response) {
   const { prison_id, Name, Age, Gender, Crime, danger_lvl } = req.body;
   try {
     const query = await pool.query(`INSERT INTO criminals(prison_id, Name, Age, Gender, Crime, danger_lvl) VALUES ($1, $2, $3, $4, $5, $6)`, [prison_id, Name, Age, Gender, Crime, danger_lvl])
+    const update = await pool.query(`UPDATE prisons SET prisoner_count = prisoner_count + 1 WHERE prison_id = ($1)`, 
+      [prison_id])
     console.log('criminal created!')
     res.json('Criminal created!')
   }
@@ -72,8 +74,17 @@ export async function getCriminalsByCountry(req: Request, res: Response) {
 export async function updateCriminal(req: Request, res: Response) {
   const { id, prison_id, Name, Age, Gender, Crime, danger_lvl } = req.body;
   try {
-    const query = await pool.query(`UPDATE criminals SET prison_id = ($1), Name = ($2), Age = ($3), Gender = ($4), Crime = ($5), danger_lvl = ($6) WHERE id = ($7)`, 
+    const check = await pool.query(`SELECT * FROM criminals WHERE id = ($1);`, [id])
+    const query = await pool.query(`UPDATE criminals SET prison_id = ($1), Name = ($2), Age = ($3), Gender = ($4), Crime = ($5), danger_lvl = ($6) WHERE id = ($7);`, 
       [prison_id, Name, Age, Gender, Crime, danger_lvl, id])
+    if (check.rows[0].prison_id != prison_id) { // if the prison changed
+      // update new prison
+      const update = await pool.query(`UPDATE prisons SET prisoner_count = prisoner_count + 1 WHERE prison_id = ($1);`, 
+        [prison_id])
+      // update old prison
+      const subtract = await pool.query(`UPDATE prisons SET prisoner_count = prisoner_count - 1 WHERE prison_id = ($1);`, 
+        [check.rows[0].prison_id])
+    }
     console.log('criminal updated!')
     res.json('Criminal updated!')
   }
@@ -87,7 +98,10 @@ export async function updateCriminal(req: Request, res: Response) {
 export async function deleteCriminal(req: Request, res: Response) {
   const { id } = req.body;
   try {
+    const check = await pool.query(`SELECT * FROM criminals WHERE id = ($1);`, [id])
     const query = await pool.query(`DELETE FROM criminals WHERE id = ($1)`, [id])
+    const update = await pool.query(`UPDATE prisons SET prisoner_count = prisoner_count -1 WHERE prison_id = ($1)`, 
+      [check.rows[0].prison_id])
     console.log('criminal deleted!')
     res.json('Criminal deleted!')
   }
@@ -149,33 +163,6 @@ export async function getPrison(req: Request, res: Response) {
   catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch prison" });
-  }
-}
-
-/* update prison information */
-export async function updatePrison(req: Request, res: Response) {
-  const { prison_id, Name, Country, security_lvl, max_prisoners, prisoner_count, Gender } = req.body;
-  try {
-    const query = await pool.query(`UPDATE prisons SET Gender = ($1), Name = ($2), Country = ($3), security_lvl = ($4), max_prisoners = ($5), prisoner_count = ($6) WHERE prison_id = ($7)`, 
-      [Gender, Name, Country, security_lvl, max_prisoners, prisoner_count, prison_id])
-    console.log('prison updated!')
-  }
-  catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to update prison" });
-  }
-}
-
-/* delete prison */
-export async function deletePrison(req: Request, res: Response) {
-  const { prison_id } = req.body;
-  try {
-    const query = await pool.query(`DELETE FROM prisons WHERE prison_id = ($1)`, [prison_id])
-    console.log('prison deleted!')
-  }
-  catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to delete prison" });
   }
 }
 

@@ -218,7 +218,7 @@ function clickFormBtn(btn) {
     
 }
 
-function makeForm(mode, criminal) {
+async function makeForm(mode, criminal) {
     document.getElementById('belowDiv').innerHTML = '';
     let {p, form} = ''
     if (mode == 'create') {
@@ -256,7 +256,7 @@ function makeForm(mode, criminal) {
                         <option value='4'>4</option>
                     </select>
                 </p>
-                <input type="submit" value="Complete">
+                <input id='submit' type="submit" value="Complete">
             </fieldset>
         </form>
         `
@@ -290,7 +290,7 @@ function makeForm(mode, criminal) {
                     <select id='danger' name='danger_lvl' required>
                     </select>
                 </p>
-                <input type="submit" value="Complete"/>
+                <input id='submit' type="submit" value="Complete"/>
                 <button id='deleteC'>Delete Criminal</button>
             </fieldset>
         </form>
@@ -315,10 +315,10 @@ function makeForm(mode, criminal) {
     document.getElementById('belowDiv').insertAdjacentHTML('beforeend', p);
     document.getElementById('belowDiv').insertAdjacentHTML('beforeend', form);
     document.getElementById('belowDiv').appendChild(otherDiv)
-    document.getElementById('deleteC').addEventListener('click', e => {deleteCriminal(criminal.id)});
 
     // autofill change criminal form
     if (mode == 'change') {
+        document.getElementById('deleteC').addEventListener('click', e => {deleteCriminal(criminal.id)});
         document.getElementById('name').setAttribute('value', criminal.name)
         document.getElementById('age').setAttribute('value', criminal.age)
         if (criminal.gender == 'F') {
@@ -344,7 +344,7 @@ function makeForm(mode, criminal) {
     }
 
     // show prison form after complete
-    document.getElementById('formCrim').addEventListener("submit", (event) => {
+    document.getElementById('submit').addEventListener("click", (event) => {
         event.preventDefault();
         document.getElementById('prisonDiv').innerHTML = '';
 
@@ -354,6 +354,10 @@ function makeForm(mode, criminal) {
             formData.append('id', criminal.id)
             console.log(criminal.id)
         }
+        for (var pair of formData) {
+            console.log('key: ', pair[0], ', val: ', pair[1], ' type: ', typeof pair[1])
+        }
+
         document.getElementById('prisonDiv').insertAdjacentHTML('beforeend', formP);
 
         // make prison drop down menu
@@ -361,28 +365,33 @@ function makeForm(mode, criminal) {
         // make each prison an option as a drop down menu
         // only return prisons danger level >= criminal danger level
 
-        prisons.then(e => {
+        prisons.then(async e => {
             // make the criminal's prison appear first for change form
+            let result = ''
             let prisonC = ''
 
             if (mode == 'change') {
-                prisonC = route.getPSingle(criminal.prison)
+                result = await route.getPSingle(criminal.prison)
+                // If you await a promise inside an async function it resloves directly to the value and not to a promise
+                // therefore use it directly, no need for .then()
+                console.log('name is: ', result[0].name)
+                prisonC = result[0].name
+                console.log('prisonC is: ', prisonC)
             }
 
             for (let i = 0; i < e.length; i++) {
-                if (e[i].security_lvl >= formData.get('danger_lvl') & criminal.prison != e[i].name & e[i].prisoner_count < e[i].max_prisoners) {
+                console.log(e[i].gender == formData.get('Gender'))
+                console.log(prisonC)
+                if (e[i].gender == formData.get('Gender') & e[i].security_lvl >= formData.get('danger_lvl') & prisonC != e[i].name & e[i].prisoner_count < e[i].max_prisoners) {
                     let option = new Option(e[i].name, e[i].prison_id)
                     document.getElementById('prison').add(option, undefined)
                 }
             }
 
             if (mode == 'change') {
-                prisonC.then(d => {
-                    console.log(d[0])
-                    let o = new Option(d[0].name, d[0].prison_id);
-                    o.setAttribute('selected', 'selected')
-                    document.getElementById('prison').add(o, document.getElementById('prison')[0])
-                })
+                let o = new Option(result[0].name, result[0].prison_id);
+                o.setAttribute('selected', 'selected')
+                document.getElementById('prison').add(o, document.getElementById('prison')[0])
             }
         })
 
