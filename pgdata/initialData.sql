@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS prisons (
     security_lvl INTEGER CHECK(0 < security_lvl AND security_lvl < 6),
     max_prisoners INTEGER NOT NULL,
     prisoner_count INTEGER NOT NULL CHECK(prisoner_count <= max_prisoners),
-    Gender CHARACTER(2) NOT NULL CHECK(Gender = 'F' OR Gender = 'M')
+    Gender VARCHAR(1) NOT NULL CHECK(Gender = 'F' OR Gender = 'M')
 );
 
 CREATE TABLE IF NOT EXISTS criminals (
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS criminals (
     prison_id INTEGER REFERENCES prisons(prison_id),
     Name VARCHAR(20) UNIQUE NOT NULL,
     Age INTEGER NOT NULL CHECK(18 <= Age AND Age <= 100),
-    Gender CHARACTER(1) NOT NULL CHECK(Gender = 'F' OR Gender = 'M'),
+    Gender VARCHAR(1) NOT NULL CHECK(Gender = 'F' OR Gender = 'M'),
     Crime VARCHAR(20) NOT NULL,
     danger_lvl INTEGER NOT NULL CHECK(0 < danger_lvl And danger_lvl < 5)
 );
