@@ -37,7 +37,7 @@ export async function getCC(country) {
 }
 
 export async function searchC(text) {
-    const response = await fetch('http://localhost:8888/criminals/' + text, {
+    const response = await fetch('http://localhost:8888/criminals/search/' + text, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: text }),

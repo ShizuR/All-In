@@ -13,10 +13,10 @@ CREATE TABLE IF NOT EXISTS prisons (
 CREATE TABLE IF NOT EXISTS criminals (
     id SERIAL PRIMARY KEY,
     prison_id INTEGER REFERENCES prisons(prison_id),
-    Name VARCHAR(20) UNIQUE NOT NULL,
+    Name VARCHAR(25) UNIQUE NOT NULL,
     Age INTEGER NOT NULL CHECK(18 <= Age AND Age <= 100),
     Gender VARCHAR(1) NOT NULL CHECK(Gender = 'F' OR Gender = 'M'),
-    Crime VARCHAR(20) NOT NULL,
+    Crime VARCHAR(25) NOT NULL,
     danger_lvl INTEGER NOT NULL CHECK(0 < danger_lvl And danger_lvl < 5)
 );
 

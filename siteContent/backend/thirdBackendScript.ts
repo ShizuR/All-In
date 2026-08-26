@@ -112,13 +112,14 @@ export async function deleteCriminal(req: Request, res: Response) {
 }
 
 export async function searchCriminal(req: Request, res: Response) {
+  console.log('called')
   try {
     let { text } = req.body;
     // replace all spaces with a wildcard
     // /g = global white spaces, not just first instance
     let newText = text.replace(/ /g, '%');
     text = '%' + newText + '%';
-    console.log(text)
+    console.log('searched name: ', text)
     const result = await pool.query(`SELECT * FROM criminals WHERE criminals.Name ILIKE ($1)`, [text])
     res.json(result.rows);
   }
