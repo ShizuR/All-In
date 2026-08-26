@@ -11,7 +11,7 @@ app.use(express.json()); // parse requests into json
 
 router.post("/criminals/:prison_id/:Name/:Age/:Gender/:Crime/:danger_lvl", createCriminal);
 router.get("/criminals", getCriminals);
-router.post("/criminals/:text", searchCriminal);
+router.post("/criminals/search/:text", searchCriminal);
 router.post("/criminals/:country", getCriminalsByCountry);
 router.put("/criminals/:id/:prison_id/:Name/:Age/:Gender/:Crime/:danger_lvl", updateCriminal);
 router.delete("/criminals/:id", deleteCriminal);

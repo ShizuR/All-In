@@ -123,8 +123,11 @@ function search(text) {
     if (text.trim().length == 0) {
         changeDisplayData('allC', document.getElementById('belowDiv'), null)
     }
-    const search = route.searchC(text)
-    changeDisplayData('searched', document.getElementById('belowDiv'), search)
+    else {
+        const search = route.searchC(text)
+        changeDisplayData('searched', document.getElementById('belowDiv'), search)
+    }
+    
 }
 
 // either get all criminals or criminals by country
