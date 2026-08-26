@@ -120,7 +120,7 @@ export async function searchCriminal(req: Request, res: Response) {
     let newText = text.replace(/ /g, '%');
     text = '%' + newText + '%';
     console.log('searched name: ', text)
-    const result = await pool.query(`SELECT criminals.Name AS Name, criminals.Age AS Age, criminals.Gender AS Gender, Crime, danger_lvl, prisons.Name AS Prison 
+    const result = await pool.query(`SELECT criminals.id AS id, criminals.Name AS Name, criminals.Age AS Age, criminals.Gender AS Gender, Crime, danger_lvl, prisons.Name AS Prison 
       FROM criminals 
       INNER JOIN prisons
       ON criminals.prison_id = prisons.prison_id
