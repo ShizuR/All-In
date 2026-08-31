@@ -1,51 +1,22 @@
 /* transition idea use cases https://thoughtbot.com/blog/transitions-and-transforms */
 
-body {
+#body {
+  background-color: rgba(139, 187, 236, 0.497);
+  transition: all 0.5s;
   interpolate-size: allow-keywords;
-  transition: background-color 5s;
 }
 
-/* animating the background to switch between seasons
-html, body {
-  width: 100%;
-  height: 100%;
-}
-*/
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0%;
-  }
-  100% {
-    opacity: 100%;
-  }
+p, h1, h2, h3, h4, h5 {
+  color: rgb(18, 84, 150);
 }
 
-.summer {
-  background-color:  rgb(184, 231, 247);
+.slideImg {
+  height: 100%; 
+  width: 100%; 
+  object-fit: cover; 
+  border-radius: 5vh; 
+  scale: 2;
 }
-
-.autumn {
-  background-color:  rgb(228, 208, 145);
-}
-
-/* adjusting dimensions of the iframe for full and small screen mode*/
-@keyframes animate {
-  0% {
-    width: none;
-    height: none;
-  }
-  100% {
-    width: 100%;
-    height: 100%;
-  }
-}
-
-/*
-#forTrans {
-  transition: all 2s ease-in;
-}
-*/
 
 .containFrame {
   position: relative;
@@ -54,7 +25,7 @@ html, body {
   height: 600px;
   margin: auto; /* center */
   border-radius: 10px; /* rounded edges */
-  border: 1px solid rgba(50, 120, 136, 0.512);
+  border: 1px solid rgb(24, 113, 203);
 }
 
 .fullscreen {
@@ -100,8 +71,8 @@ html, body {
   background-color: aliceblue;
   margin: 10%;
   border-radius: 5vh; /* vh to change size with veiwport (height) */
-  box-shadow: 1em 1em 0em rgba(50, 120, 136, 0.699), 2em 2em 0em rgba(105, 158, 170, 0.521);
-  border: 2px solid rgb(50, 120, 136);
+  box-shadow: 1em 1em 0em rgb(24, 113, 203, 0.699), 2em 2em 0em rgb(24, 113, 203, 0.521);
+  border: 2px solid rgb(24, 113, 203);
   /* for desc toggle*/
   overflow: hidden;
   transition: height 1s ease;
@@ -199,6 +170,7 @@ html, body {
   position: relative;
   border-radius: 2vh; /* vh is more consistent and stable than % */
   object-position: center;
+  transition: all 0.5s;
 }
 
 .b-photo, .t-photo, .l-photo, .r-photo {

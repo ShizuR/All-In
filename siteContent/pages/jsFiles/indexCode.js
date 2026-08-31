@@ -8,15 +8,13 @@
 
 let frameState = 'max'
 let pageScroll = []
-const season = ['Summer', 'Autumn']
-let currentSeasonInt = 0
 let mX = 0
 let mY = 0
 // https://www.telerik.com/blogs/ultimate-guide-broadcast-channel-api 
 const msg = new BroadcastChannel('frame')
-const seasonChange = new BroadcastChannel('season')
 let descReveal = true
 let underNavHeight = 0 // original div height before description expansion
+let slideInt = 0
 
 // resources for art app
 const pics = ['artRes/artAppShowcase/dragging.png', 'artRes/artAppShowcase/drawing.png', 'artRes/artAppShowcase/erasing.png', 'artRes/artAppShowcase/referencing.png', 'artRes/artAppShowcase/undoredoing.png','artRes/artAppShowcase/clearing.png']
@@ -215,13 +213,11 @@ document.addEventListener('mousemove', function(event) {
 // we use mouse pos to get where we want to display the video
 // used a looping autoplay video instead of a gif due to quality difference
 function playDemo(id) {
-    let div = document.createElement('div')
-    div.id = 'vidDiv'
-    div.style = 'overflow: hidden; border-radius: 5vh; border: 2px solid rgb(50, 120, 136); height: 200px; position: absolute;'
-    div.style.left = '' + mX + 'px'
-    div.style.top = '' + mY + 'px'
-
+    // fade out the original image to see demo clearly
+    id.style.opacity = '0.5'
+    id.style.scale = '1.1'
     let vid = document.createElement('video')
+
     // get the name of the image from the src
     console.log(id)
     let png = id.src
@@ -238,12 +234,14 @@ function playDemo(id) {
     vid.setAttribute('loop', 'true')
     vid.setAttribute('autoplay', 'true')
     vid.style = 'width: 100%; height: 100%; object-fit: cover;' // make it fit into the div
+
+    let div = document.createElement('div')
+    div.id = 'vidDiv'
+    div.style = 'overflow: hidden; border-radius: 5vh; border: 2px solid rgb(50, 120, 136); height: 200px; position: absolute;'
+    div.style.left = '' + mX + 'px'
+    div.style.top = '' + mY + 'px'
     document.querySelector('body').append(div)
     document.getElementById('vidDiv').append(vid)
-
-    // fade out the original image to see demo clearly
-    id.style.opacity = '0.5'
-    id.style.scale = '1.1'
 }
 
 function stopDemo(id) {
@@ -322,17 +320,6 @@ msg.onmessage = (event) => {
   }
 }
 
-function changeSeason() {
-    currentSeasonInt = currentSeasonInt + 1
-    if (currentSeasonInt > season.length - 1) {
-        currentSeasonInt = 0
-    }
-    console.log(currentSeasonInt)
-    document.getElementById('seasonHandle').innerHTML = season[currentSeasonInt]
-    document.querySelector('body').className = season[currentSeasonInt].toLowerCase()
-    seasonChange.postMessage({type: season[currentSeasonInt].toLowerCase()}) // send message to seasons.js to carry out animation transitions and changes excluding bg colour
-}
-
 // use js instead of css to adjust height when toggling desc to provide flexibility for the different descrition lengths
 function descToggle() {
     // https://stackoverflow.com/questions/68728623/how-can-i-check-whether-innerhtml-is-empty
@@ -372,4 +359,21 @@ function measureUnderNavHeight() {
     underNavHeight = document.getElementById('underNav').clientHeight
     document.getElementById('underNav').style.height = ''+ underNavHeight + 'px'
     console.log('initial height: ' + String(underNavHeight))
+    slideShow()
+}
+
+function slideShow() {
+    slideInt = slideInt + 1
+    const slideImages = document.getElementsByClassName('slideImg')
+    if (slideInt > slideImages.length - 1) {
+        slideInt = 0
+    }
+    for (let i = 0; i < slideImages.length; i++) {
+        slideImages[i].style.display = 'none'
+    }
+
+    slideImages[slideInt].style.display = 'block'
+    setTimeout(() => {
+        slideShow()
+    }, 3000);
 }
