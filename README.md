@@ -2,6 +2,8 @@
 
 This website is to showcase and explain smaller personal projects. At the moment, two projects (an art and database application) are available to test. 
 The editor used was Visual Studio Code where you can directly view the website, however, to test the database application, you need to be run docker and go to on http://localhost:7272 using the command 'docker compose up -d'.
+<br><br>
+<img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/intro.gif" alt="gif of website on load">
 
 <h2>Aspects</h2>
 <i>(Due to the GIF format, there is slight discoloration, flickering, and jittery motions that are not present in the actual project)</i> <br> <br>
