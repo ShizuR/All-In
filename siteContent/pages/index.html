@@ -13,26 +13,33 @@
         <title>Prototype</title>
     </head>
     
-    <body class="summer" onload="measureUnderNavHeight()">
+    <body id="body" onload="measureUnderNavHeight()">
         <script src="jsFiles/navbar.js"></script>
         <div style="position: relative;">
-            <script src="jsFiles/seasons.js"></script>
             <div class="container" style="display:flex; flex-direction: column; min-height: 100%;">
                 <div id="underNav">
-                    <div class="jumbotron text-center mb-5 mt-5">
-                        <p class="display-1">WELCOME</p>
-                        <hr class="mx-auto" width="50%">
-                        <p class="h5 lead text-muted"><em>This page was made with Bootstrap, html, javascript, and CSS</em></p>
+                    <div class="mb-4 mt-3" style="height: 400px; background-color: rgba(30, 143, 255, 0.438); border-radius: 5vh; position: relative; overflow: hidden;">
+                        <!-- Img slideshow with text to the left. the images change but the text stays the same-->
+                        <!-- black to left to make text visible-->
+                        <div style="z-index: 98; height: 400px; width: 511.85px; background-image: linear-gradient(to right, rgb(24, 113, 203), rgba(255, 255, 255, 0)); object-fit: cover; border-radius: 5vh; position: absolute;"></div>
+                        <div id="homeText" style="position: absolute; z-index: 99;">
+                            <div style="width: 45%; margin-top: 20%; margin-left: 5%;">
+                                <h1 style="color: white;"><em>All-In</em></h1>
+                                <p style="color: white;">
+                                    A portfolio website for two projects: one focused on frontend technologies, and the other on backend.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- change image using indexCode -->
+                        <img id="firstSlide" src="./artRes/drawDemo.gif" class="slideImg"/>
+                        <img id="secondSlide" src="./artRes/dbShowcase/country.gif" class="slideImg"/>
                     </div>
                     <div class="container">
-                        <!-- https://getbootstrap.com/docs/5.3/utilities/text/ -->
-                        <p class="text-center">Click the buttons below to start the respective project demos</p>
                         <!-- inline javascript code -->
                         <!-- https://www.w3schools.com/jsref/met_win_prompt.asp -->
                         <div class="btn-group d-flex gap-2 mb-3" role="group">
                             <button onclick="myFunction('second.html')" type="button" class="btn btn-primary btn-sm">Art Application</button>
                             <button onclick="myFunction('third.html')" type="button" class="btn btn-primary btn-sm">Prison Form Application</button>
-                            <button onclick="changeSeason()" type="button" class="btn btn-primary btn-sm">change season</button>
                         </div>
 
                         <!-- mini window for websites -->
@@ -50,7 +57,7 @@
                         </script>
                         <!-- justify content between spaces them out https://getbootstrap.com/docs/4.0/utilities/flex/ -->
                         <div class="d-flex flex-row justify-content-between">
-                            <h5 class="display-6 mt-3">Description</h5>
+                            <h5 class="display-6 mt-3" style="color: rgb(18, 84, 150)">Description</h5>
                             <!-- padding: inner space, margin: outer space-->
                             <span><button onclick="descToggle()" class="mt-4 pt-1 btn btn-primary">collapse</button></span>
                         </div>
@@ -59,11 +66,11 @@
                     </div>
                 </div>
                 <footer>
-                    <hr>
+                    <hr style="color: rgb(24, 113, 203);">
                     <div class="p-3 text-center">
-                        <p class="h5 lead text-muted"><em>Something goes in here, maybe a good fat space!</em></p>
+                        <p class="h5" style="color: rgb(24, 113, 203);"><em>This page was made with Bootstrap, HTML, CSS, and Javascript</em></p>
                     </div>
-                    <hr>
+                    <hr style="color: rgb(24, 113, 203);">
                 </footer>
             </div>
         </div>
