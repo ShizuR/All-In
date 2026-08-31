@@ -18,10 +18,11 @@ This was built using PostgreSQL and Typescript as the backend. This project uses
 <img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/dbShowcase/createG.gif" alt="gif of criminal creation">
 
 4. The user can also choose to alter the entries of criminals. The user can use the search bar to search for criminals using the ILIKE operator. Leaving an empty search would display all criminals.
-<img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/dbShowcase/searchG.gif" alt="gif of country selection on svg map">
+<img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/dbShowcase/searchG.gif" alt="gif of criminal searching">
 
 6. When selecting a criminal, the same form as criminal creation appears but has all fields automatically filled out. If the form was submitted without any change in prison, the prison's prisoner count would stay the same. However, if the prison was changed, the old prison count would decrease and vice versa for the new prison. Finally, the user may delete a criminal instead.
-<img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/dbShowcase/deleteUpdateG.gif" alt="gif of country selection on svg map">
+<img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/dbShowcase/updateG.gif" alt="gif of updating criminal">
+<img src="https://github.com/ShizuR/All-In/blob/main/siteContent/pages/artRes/dbShowcase/deleteG.gif" alt="gif of deleting criminal">
 
 <h3>Art Application</h3>
 1. Interactive demonstration of the art application using an i-frame. The window can expand and shrink without unwanted bugs on your drawings. The current features are: erasing lines, drawing strokes, undo/redoing
